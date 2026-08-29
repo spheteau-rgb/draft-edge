@@ -60,7 +60,12 @@ export interface ModelConfig {
     latency_hard_ceiling_ms: number;
     precompute_ahead_picks: number;
     opponent_policy: {
-      position_score_weights: Record<string, number>;
+      position_score_weights: {
+        market_best_at_pos: number;
+        roster_need: number;
+        manager_affinity: number;
+        run_pressure: number;
+      };
       softmax_temperature: number;
       top3_player_probs: [number, number, number];
     };
