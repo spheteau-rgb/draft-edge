@@ -13,6 +13,10 @@ import type { SystemHealth } from "@/types";
 import { loadModelConfig } from "@/lib/config";
 import { loadPlayerPool } from "@/lib/players";
 
+// Will incorporate live CBS/freshness status later — don't let it get
+// static-cached in the meantime.
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const config = loadModelConfig();
   const { source } = loadPlayerPool();

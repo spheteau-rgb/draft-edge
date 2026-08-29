@@ -9,6 +9,10 @@ import type { PlayerRecord } from "@/types";
 import { loadPlayerPool } from "@/lib/players";
 import { getDraftStateStore } from "@/lib/store";
 
+// is_drafted/drafted_by_slot depend on live draft state — must not be
+// statically cached (CLAUDE.md: every device sees one shared live draft).
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const { players, source } = loadPlayerPool();
   const store = getDraftStateStore();

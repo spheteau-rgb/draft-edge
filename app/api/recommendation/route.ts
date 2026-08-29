@@ -15,6 +15,11 @@ import { getDraftStateStore } from "@/lib/store";
 import { loadPlayerPool } from "@/lib/players";
 import { getRecommendation } from "@/lib/optimizer";
 
+// Must be recomputed every request against live draft state — never served
+// from Next.js's static/CDN cache (CLAUDE.md non-negotiable #1: the rec must
+// always reflect who's actually been drafted, not a stale build-time snapshot).
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const store = getDraftStateStore();

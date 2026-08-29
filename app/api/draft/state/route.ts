@@ -6,6 +6,11 @@
 import { NextResponse } from "next/server";
 import { getDraftStateStore } from "@/lib/store";
 
+// Draft state changes constantly (KV-backed) and must never be served from
+// Next.js's static/CDN cache — every poll needs the live value or a pick
+// entered on one device won't show up on another (CLAUDE.md).
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const store = getDraftStateStore();
   const state = await store.getState();
