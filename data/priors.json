@@ -1,0 +1,295 @@
+{
+  "source": "derived:build_priors_json",
+  "fetched_at": "2026-08-29T19:30:30Z",
+  "season": 2026,
+  "version": "1.0.0",
+  "recency_weighted_room_round1_share": {
+    "QB": 0.0646,
+    "RB": 0.6088,
+    "WR": 0.3009,
+    "TE": 0.0257,
+    "K": 0.0,
+    "DST": 0.0
+  },
+  "outside_market_round1_share_baseline": {
+    "RB": 0.45,
+    "WR": 0.42,
+    "QB": 0.08,
+    "TE": 0.05,
+    "K": 0.0,
+    "DST": 0.0
+  },
+  "league_position_bias": {
+    "QB": -0.39,
+    "RB": 3.97,
+    "WR": -2.98,
+    "TE": -0.61,
+    "K": 0.0,
+    "DST": 0.0
+  },
+  "league_position_bias_cap": [
+    -5.0,
+    5.0
+  ],
+  "manager_affinity": {
+    "1": {
+      "team": "Gladiators",
+      "manager": "Alton Campbell",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 0,
+        "RB": 4,
+        "WR": 3,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.0344,
+        "RB": 0.5913,
+        "WR": 0.3605,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "2": {
+      "team": "Domination",
+      "manager": "Devin O'Hara",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 1,
+        "RB": 2,
+        "WR": 4,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.1011,
+        "RB": 0.458,
+        "WR": 0.4271,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "3": {
+      "team": "Mac Diesel",
+      "manager": "Bryan McWilliams",
+      "sample_size": 6,
+      "raw_counts": {
+        "QB": 1,
+        "RB": 5,
+        "WR": 0,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.1083,
+        "RB": 0.705,
+        "WR": 0.1719,
+        "TE": 0.0147,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "4": {
+      "team": "Mama There Goes That Man",
+      "manager": "Stan Pheteau",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 0,
+        "RB": 6,
+        "WR": 1,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.0344,
+        "RB": 0.7247,
+        "WR": 0.2271,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "5": {
+      "team": "Outlaws",
+      "manager": "David Rosario",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 1,
+        "RB": 5,
+        "WR": 1,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.1011,
+        "RB": 0.658,
+        "WR": 0.2271,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "6": {
+      "team": "Pack Attack",
+      "manager": "Sean Campbell",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 0,
+        "RB": 4,
+        "WR": 3,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.0344,
+        "RB": 0.5913,
+        "WR": 0.3605,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "7": {
+      "team": "Jaguars",
+      "manager": "Wesley Landry",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 0,
+        "RB": 7,
+        "WR": 0,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.0344,
+        "RB": 0.7913,
+        "WR": 0.1605,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "8": {
+      "team": "Comets",
+      "manager": "George Mathews",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 0,
+        "RB": 7,
+        "WR": 0,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.0344,
+        "RB": 0.7913,
+        "WR": 0.1605,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "9": {
+      "team": "Harlem Knights",
+      "manager": "John Rosario",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 1,
+        "RB": 2,
+        "WR": 2,
+        "TE": 2,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.1011,
+        "RB": 0.458,
+        "WR": 0.2938,
+        "TE": 0.147,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "10": {
+      "team": "Suicide squad 84",
+      "manager": "Tynell Kirk",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 0,
+        "RB": 6,
+        "WR": 1,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.0344,
+        "RB": 0.7247,
+        "WR": 0.2271,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "11": {
+      "team": "Black and Blue Warhorses",
+      "manager": "Tony Duval",
+      "sample_size": 7,
+      "raw_counts": {
+        "QB": 0,
+        "RB": 3,
+        "WR": 4,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.0344,
+        "RB": 0.5247,
+        "WR": 0.4271,
+        "TE": 0.0137,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    },
+    "12": {
+      "team": null,
+      "manager": null,
+      "sample_size": 0,
+      "raw_counts": {
+        "QB": 0,
+        "RB": 0,
+        "WR": 0,
+        "TE": 0,
+        "K": 0,
+        "DST": 0
+      },
+      "smoothed_position_share": {
+        "QB": 0.0646,
+        "RB": 0.6088,
+        "WR": 0.3009,
+        "TE": 0.0257,
+        "K": 0.0,
+        "DST": 0.0
+      }
+    }
+  },
+  "manager_affinity_shrinkage_k": 8,
+  "unresolved_teams": [
+    "2025:pick12:UNKNOWN_TEAM",
+    "Milwaukee Champions",
+    "The Dan Clan"
+  ],
+  "notes": "Round-1 history only (docs/05). unresolved_teams (e.g. 'The Dan Clan', 'Milwaukee Champions', and the obscured 2025 pick-12) do not map to a 2026 draft_order slot and are excluded from manager_affinity rather than guessed, per docs/05 identity rule."
+}
