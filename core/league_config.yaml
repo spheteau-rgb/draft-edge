@@ -1,0 +1,80 @@
+# Family Affair — Draft Edge league configuration
+# Source: files 13 & 15. Fields marked VERIFY_* must be confirmed from the
+# CBS web settings / test-scoring page before the draft. Confirmed fields are
+# taken directly from the supplied CBS screenshots.
+
+league:
+  name: Family Affair
+  provider: CBS Sports Fantasy
+  season: 2026
+  teams: 12            # history shows 12 every year 2019-2025; eyeball-verify in room
+
+draft:
+  type: snake
+  rounds: 14
+  order_type: custom
+  time_per_pick: 60          # SECONDS per pick (corrected). Latency matters.
+  user_slot: 4
+  user_team: "Mama There Goes That Man"
+  keeper_mode: false         # ASSUMED clean redraft — no evidence of keeper carryover
+  keepers: []                # populate if keeper_mode is ever flipped to true
+
+roster:
+  active: 9
+  reserve_max: 5
+  injured_reserve_max: 3
+  practice_squad_max: 5
+  starters: { QB: 1, RB: 2, WR: 2, TE: 1, RWT: 1, K: 1, DST: 1 }
+  # RWT flex is filled from {RB, WR, TE} via assignment optimization, not statically.
+  position_limits: UNCONFIRMED   # Position Limits tab not captured — verify.
+
+scoring:
+  # --- yardage: continuous (fractional) is the CBS norm. VERIFY fractional vs per-N.
+  passing:
+    yards_per_point: 20
+    fractional_yards: true      # VERIFY_FRACTIONAL
+    touchdown: 6
+    interception: -1
+    two_point_conversion: 2
+    yardage_bonuses_cumulative: { 250: 1, 300: 3, 400: 5 }   # cumulative (CBS)
+    td_length_bonus_ranges: { 30: 1, 40: 2, 50: 3 }          # non-cumulative (one TD, one band)
+  rushing:
+    yards_per_point: 10
+    fractional_yards: true
+    touchdown: 6
+    two_point_conversion: 2
+    yardage_bonuses_cumulative: { 100: 1, 150: 3, 200: 5 }
+    td_length_bonus_ranges: { 30: 1, 40: 2, 50: 3 }
+  receiving:
+    yards_per_point: 10
+    fractional_yards: true
+    touchdown: 6
+    two_point_conversion: 2
+    yardage_bonuses_cumulative: { 100: 1, 150: 3, 200: 5 }
+    td_length_bonus_ranges: { 30: 1, 40: 2, 50: 3 }
+    reception_bonus_ranges: { 4: 1, 7: 3, 10: 5 }   # NON-cumulative range. VERIFY_RANGE_VS_BONUS
+  misc_offense:
+    fumble_lost: -1
+    kick_return_td: 6
+    punt_return_td: 6
+  kicking:
+    field_goal_base: 3
+    fg_length_bonus_ranges: { 30: 1, 40: 2, 50: 3 }  # added to base per FG
+    extra_point: 1
+  dst:
+    fumble_recovered: 2
+    forced_fumble: 1
+    interception: 2
+    touchdown: 6            # defensive + special-teams TD
+    sack: 1
+    safety: 2
+    points_allowed_ranges:  # non-cumulative tier lookup
+      "0-1": 15
+      "2-6": 12
+      "7-10": 10
+      "11-14": 8
+      "15-19": 6
+      "20-25": 4
+      "26-30": 2
+      "31+": 0             # UNOBSERVED beyond 30 — verify the high-PA tiers
+    special_teams_extra: UNOBSERVED

@@ -1,0 +1,24 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.venv/
+venv/
+data/players.json
+data/priors.json
+draft_log.jsonl
+.DS_Store
+
+# Next.js / Node (docs/09 scaffold)
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+coverage/

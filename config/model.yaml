@@ -1,0 +1,114 @@
+# Draft Edge — model coefficients (docs/03_ALGORITHMS.md)
+#
+# Every heuristic coefficient the optimizer (/lib) uses lives here, never
+# hardcoded in TS. Values below are transcribed literally from docs/03 — do
+# not "improve" them without updating the doc first. algorithm-engineer reads
+# this file (via a small lib/config.ts loader, yaml -> typed object).
+
+model_version: "1.0.0"
+
+# PickScore(p) = w_roster*z(RosterGain) + w_urg*z(Urgency) + w_mkt*z(MarketMispricing)
+#              + w_up*z(Upside) - w_pen*z(RosterPenalty) - w_unc*z(UncertaintyPenalty)
+# Round-stage dependent weights (docs/03 table). R10-14 uncertainty weight is
+# intentionally negative — do not "fix" it to positive.
+stage_weights:
+  R1_4:   { roster_gain: 0.55, urgency: 0.25, market: 0.08, upside: 0.07, roster_penalty: 0.05, uncertainty: 0.15 }
+  R5_9:   { roster_gain: 0.45, urgency: 0.30, market: 0.08, upside: 0.15, roster_penalty: 0.10, uncertainty: 0.08 }
+  R10_14: { roster_gain: 0.30, urgency: 0.20, market: 0.05, upside: 0.35, roster_penalty: 0.20, uncertainty: -0.05 }
+
+# Candidate generation (docs/03 §Candidate generation) — fixed, explicit pool.
+candidate_pool:
+  top_by_fundamental_value: 8
+  top_by_vorp: 5
+  top_by_urgency: 5
+  top_by_market_mispricing: 5
+  top_by_upside: 5
+  shortlist_size: 8   # feeds the Alg 5 lookahead
+
+standardization:
+  method: median_mad   # robust; freeze transform per draft state (persist in audit snapshot)
+
+# Alg 2 — weekly stat CV priors (replace with empirical if time allows).
+weekly_cv_priors:
+  QB: { pass_yards: 0.25, pass_td: 0.65, rush_yards: 0.80, rush_td: 1.80 }
+  RB: { rush_yards: 0.50, receptions: 0.65, rec_yards: 0.80, total_td: 1.35 }
+  WR: { receptions: 0.55, rec_yards: 0.65, total_td: 1.50 }
+  TE: { receptions: 0.60, rec_yards: 0.70, total_td: 1.55 }
+
+# Alg 2 — ensemble weighting when N=2 sources (FantasyPros required, one optional other).
+projection_ensemble:
+  n2_weights: { fantasypros: 0.40, other: 0.60 }   # or equal if other quality unknown
+  winsorize_min_sources: 4   # only winsorize to [Q10,Q90] when N>=4
+
+# Season value (docs/03 §Season value)
+injury_penalty_factor: 0.25   # ExpectedSeasonPoints * P(miss_material_time) * 0.25
+
+# Alg 3 — starter demand (12 teams; docs/02 roster.starters + dynamic RWT flex).
+starter_demand:
+  QB: 12
+  RB: 24
+  WR: 24
+  TE: 12
+  RWT: 12   # dynamic across RB/WR/TE
+  K: 12
+  DST: 12
+
+# Alg 3 — RosterGain(p) = w_vorp*VORP(p) + w_fit*CurrentRosterGain(p), round-dependent.
+roster_gain_weights:
+  R1_4:   { vorp: 0.75, fit: 0.25 }
+  R5_9:   { vorp: 0.55, fit: 0.45 }
+  R10_14: { vorp: 0.35, fit: 0.65 }
+
+# K/DST guardrail (docs/03 §Roster penalties) — z-score penalty by round, overridable.
+kdst_guardrail:
+  R1_8:      { K: -5.0, DST: -4.0 }
+  R9_11:     { K: -2.0, DST: -1.5 }
+  R12_plus:  { K: 0.0, DST: 0.0 }
+  guardrail_override:
+    exceptional_vorp_z: 1.5
+
+# Alg 4 — market model
+market:
+  adp_weights: { cbs: 0.50, fantasypros: 0.30, other: 0.20 }   # renormalize over what exists
+  position_bias_cap: [-5, 5]   # never let thin history swing more than this
+  manager_affinity_shrinkage_k: 8   # Beta-shrunk: (count + k*rate) / (total + k)
+  run_shock_window: 6     # last N picks used to compute position RunShock
+  run_shock_cap: [-3, 3]
+  survival_logit_weights: { manager_pressure: 0.70, run_shock: 0.60, tier_urgency: 0.80 }
+  adp_sigma_by_tier:   # sigma if ADP uncertainty is otherwise unknown
+    top_24: 5
+    picks_25_60: 8
+    picks_61_100: 12
+    picks_101_plus: 18
+
+# Alg 5 — sequential pick optimizer (survival-aware lookahead)
+lookahead:
+  final_score_weight: 0.55   # FinalScore(p) = ImmediateScore(p) + 0.55 * z(LookaheadValue(p))
+  rollout_budget_primary: 500
+  rollout_budget_fallback: [500, 250, 100]   # step down only if over latency budget
+  rollout_budget_floor: "deterministic_expected_lookahead"   # never drop below this
+  latency_target_ms: 1000
+  latency_hard_ceiling_ms: 1500
+  precompute_ahead_picks: 3   # start background precompute when user is this many picks away
+  opponent_policy:
+    position_score_weights: { market_best_at_pos: 0.45, roster_need: 0.25, manager_affinity: 0.20, run_pressure: 0.10 }
+    softmax_temperature: 0.8
+    top3_player_probs: [0.70, 0.20, 0.10]   # among top-3 market players at the chosen position
+
+# Confidence label from score separation (docs/03 §Confidence)
+confidence_thresholds:
+  close_call_max: 0.10
+  low_max: 0.25
+  moderate_max: 0.50
+  high_max: 0.90
+  # >high_max => VERY HIGH
+
+# DO_NOT_REACH sanity bound (docs/03 §DO_NOT_REACH)
+do_not_reach:
+  pick_gap_threshold: 30   # LeagueMarketRank this many+ picks ahead of market triggers review
+  required_reason_codes: ["SCORING_EDGE", "POSITION_CLIFF", "WONT_SURVIVE"]
+
+# Data freshness rollup (docs/06)
+data_freshness:
+  cbs_poll_healthy_seconds: 8
+  cbs_poll_warning_seconds: 20   # above this = degraded
