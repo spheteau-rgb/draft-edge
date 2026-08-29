@@ -32,6 +32,8 @@ export async function GET() {
     console.error("GET /api/recommendation: unrecoverable failure, returning safe placeholder", err);
     const placeholder: Recommendation = {
       pick_number: 1,
+      is_user_on_the_clock: false,
+      picks_until_your_turn: 0,
       recommended_player_id: "",
       recommended_player_name: "",
       position: "RB",

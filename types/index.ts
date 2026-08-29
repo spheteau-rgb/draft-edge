@@ -225,7 +225,12 @@ export interface RecommendationAlternative {
 }
 
 export interface Recommendation {
+  /** Always the user's own next pick_number (docs/06) — never whoever is currently on the clock. */
   pick_number: number;
+  /** True only when state.on_the_clock_slot === state.user_slot right now. */
+  is_user_on_the_clock: boolean;
+  /** 0 when it's your turn now; otherwise how many picks away your next turn is. */
+  picks_until_your_turn: number;
   recommended_player_id: string;
   recommended_player_name: string;
   position: Position;

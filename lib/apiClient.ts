@@ -59,3 +59,40 @@ export async function undoLastPick(): Promise<DraftState> {
   if (!res.ok) throw new Error("failed to undo");
   return res.json() as Promise<DraftState>;
 }
+
+export async function resetDraft(): Promise<DraftState> {
+  const res = await fetch("/api/draft/reset", { method: "POST" });
+  if (!res.ok) throw new Error("failed to reset draft");
+  return res.json() as Promise<DraftState>;
+}
+
+export interface BulkParseMatchDTO {
+  raw_line: string;
+  player_id: string;
+  player_name: string;
+  position: Position;
+}
+
+export interface BulkApplyResult {
+  state: DraftState;
+  applied: BulkParseMatchDTO[];
+  already_drafted: string[];
+  unresolved: { raw_line: string; candidates: BulkParseMatchDTO[] }[];
+  failed: { raw_line: string; error: string }[];
+}
+
+export async function submitBulkPaste(
+  text: string,
+  order: "recent_first" | "oldest_first"
+): Promise<BulkApplyResult> {
+  const res = await fetch("/api/draft/bulk", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, order }),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({ error: "failed to parse paste" }));
+    throw new Error(body.error ?? "failed to parse paste");
+  }
+  return res.json() as Promise<BulkApplyResult>;
+}

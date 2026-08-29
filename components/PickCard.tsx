@@ -16,9 +16,18 @@ export default function PickCard({ rec }: { rec: Recommendation }) {
   return (
     <section className="pick-card">
       <div className="pick-card-top">
-        <span className="pick-label">PICK {rec.pick_number}</span>
+        <span className="pick-label">
+          {rec.is_user_on_the_clock
+            ? `YOUR PICK NOW — #${rec.pick_number}`
+            : `YOUR NEXT PICK — #${rec.pick_number} (${rec.picks_until_your_turn} pick${rec.picks_until_your_turn === 1 ? "" : "s"} away)`}
+        </span>
         <FreshnessBadge freshness={rec.data_freshness} />
       </div>
+      {!rec.is_user_on_the_clock && (
+        <p className="pick-preview-note">
+          Preview — this is who we&apos;d take if your pick were right now; survival % below accounts for the picks in between.
+        </p>
+      )}
 
       {rec.do_not_reach_flag && (
         <div className="do-not-reach-badge">MODEL DISAGREEMENT — REVIEW</div>

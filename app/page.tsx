@@ -16,6 +16,7 @@ import PickCard from "@/components/PickCard";
 import AlternativesTable from "@/components/AlternativesTable";
 import RosterPanel from "@/components/RosterPanel";
 import ManualEntry from "@/components/ManualEntry";
+import BulkEntry from "@/components/BulkEntry";
 import LeaguePulse from "@/components/LeaguePulse";
 
 const POLL_MS = 3000;
@@ -75,6 +76,7 @@ export default function Home() {
           <AlternativesTable alternatives={rec.alternatives} />
           <LeaguePulse state={state} />
           <ManualEntry state={state} onChanged={refresh} />
+          <BulkEntry onChanged={refresh} />
         </div>
         <RosterPanel state={state} players={players} />
       </div>

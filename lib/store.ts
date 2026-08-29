@@ -24,6 +24,8 @@ export interface DraftStateStore {
   getState(): Promise<DraftState>;
   applyEvent(event: DraftEvent): Promise<DraftState>;
   undo(): Promise<DraftState>;
+  /** Wipe the entire event log back to pick 1 — for running practice/mock drafts back to back. */
+  reset(): Promise<DraftState>;
 }
 
 const LEAGUE_TEAMS = 12;
@@ -89,7 +91,7 @@ function buildInitialState(): DraftState {
   };
 }
 
-function normalizeName(name: string): string {
+export function normalizeName(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
@@ -222,6 +224,12 @@ class InMemoryDraftStateStore implements DraftStateStore {
     this.state = rebuildStateFromLog(this.log);
     return this.state;
   }
+
+  async reset(): Promise<DraftState> {
+    this.log = [];
+    this.state = rebuildStateFromLog(this.log);
+    return this.state;
+  }
 }
 
 /**
@@ -282,6 +290,11 @@ class RedisDraftStateStore implements DraftStateStore {
     const nextLog = popLastPick(log);
     await this.writeLog(nextLog);
     return rebuildStateFromLog(nextLog);
+  }
+
+  async reset(): Promise<DraftState> {
+    await this.writeLog([]);
+    return rebuildStateFromLog([]);
   }
 }
 

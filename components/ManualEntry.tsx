@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { DraftState, Position } from "@/types";
-import { submitPick, undoLastPick } from "@/lib/apiClient";
+import { submitPick, undoLastPick, resetDraft } from "@/lib/apiClient";
 
 const POSITIONS: Position[] = ["QB", "RB", "WR", "TE", "K", "DST"];
 
@@ -53,6 +53,20 @@ export default function ManualEntry({
     }
   }
 
+  async function handleReset() {
+    if (!window.confirm("Wipe the entire draft back to pick 1? This can't be undone.")) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await resetDraft();
+      onChanged();
+    } catch {
+      setError("failed to reset");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <form className="manual-entry" onSubmit={handleSubmit}>
       <span className="manual-entry-label">
@@ -79,6 +93,9 @@ export default function ManualEntry({
         </button>
         <button type="button" onClick={handleUndo} disabled={busy} className="manual-entry-undo">
           undo
+        </button>
+        <button type="button" onClick={handleReset} disabled={busy} className="manual-entry-reset">
+          reset draft
         </button>
       </div>
       {error && <p className="manual-entry-error">{error}</p>}

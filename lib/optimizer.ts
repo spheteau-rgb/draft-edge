@@ -282,7 +282,9 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
         : top.player.data_freshness;
 
   return {
-    pick_number: state.current_pick,
+    pick_number: state.user_next_pick,
+    is_user_on_the_clock: state.on_the_clock_slot === state.user_slot,
+    picks_until_your_turn: Math.max(0, state.user_next_pick - state.current_pick),
     recommended_player_id: top.player.player_id,
     recommended_player_name: top.player.name,
     position: top.player.position,
@@ -312,7 +314,9 @@ function fallbackRecommendation(state: DraftState, allPlayers: PlayerRecord[]): 
 
   if (!top) {
     return {
-      pick_number: state.current_pick,
+      pick_number: state.user_next_pick,
+      is_user_on_the_clock: state.on_the_clock_slot === state.user_slot,
+      picks_until_your_turn: Math.max(0, state.user_next_pick - state.current_pick),
       recommended_player_id: "",
       recommended_player_name: "No players available",
       position: "RB",
@@ -331,7 +335,9 @@ function fallbackRecommendation(state: DraftState, allPlayers: PlayerRecord[]): 
   }
 
   return {
-    pick_number: state.current_pick,
+    pick_number: state.user_next_pick,
+    is_user_on_the_clock: state.on_the_clock_slot === state.user_slot,
+    picks_until_your_turn: Math.max(0, state.user_next_pick - state.current_pick),
     recommended_player_id: top.player_id,
     recommended_player_name: top.name,
     position: top.position,

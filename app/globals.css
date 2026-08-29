@@ -135,6 +135,13 @@ code {
   font-weight: 700;
 }
 
+.pick-preview-note {
+  font-size: 0.8rem;
+  color: #9aa4b2;
+  margin: 0 0 0.5rem;
+  font-style: italic;
+}
+
 .pick-name {
   font-size: 2rem;
   line-height: 1.15;
@@ -318,7 +325,8 @@ code {
   padding: 0 0.5rem;
 }
 .manual-entry-submit,
-.manual-entry-undo {
+.manual-entry-undo,
+.manual-entry-reset {
   min-height: 48px;
   min-width: 48px;
   font-size: 1rem;
@@ -329,8 +337,13 @@ code {
   cursor: pointer;
   padding: 0 1rem;
 }
+.manual-entry-reset {
+  border-color: #5a2c2c;
+  color: #ff9d9d;
+}
 .manual-entry-submit:disabled,
-.manual-entry-undo:disabled {
+.manual-entry-undo:disabled,
+.manual-entry-reset:disabled {
   opacity: 0.5;
   cursor: default;
 }
@@ -338,6 +351,80 @@ code {
   color: #ff9d9d;
   font-size: 0.85rem;
   margin: 0.5rem 0 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Bulk paste entry                                                       */
+/* ---------------------------------------------------------------------- */
+.bulk-entry {
+  margin-top: 0.5rem;
+}
+.bulk-entry-toggle {
+  width: 100%;
+  text-align: left;
+  background: #14171b;
+  border: 1px solid #23272e;
+  border-radius: 10px;
+  color: #9aa4b2;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.bulk-entry-body {
+  background: #14171b;
+  border: 1px solid #23272e;
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  padding: 0.9rem 1.1rem;
+}
+.bulk-entry-textarea {
+  width: 100%;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #2c313a;
+  background: #0f1114;
+  color: #f2f4f7;
+  resize: vertical;
+}
+.bulk-entry-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+.bulk-entry-order {
+  font-size: 0.85rem;
+  color: #9aa4b2;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.bulk-entry-row button {
+  min-height: 40px;
+  border-radius: 10px;
+  border: 1px solid #2c313a;
+  background: #1c2129;
+  color: #f2f4f7;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+.bulk-entry-row button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.bulk-entry-result {
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+}
+.bulk-entry-muted {
+  color: #9aa4b2;
+}
+.bulk-entry-unresolved ul {
+  margin: 0.3rem 0 0;
+  padding-left: 1.1rem;
+  color: #f6c667;
 }
 
 /* ---------------------------------------------------------------------- */
