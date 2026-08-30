@@ -15,6 +15,7 @@ import {
   outsideMarketRoundShare,
   managerPositionCounts,
   leagueWideRoundRate,
+  roundBucketShare,
 } from "@/lib/priors";
 
 function clamp(value: number, lo: number, hi: number): number {
@@ -68,20 +69,34 @@ export function managerAffinity(managerSlot: number, position: Position): number
   return (counts[position] + k * leagueRate) / (total + k);
 }
 
-/** RunShock = observed - expected over the last N picks (config: market.run_shock_window), capped. */
-export function runShock(position: Position, recentPicks: DraftState["picks"]): number {
+/**
+ * RunShock = observed - expected over the last N picks (config:
+ * market.run_shock_window), capped.
+ *
+ * The baseline is what this room NORMALLY spends on the position at this point
+ * in the draft (config: market.run_shock_baseline). Flat starter demand puts
+ * every WR window at 22% when the room actually runs 41% WR in R4-6, so it
+ * reported a standing WR run through the middle rounds while missing the real
+ * R10+ K/DST wave entirely.
+ */
+export function runShock(position: Position, recentPicks: DraftState["picks"], round: number): number {
   const config = loadModelConfig();
   const [lo, hi] = config.market.run_shock_cap;
   const window = config.market.run_shock_window;
   const lastN = recentPicks.slice(-window);
   if (lastN.length === 0) return 0;
   const observed = lastN.filter((p) => p.position === position).length;
-  // Expected share by starter demand (RWT excluded from the denominator; it draws
-  // from RB/WR/TE, not a distinct position, so counting it would double-count).
-  const demand = config.starter_demand;
-  const positions: Position[] = ["QB", "RB", "WR", "TE", "K", "DST"];
-  const totalDemand = positions.reduce((sum, pos) => sum + (demand[pos] ?? 0), 0) || 1;
-  const expectedShare = (demand[position] ?? 0) / totalDemand;
+  let expectedShare: number;
+  if (config.market.run_shock_baseline === "empirical") {
+    expectedShare = roundBucketShare(round)[position] ?? 0;
+  } else {
+    // RWT excluded from the denominator; it draws from RB/WR/TE, not a distinct
+    // position, so counting it would double-count.
+    const demand = config.starter_demand;
+    const positions: Position[] = ["QB", "RB", "WR", "TE", "K", "DST"];
+    const totalDemand = positions.reduce((sum, pos) => sum + (demand[pos] ?? 0), 0) || 1;
+    expectedShare = (demand[position] ?? 0) / totalDemand;
+  }
   const expected = expectedShare * lastN.length;
   return clamp(observed - expected, lo, hi);
 }

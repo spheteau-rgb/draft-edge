@@ -68,6 +68,7 @@ export interface ModelConfig {
     manager_affinity_shrinkage_k: number;
     run_shock_window: number;
     run_shock_cap: [number, number];
+    run_shock_baseline: "empirical" | "starter_demand";
     survival_logit_weights: { manager_pressure: number; run_shock: number; tier_urgency: number };
     adp_sigma_by_tier: Record<string, number>;
   };
@@ -88,6 +89,17 @@ export interface ModelConfig {
       };
       softmax_temperature: number;
       top3_player_probs: [number, number, number];
+      roster_demand: {
+        starter_requirement: Partial<Record<string, number>>;
+        roster_target: Partial<Record<string, number>>;
+        depth_need_weight: number;
+      };
+      kdst_hazard: { enabled: boolean; weight: number };
+      autopick: {
+        enabled: boolean;
+        manager_rate_shrinkage_k: number;
+        bucket_share_shrinkage_k: number;
+      };
     };
   };
   confidence_thresholds: {

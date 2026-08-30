@@ -85,11 +85,17 @@ roster_construction:
     DST: 1
     RB: 8
     WR: 8
-  # Never recommend these positions before this (1-indexed) round. Matches the
-  # league pattern (first DST rounds 10-14, kickers last). Hard, not a nudge.
+  # Never recommend these positions before this (1-indexed) round. Hard, not a
+  # nudge. Calibrated against 5 complete Family Affair drafts
+  # (data/history_raw/): the first DST off the board went R5/R5/R6/R6/R9 and
+  # DST1 has a median overall pick of 70, with 9 of 12 defenses gone entering
+  # R13 and 11.6 of 12 gone entering R14. At slot 4 (picks 141/148/165) a R12
+  # block guaranteed a bottom-tier DST and risked ending the draft without one.
+  # Kickers really do go last — only 6.2 of 12 are gone entering R14 — so K
+  # stays at 13.
   earliest_round:
     K: 13
-    DST: 12
+    DST: 9
   # Soft discouragement for taking a position before the room usually does.
   # Never a hard block — a genuinely elite player can still win, but the bar is
   # deliberately corroborated by real market signal, not just our own model:
@@ -121,7 +127,9 @@ roster_construction:
   # once WR starters were filled, yielding fragile 8-RB / 2-WR rosters — the fit
   # term can't tell a redundant 3rd RB from a 3rd WR (both add ~0 to the best
   # starting lineup). Keeps depth balanced until each hits its target.
-  depth_targets: { RB: 5, WR: 5 }
+  # RB 4 / WR 6 matches both the room (median 4 RB, 5 WR per 14-pick roster)
+  # and the user's own recent trend (RB 5,4,5,4,3 while WR ran 5,6,5,6,7).
+  depth_targets: { RB: 4, WR: 6 }
   depth_boost: 0.4
 
 # Alg 4 — market model
@@ -134,6 +142,14 @@ market:
   manager_affinity_shrinkage_k: 8   # Beta-shrunk: (count + k*rate) / (total + k)
   run_shock_window: 6     # last N picks used to compute position RunShock
   run_shock_cap: [-3, 3]
+  # Baseline the RunShock window is compared against.
+  #   empirical      — recency-weighted Family Affair share for the CURRENT
+  #                    round bucket (lib/priors.ts over the 5 full drafts).
+  #   starter_demand — flat share from `starter_demand` above.
+  # Flat demand puts WR at 24/108 = 22%, but this room actually spends 41% of
+  # R4-6 and 36% of R7-9 on WR, so the flat baseline reported a permanent WR
+  # run through the middle rounds and never saw the real R10+ K/DST wave.
+  run_shock_baseline: empirical
   survival_logit_weights: { manager_pressure: 0.70, run_shock: 0.60, tier_urgency: 0.80 }
   adp_sigma_by_tier:   # sigma if ADP uncertainty is otherwise unknown
     top_24: 5
@@ -154,6 +170,38 @@ lookahead:
     position_score_weights: { market_best_at_pos: 0.45, roster_need: 0.25, manager_affinity: 0.20, run_pressure: 0.10 }
     softmax_temperature: 0.8
     top3_player_probs: [0.70, 0.20, 0.10]   # among top-3 market players at the chosen position
+    # How much of an opponent's roster the simulator assumes they want at each
+    # position. Deliberately NOT roster_construction.position_caps — those are
+    # the USER's rules (no backup QB/TE). This room does roster backups: 48% of
+    # team-seasons take 2+ QB and 33% take 2+ TE. Capping opponent demand at 1
+    # made the simulator stop modelling QB/TE competition the moment each
+    # opponent had one, so QB/TE survival came back far too optimistic.
+    roster_demand:
+      starter_requirement: { QB: 1, RB: 2, WR: 2, TE: 1, K: 1, DST: 1 }
+      roster_target: { QB: 2, RB: 5, WR: 6, TE: 2, K: 1, DST: 1 }
+      depth_need_weight: 0.35   # residual need once starters are filled
+    # Round-conditional K/DST hazard. The room spends 22% of R9, 30% of R10,
+    # 32% of R12 and 57% of R14 on kickers and defenses. A pure value+need
+    # policy essentially never simulates those picks, so it assumed nearly
+    # every intervening pick consumed an RB or WR — systematically
+    # UNDER-estimating skill-player survival from R9 on and firing false
+    # "WON'T SURVIVE" urgency exactly where there was room to wait. Replace the
+    # K and DST softmax probabilities with the empirical rate for that round
+    # bucket and renormalize QB/RB/WR/TE over the remaining mass.
+    kdst_hazard:
+      enabled: true
+      weight: 1.0   # 1.0 = fully empirical, 0.0 = pure softmax (old behavior)
+    # 10.8% of this room's picks are CBS autopicks, and autopickers draft a
+    # measurably different board: R1-2 autopicks are 50% QB / 50% RB (humans:
+    # 6% / 53%), and R10-14 autopicks are 25% TE / 2% WR (humans: 8% / 30%).
+    # One autopicker sits at slot 3, immediately ahead of the user. Blend:
+    # p = (1-a)*p_human + a*p_autopick, with `a` the manager's Beta-shrunk
+    # autopick rate. Sampled from the empirical autopick distribution rather
+    # than a modelled CBS default board, which we don't have.
+    autopick:
+      enabled: true
+      manager_rate_shrinkage_k: 12   # Beta-shrink manager rate toward the league rate
+      bucket_share_shrinkage_k: 8    # Dirichlet-shrink autopick shares toward the all-pick bucket shares
 
 # Confidence label from score separation (docs/03 §Confidence)
 confidence_thresholds:

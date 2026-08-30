@@ -348,7 +348,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
     const sigma = adpSigmaForRank(c.player.market.expected_pick);
     const baseSurv = survivalProb(c.player.market.expected_pick, sigma, state.current_pick, lookaheadTargetPick);
     const pressure = managerAffinity(nextOpponentSlot, c.player.position);
-    const shock = runShock(c.player.position, state.picks);
+    const shock = runShock(c.player.position, state.picks, state.current_round);
     return adjustedSurvival(baseSurv, pressure, shock, c.urgency);
   };
   const survival = survivalFor(top);

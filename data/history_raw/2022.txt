@@ -1,0 +1,180 @@
+@Domination
+1/1 Jonathan Taylor RB
+2/12 Stefon Diggs WR
+3/1 Mike Evans WR
+4/12 Darren Waller TE
+5/1 J.K. Dobbins RB
+6/12 Tom Brady QB
+7/1 Devin Singletary RB
+8/12 Zach Ertz TE
+9/1 Brandon Aiyuk WR
+10/12 Matthew Stafford QB
+11/1 Michael Gallup WR
+12/12 Colts DST
+13/1 Jamaal Williams RB
+14/12 Robbie Gould K
+@Black and Blue Warhorses
+1/2 Christian McCaffrey RB
+2/11 Mark Andrews TE
+3/2 Tyreek Hill WR
+4/11 Travis Etienne RB
+5/2 Justin Herbert QB
+6/11 Brandin Cooks WR
+7/2 Gabe Davis WR
+8/11 Chase Edmonds RB
+9/2 Rhamondre Stevenson RB
+10/11 Packers DST
+11/2 Isiah Pacheco RB
+12/11 Robert Woods WR
+13/2 Alec Pierce WR
+14/11 Ryan Succop K
+@The Dan Clan
+1/3 Patrick Mahomes QB
+2/10 Deebo Samuel WR
+3/3 Ezekiel Elliott RB
+4/10 DK Metcalf WR
+5/3 Marvin Jones WR
+6/10 Bills DST
+7/3 Evan McPherson K
+8/10 James Cook RB
+9/3 Cole Kmet TE
+10/10 David Njoku TE
+11/3 DeVante Parker WR
+12/10 Michael Carter RB
+13/3 Jameis Winston QB
+14/10 Sterling Shepard WR
+@Outlaws
+1/4 Justin Jefferson WR
+2/9 CeeDee Lamb WR
+3/4 D'Andre Swift RB
+4/9 DJ Moore WR
+5/4 Elijah Mitchell RB
+6/9 Clyde Edwards-Helaire RB
+7/4 Jaylen Waddle WR
+8/9 Dak Prescott QB
+9/4 Kenneth Walker III RB
+10/9 Chris Olave WR
+11/4 Trey Lance QB
+12/9 Rams DST
+13/4 Albert Okwuegbunam TE
+14/9 Greg Joseph K
+@Mac Diesel
+1/5 Derrick Henry RB
+2/8 Leonard Fournette RB
+3/5 Lamar Jackson QB
+4/8 DeVonta Smith WR
+5/5 Dallas Goedert TE
+6/8 Russell Wilson QB
+7/5 Marquise Brown WR
+8/8 Amari Cooper WR
+9/5 Aaron Rodgers QB
+10/8 Buccaneers DST
+11/5 Kenneth Gainwell RB
+12/8 Matt Gay K
+13/5 Dawson Knox TE
+14/8 Irv Smith TE
+@Mama There Goes That Man
+1/6 Joe Mixon RB
+2/7 Nick Chubb RB
+3/6 Kyle Pitts TE
+4/7 Courtland Sutton WR
+5/6 Terry McLaurin WR
+6/7 JuJu Smith-Schuster WR
+7/6 Rashod Bateman WR
+8/7 Damien Harris RB
+9/6 Kirk Cousins QB
+10/7 49ers DST
+11/6 Kadarius Toney WR
+12/7 Harrison Butker K
+13/6 Jakobi Meyers WR
+14/7 Alexander Mattison RB
+@Pack Attack
+1/7 Austin Ekeler RB
+2/6 Ja'Marr Chase WR
+3/7 James Conner RB
+4/6 Michael Pittman WR
+5/7 Dameon Pierce RB
+6/6 Michael Thomas WR
+7/7 DeAndre Hopkins WR
+8/6 Amon-Ra St. Brown WR
+9/7 T.J. Hockenson TE
+10/6 Drake London WR
+11/7 Saints DST
+12/6 Tua Tagovailoa QB
+13/7 Justin Fields QB
+14/6 Brandon McManus K
+@Harlem Knights
+1/8 Travis Kelce TE
+2/5 Saquon Barkley RB
+3/8 Josh Jacobs RB
+4/5 Chris Godwin WR
+5/8 Jalen Hurts QB
+6/5 Rashaad Penny RB
+7/8 Allen Lazard WR
+8/5 Darnell Mooney WR
+9/8 Elijah Moore WR
+10/5 K.J. Osborn WR
+11/8 Raheem Mostert RB
+12/5 Skyy Moore WR
+13/8 Daniel Carlson K
+14/5 Patriots DST
+@Suicide squad 84
+1/9 Dalvin Cook RB
+2/4 Davante Adams WR
+3/9 Keenan Allen WR
+4/4 Breece Hall RB
+5/9 Kyler Murray QB
+6/4 Cordarrelle Patterson RB
+7/9 Jerry Jeudy WR
+8/4 Miles Sanders RB
+9/9 Gerald Everett TE
+10/4 George Pickens WR
+11/9 Rodrigo Blankenship K
+12/4 Steelers DST
+13/9 Garrett Wilson WR
+14/4 Kenny Golladay WR
+@Comets
+1/10 Aaron Jones RB
+2/3 Javonte Williams RB
+3/10 Mike Williams WR
+4/3 Adam Thielen WR
+5/10 AJ Dillon RB
+6/3 Hunter Renfrow WR
+7/10 Chase Claypool WR
+8/3 Mike Gesicki TE
+9/10 Tony Pollard RB
+10/3 Justin Tucker K
+11/10 Derek Carr QB
+12/3 Chargers DST
+13/10 Romeo Doubs WR
+14/3 Tyler Higbee TE
+@Gladiators
+1/11 Cooper Kupp WR
+2/2 Najee Harris RB
+3/11 Tee Higgins WR
+4/2 Cam Akers RB
+5/11 George Kittle TE
+6/2 Antonio Gibson RB
+7/11 Joe Burrow QB
+8/2 Diontae Johnson WR
+9/11 Christian Kirk WR
+10/2 James Robinson RB
+11/11 Treylon Burks WR
+12/2 Tyler Lockett WR
+13/11 Broncos DST
+14/2 Dustin Hopkins K
+@Jaguars
+1/12 Alvin Kamara RB
+2/1 Josh Allen QB
+3/12 A.J. Brown WR
+4/1 David Montgomery RB
+5/12 Dalton Schultz TE
+6/1 Allen Robinson WR
+7/12 Kareem Hunt RB
+8/1 Melvin Gordon RB
+9/12 Ravens DST
+10/1 Tyler Bass K
+11/12 Tyler Allgeier RB
+12/1 Pat Freiermuth TE
+13/12 Julio Jones WR
+14/1 Darrell Henderson Jr. RB

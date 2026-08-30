@@ -14,6 +14,7 @@ import type { PlayerRecord, DraftState, Position } from "@/types";
 import { loadModelConfig } from "@/lib/config";
 import { playerValue } from "@/lib/vorp";
 import { managerAffinity, runShock } from "@/lib/market";
+import { roundBucketShare, autopickRoundBucketShare, managerAutopickRate } from "@/lib/priors";
 
 export interface RolloutResult {
   candidatePlayerId: string;
@@ -53,13 +54,20 @@ function slotForPick(pickNumber: number, teams = LEAGUE_TEAMS): number {
   return round % 2 === 1 ? posInRound : teams - posInRound + 1;
 }
 
+/** One opponent selection between the user's current turn and their next turn. */
+export interface OpponentPick {
+  slot: number;
+  /** 1-indexed draft round — the opponent policy is round-conditional. */
+  round: number;
+}
+
 /** Manager slots that pick between the user's current turn and their next turn. */
-export function opponentSlotsBetween(state: DraftState): number[] {
-  const slots: number[] = [];
+export function opponentPicksBetween(state: DraftState): OpponentPick[] {
+  const picks: OpponentPick[] = [];
   for (let pick = state.current_pick + 1; pick < state.user_next_pick; pick++) {
-    slots.push(slotForPick(pick));
+    picks.push({ slot: slotForPick(pick), round: Math.ceil(pick / LEAGUE_TEAMS) });
   }
-  return slots;
+  return picks;
 }
 
 /** Deterministic per-draft-state seed base so a snapshot's rollouts can be replayed exactly. */
@@ -78,31 +86,57 @@ function mulberry32(seed: number): () => number {
   };
 }
 
-function estimateRosterNeed(managerSlot: number, position: Position, state: DraftState): number {
-  const roster = state.rosters.find((r) => r.manager_slot === managerSlot);
-  if (!roster) return 0.5; // unknown roster: neutral prior
-  const requiredByPos: Partial<Record<Position, number>> = { QB: 1, RB: 2, WR: 2, TE: 1, K: 1, DST: 1 };
-  const required = requiredByPos[position];
-  if (!required) return 0.3; // RWT-eligible positions still have some flex-driven need; not modeled per-slot here
-  const filled = roster.starters.filter((s) => s.slot === position && s.player_id !== null).length;
-  return Math.max(0, (required - filled) / required);
+/**
+ * How badly this opponent still wants `position`, from every player they have
+ * actually drafted (starters AND bench — state.picks is the complete record).
+ *
+ * Deliberately NOT roster_construction.position_caps: those are the USER's
+ * rules (no backup QB, no backup TE). This room does roster backups — 48% of
+ * team-seasons carry 2+ QB and 33% carry 2+ TE — so treating every opponent as
+ * done at QB/TE the moment they had one made QB and TE look far more survivable
+ * than they are.
+ */
+function estimateRosterNeed(
+  managerSlot: number,
+  position: Position,
+  state: DraftState,
+  memo: PositionScoreMemo
+): number {
+  const demand = loadModelConfig().lookahead.opponent_policy.roster_demand;
+  const starters = demand.starter_requirement[position] ?? 0;
+  const target = Math.max(starters, demand.roster_target[position] ?? starters);
+  const have = memoizedRosterCount(memo, managerSlot, position, state);
+  if (starters > 0 && have < starters) return (starters - have) / starters;
+  if (have >= target) return 0;
+  return demand.depth_need_weight * ((target - have) / Math.max(1, target - starters));
 }
 
 /**
- * managerAffinity(managerSlot, position) and runShock(position, state.picks)
- * are pure functions of inputs that never change within a single runLookahead
- * call (state.picks is the real draft history, untouched by simulated
- * opponent picks) — memoizing them collapses what would otherwise be up to
- * ~384,000 redundant recomputations (shortlist x rollouts x gapSlots x
- * positions) down to at most a few dozen.
+ * managerAffinity, runShock, autopick rates and per-manager roster counts are
+ * all pure functions of inputs that never change within a single runLookahead
+ * call (state.picks is the real draft history, untouched by simulated opponent
+ * picks) — memoizing them collapses what would otherwise be up to ~384,000
+ * redundant recomputations (shortlist x rollouts x gapSlots x positions) down
+ * to at most a few dozen.
  */
 interface PositionScoreMemo {
   affinity: Map<string, number>;
   shock: Map<Position, number>;
+  rosterCount: Map<number, Record<Position, number>>;
+  autopickRate: Map<number, number>;
+  autopickShare: Map<number, number[]>;
+  hazard: Map<number, Record<Position, number>>;
 }
 
 function createPositionScoreMemo(): PositionScoreMemo {
-  return { affinity: new Map(), shock: new Map() };
+  return {
+    affinity: new Map(),
+    shock: new Map(),
+    rosterCount: new Map(),
+    autopickRate: new Map(),
+    autopickShare: new Map(),
+    hazard: new Map(),
+  };
 }
 
 function memoizedAffinity(memo: PositionScoreMemo, managerSlot: number, position: Position): number {
@@ -115,11 +149,57 @@ function memoizedAffinity(memo: PositionScoreMemo, managerSlot: number, position
   return v;
 }
 
-function memoizedRunShock(memo: PositionScoreMemo, position: Position, picks: DraftState["picks"]): number {
+function memoizedRunShock(memo: PositionScoreMemo, position: Position, state: DraftState): number {
   let v = memo.shock.get(position);
   if (v === undefined) {
-    v = runShock(position, picks);
+    v = runShock(position, state.picks, state.current_round);
     memo.shock.set(position, v);
+  }
+  return v;
+}
+
+function memoizedRosterCount(
+  memo: PositionScoreMemo,
+  managerSlot: number,
+  position: Position,
+  state: DraftState
+): number {
+  let counts = memo.rosterCount.get(managerSlot);
+  if (!counts) {
+    counts = {} as Record<Position, number>;
+    for (const pos of POSITIONS) counts[pos] = 0;
+    for (const pick of state.picks) {
+      if (pick.manager_slot === managerSlot && counts[pick.position] !== undefined) counts[pick.position] += 1;
+    }
+    memo.rosterCount.set(managerSlot, counts);
+  }
+  return counts[position];
+}
+
+function memoizedAutopickRate(memo: PositionScoreMemo, managerSlot: number, shrinkageK: number): number {
+  let v = memo.autopickRate.get(managerSlot);
+  if (v === undefined) {
+    v = managerAutopickRate(managerSlot, shrinkageK);
+    memo.autopickRate.set(managerSlot, v);
+  }
+  return v;
+}
+
+function memoizedAutopickShare(memo: PositionScoreMemo, round: number, shrinkageK: number): number[] {
+  let v = memo.autopickShare.get(round);
+  if (!v) {
+    const share = autopickRoundBucketShare(round, shrinkageK);
+    v = POSITIONS.map((pos) => share[pos] ?? 0);
+    memo.autopickShare.set(round, v);
+  }
+  return v;
+}
+
+function memoizedRoundShare(memo: PositionScoreMemo, round: number): Record<Position, number> {
+  let v = memo.hazard.get(round);
+  if (!v) {
+    v = roundBucketShare(round);
+    memo.hazard.set(round, v);
   }
   return v;
 }
@@ -211,9 +291,9 @@ function positionScoreFromValues(
   memo: PositionScoreMemo
 ): number {
   const marketBest = bestOverall > 0 ? Math.max(0, bestAtPos) / bestOverall : 0;
-  const rosterNeed = estimateRosterNeed(managerSlot, position, state);
+  const rosterNeed = estimateRosterNeed(managerSlot, position, state, memo);
   const affinity = memoizedAffinity(memo, managerSlot, position);
-  const shock = memoizedRunShock(memo, position, state.picks); // capped [-3,3]
+  const shock = memoizedRunShock(memo, position, state); // capped [-3,3]
   const runPressure = (shock + 3) / 6; // normalize to [0,1]
   return (
     weights.market_best_at_pos * marketBest +
@@ -239,28 +319,108 @@ function scorePositions(
   );
 }
 
+/** Everything the position policy needs, read once per lookahead from config. */
+interface OpponentPolicy {
+  weights: PositionScoreWeights;
+  temperature: number;
+  top3Probs: number[];
+  kdstHazard: { enabled: boolean; weight: number };
+  autopick: { enabled: boolean; manager_rate_shrinkage_k: number; bucket_share_shrinkage_k: number };
+}
+
+function loadOpponentPolicy(): OpponentPolicy {
+  const op = loadModelConfig().lookahead.opponent_policy;
+  return {
+    weights: op.position_score_weights,
+    temperature: op.softmax_temperature,
+    top3Probs: op.top3_player_probs,
+    kdstHazard: op.kdst_hazard,
+    autopick: op.autopick,
+  };
+}
+
+/**
+ * Probability this opponent takes each position, in POSITIONS order.
+ *
+ * Three layers:
+ *  1. softmax(T) over PositionScore — value, need, affinity, run pressure.
+ *  2. K/DST hazard. The room spends 22% of R9, 30% of R10 and 57% of R14 on
+ *     kickers and defenses, which a value+need policy never reproduces, so
+ *     skill-player survival came back far too pessimistic in the back half.
+ *     The empirical round-bucket rate REPLACES the softmax K and DST mass and
+ *     QB/RB/WR/TE are renormalized over what's left.
+ *  3. Autopick mixture. p = (1-a)*p_human + a*p_autopick. The hazard is applied
+ *     only to the human branch — p_autopick already carries its own K/DST mass.
+ *     (The hazard rate itself is measured over all picks including autopicks,
+ *     so human K/DST is overstated by roughly the 11% autopick rate. Left as
+ *     is: the correction is far smaller than the error it fixes.)
+ */
+function positionProbabilities(
+  managerSlot: number,
+  round: number,
+  engine: SimEngine,
+  removed: Set<string>,
+  state: DraftState,
+  policy: OpponentPolicy,
+  memo: PositionScoreMemo
+): number[] {
+  const scores = scorePositions(managerSlot, engine, removed, state, policy.weights, memo);
+  const maxScore = Math.max(...scores);
+  const exps = scores.map((s) => Math.exp((s - maxScore) / Math.max(1e-6, policy.temperature)));
+  const sumExp = exps.reduce((a, b) => a + b, 0) || 1;
+  let probs = exps.map((e) => e / sumExp);
+
+  if (policy.kdstHazard.enabled) {
+    const empirical = memoizedRoundShare(memo, round);
+    const w = policy.kdstHazard.weight;
+    const next = probs.slice();
+    let hazardMass = 0;
+    for (let i = 0; i < POSITIONS.length; i++) {
+      const pos = POSITIONS[i];
+      if (pos !== "K" && pos !== "DST") continue;
+      next[i] = w * (empirical[pos] ?? 0) + (1 - w) * probs[i];
+      hazardMass += next[i];
+    }
+    const rest = Math.max(0, 1 - hazardMass);
+    const skillMass = POSITIONS.reduce((sum, pos, i) => (pos === "K" || pos === "DST" ? sum : sum + probs[i]), 0);
+    if (skillMass > 0) {
+      for (let i = 0; i < POSITIONS.length; i++) {
+        const pos = POSITIONS[i];
+        if (pos !== "K" && pos !== "DST") next[i] = (probs[i] / skillMass) * rest;
+      }
+      probs = next;
+    }
+  }
+
+  if (policy.autopick.enabled) {
+    const a = memoizedAutopickRate(memo, managerSlot, policy.autopick.manager_rate_shrinkage_k);
+    if (a > 0) {
+      const auto = memoizedAutopickShare(memo, round, policy.autopick.bucket_share_shrinkage_k);
+      probs = probs.map((p, i) => (1 - a) * p + a * auto[i]);
+    }
+  }
+
+  return probs;
+}
+
 /**
  * Opponent pick policy for a single rollout step (docs/03 §Alg 5):
- * choose position via softmax(T); then top-3 by ADP at that position: 70/20/10.
- * Incremental: reads engine views, skipping `removed`.
+ * choose position from positionProbabilities; then top-3 by ADP at that
+ * position: 70/20/10. Incremental: reads engine views, skipping `removed`.
  */
 function opponentPickStep(
   managerSlot: number,
+  round: number,
   engine: SimEngine,
   removed: Set<string>,
   state: DraftState,
   rngSeed: number,
-  weights: PositionScoreWeights,
-  temperature: number,
-  top3Probs: number[],
+  policy: OpponentPolicy,
   memo: PositionScoreMemo
 ): PlayerRecord | null {
   const rng = mulberry32(rngSeed);
-  const scores = scorePositions(managerSlot, engine, removed, state, weights, memo);
-  const maxScore = Math.max(...scores);
-  const exps = scores.map((s) => Math.exp((s - maxScore) / Math.max(1e-6, temperature)));
-  const sumExp = exps.reduce((a, b) => a + b, 0) || 1;
-  const probs = exps.map((e) => e / sumExp);
+  const probs = positionProbabilities(managerSlot, round, engine, removed, state, policy, memo);
+  const top3Probs = policy.top3Probs;
 
   const u1 = rng();
   let cumulative = 0;
@@ -307,18 +467,19 @@ function opponentPickStep(
 /** Argmax version of the opponent policy (no sampling) — used by the deterministic floor. */
 function expectedOpponentPickStep(
   managerSlot: number,
+  round: number,
   engine: SimEngine,
   removed: Set<string>,
   state: DraftState,
-  weights: PositionScoreWeights,
+  policy: OpponentPolicy,
   memo: PositionScoreMemo
 ): PlayerRecord | null {
-  const scores = scorePositions(managerSlot, engine, removed, state, weights, memo);
+  const probs = positionProbabilities(managerSlot, round, engine, removed, state, policy, memo);
   let bestPos: Position = POSITIONS[0];
-  let bestScore = -Infinity;
+  let bestProb = -Infinity;
   for (let i = 0; i < POSITIONS.length; i++) {
-    if (scores[i] > bestScore) {
-      bestScore = scores[i];
+    if (probs[i] > bestProb) {
+      bestProb = probs[i];
       bestPos = POSITIONS[i];
     }
   }
@@ -331,17 +492,16 @@ function deterministicLookahead(
   engine: SimEngine,
   shortlist: PlayerRecord[],
   state: DraftState,
-  gapSlots: number[]
+  gapPicks: OpponentPick[]
 ): RolloutResult[] {
-  const config = loadModelConfig();
-  const weights = config.lookahead.opponent_policy.position_score_weights;
+  const policy = loadOpponentPolicy();
   const memo = createPositionScoreMemo();
   return shortlist.map((candidate) => {
     const removed = new Set<string>([candidate.player_id]);
     let remaining = engine.total - (engine.poolIds.has(candidate.player_id) ? 1 : 0);
-    for (const slot of gapSlots) {
+    for (const gap of gapPicks) {
       if (remaining === 0) break;
-      const picked = expectedOpponentPickStep(slot, engine, removed, state, weights, memo);
+      const picked = expectedOpponentPickStep(gap.slot, gap.round, engine, removed, state, policy, memo);
       if (picked && !removed.has(picked.player_id)) {
         removed.add(picked.player_id);
         remaining--;
@@ -367,16 +527,13 @@ export function simulateAll(
   engine: SimEngine,
   shortlist: PlayerRecord[],
   state: DraftState,
-  gapSlots: number[],
+  gapPicks: OpponentPick[],
   rolloutsPerCandidate: number,
   seedBase: number,
   startTime: number,
   hardCeilingMs: number
 ): RolloutResult[] {
-  const config = loadModelConfig();
-  const weights = config.lookahead.opponent_policy.position_score_weights;
-  const temperature = config.lookahead.opponent_policy.softmax_temperature;
-  const top3Probs = config.lookahead.opponent_policy.top3_player_probs;
+  const policy = loadOpponentPolicy();
   const memo = createPositionScoreMemo();
   const results: RolloutResult[] = [];
   for (const candidate of shortlist) {
@@ -388,12 +545,12 @@ export function simulateAll(
       if (r % 50 === 0 && Date.now() - startTime > hardCeilingMs) break; // latency safety valve
       const removed = new Set<string>([candidate.player_id]);
       let remaining = engine.total - (candidateInPool ? 1 : 0);
-      for (let i = 0; i < gapSlots.length; i++) {
+      for (let i = 0; i < gapPicks.length; i++) {
         if (remaining === 0) break;
         // CRN: seed depends only on (rollout index, step index), never on the
         // candidate, so every candidate's branch sees the same opponent draws.
         const seed = seedBase + r * 7919 + i * 104729;
-        const picked = opponentPickStep(gapSlots[i], engine, removed, state, seed, weights, temperature, top3Probs, memo);
+        const picked = opponentPickStep(gapPicks[i].slot, gapPicks[i].round, engine, removed, state, seed, policy, memo);
         if (picked && !removed.has(picked.player_id)) {
           removed.add(picked.player_id);
           remaining--;
@@ -433,7 +590,7 @@ export async function runLookahead(
   state: DraftState
 ): Promise<RolloutResult[]> {
   const config = loadModelConfig();
-  const gapSlots = opponentSlotsBetween(state);
+  const gapPicks = opponentPicksBetween(state);
   const seedBase = deriveSeedBase(state);
   const engine = buildSimEngine(availablePool);
 
@@ -449,7 +606,7 @@ export async function runLookahead(
         engine,
         shortlist,
         state,
-        gapSlots,
+        gapPicks,
         budget,
         seedBase,
         t0,
@@ -466,7 +623,7 @@ export async function runLookahead(
 
   // Floor: deterministic survival-aware lookahead — the sequential term must
   // always be present in some form (CLAUDE.md, docs/03).
-  return deterministicLookahead(engine, shortlist, state, gapSlots);
+  return deterministicLookahead(engine, shortlist, state, gapPicks);
 }
 
 /**

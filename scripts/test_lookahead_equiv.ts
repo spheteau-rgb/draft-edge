@@ -21,10 +21,12 @@ import { managerAffinity, runShock } from "@/lib/market";
 import {
   simulateAll,
   buildSimEngine,
-  opponentSlotsBetween,
+  opponentPicksBetween,
   deriveSeedBase,
   type RolloutResult,
+  type OpponentPick,
 } from "@/lib/lookahead";
+import { roundBucketShare, autopickRoundBucketShare, managerAutopickRate } from "@/lib/priors";
 import type { PlayerRecord, DraftState, Position, DraftPick, TeamRoster } from "@/types";
 
 const LEAGUE_TEAMS = 12;
@@ -43,13 +45,13 @@ function mulberry32(seed: number): () => number {
 }
 
 function estimateRosterNeed(managerSlot: number, position: Position, state: DraftState): number {
-  const roster = state.rosters.find((r) => r.manager_slot === managerSlot);
-  if (!roster) return 0.5;
-  const requiredByPos: Partial<Record<Position, number>> = { QB: 1, RB: 2, WR: 2, TE: 1, K: 1, DST: 1 };
-  const required = requiredByPos[position];
-  if (!required) return 0.3;
-  const filled = roster.starters.filter((s) => s.slot === position && s.player_id !== null).length;
-  return Math.max(0, (required - filled) / required);
+  const demand = loadModelConfig().lookahead.opponent_policy.roster_demand;
+  const starters = demand.starter_requirement[position] ?? 0;
+  const target = Math.max(starters, demand.roster_target[position] ?? starters);
+  const have = state.picks.filter((p) => p.manager_slot === managerSlot && p.position === position).length;
+  if (starters > 0 && have < starters) return (starters - have) / starters;
+  if (have >= target) return 0;
+  return demand.depth_need_weight * ((target - have) / Math.max(1, target - starters));
 }
 
 function naivePositionScore(
@@ -65,7 +67,7 @@ function naivePositionScore(
   const marketBest = bestOverall > 0 ? Math.max(0, bestAtPos) / bestOverall : 0;
   const rosterNeed = estimateRosterNeed(managerSlot, position, state);
   const affinity = managerAffinity(managerSlot, position);
-  const shock = runShock(position, state.picks);
+  const shock = runShock(position, state.picks, state.current_round);
   const runPressure = (shock + 3) / 6;
   return (
     weights.market_best_at_pos * marketBest +
@@ -77,19 +79,51 @@ function naivePositionScore(
 
 function naiveOpponentPick(
   managerSlot: number,
+  round: number,
   pool: PlayerRecord[],
   state: DraftState,
   rngSeed: number
 ): PlayerRecord {
   const config = loadModelConfig();
+  const op = config.lookahead.opponent_policy;
   const rng = mulberry32(rngSeed);
-  const weights = config.lookahead.opponent_policy.position_score_weights;
-  const temperature = config.lookahead.opponent_policy.softmax_temperature;
+  const weights = op.position_score_weights;
+  const temperature = op.softmax_temperature;
   const scores = POSITIONS.map((pos) => naivePositionScore(pos, managerSlot, pool, state, weights));
   const maxScore = Math.max(...scores);
   const exps = scores.map((s) => Math.exp((s - maxScore) / Math.max(1e-6, temperature)));
   const sumExp = exps.reduce((a, b) => a + b, 0) || 1;
-  const probs = exps.map((e) => e / sumExp);
+  let probs = exps.map((e) => e / sumExp);
+
+  if (op.kdst_hazard.enabled) {
+    const empirical = roundBucketShare(round);
+    const w = op.kdst_hazard.weight;
+    const next = probs.slice();
+    let hazardMass = 0;
+    for (let i = 0; i < POSITIONS.length; i++) {
+      const pos = POSITIONS[i];
+      if (pos !== "K" && pos !== "DST") continue;
+      next[i] = w * (empirical[pos] ?? 0) + (1 - w) * probs[i];
+      hazardMass += next[i];
+    }
+    const rest = Math.max(0, 1 - hazardMass);
+    const skillMass = POSITIONS.reduce((sum, pos, i) => (pos === "K" || pos === "DST" ? sum : sum + probs[i]), 0);
+    if (skillMass > 0) {
+      for (let i = 0; i < POSITIONS.length; i++) {
+        const pos = POSITIONS[i];
+        if (pos !== "K" && pos !== "DST") next[i] = (probs[i] / skillMass) * rest;
+      }
+      probs = next;
+    }
+  }
+
+  if (op.autopick.enabled) {
+    const a = managerAutopickRate(managerSlot, op.autopick.manager_rate_shrinkage_k);
+    if (a > 0) {
+      const auto = autopickRoundBucketShare(round, op.autopick.bucket_share_shrinkage_k);
+      probs = probs.map((p, i) => (1 - a) * p + a * (auto[POSITIONS[i]] ?? 0));
+    }
+  }
 
   const u1 = rng();
   let cumulative = 0;
@@ -110,7 +144,7 @@ function naiveOpponentPick(
     return [...pool].sort((a, b) => playerValue(b) - playerValue(a))[0];
   }
   const top3 = atPos.slice(0, 3);
-  const rawProbs = config.lookahead.opponent_policy.top3_player_probs.slice(0, top3.length);
+  const rawProbs = op.top3_player_probs.slice(0, top3.length);
   const sumRaw = rawProbs.reduce((a, b) => a + b, 0) || 1;
   const normProbs = rawProbs.map((p) => p / sumRaw);
 
@@ -138,7 +172,7 @@ function naiveSimulateAll(
   shortlist: PlayerRecord[],
   availablePool: PlayerRecord[],
   state: DraftState,
-  gapSlots: number[],
+  gapPicks: OpponentPick[],
   rolloutsPerCandidate: number,
   seedBase: number
 ): RolloutResult[] {
@@ -149,10 +183,10 @@ function naiveSimulateAll(
     const responseCounts = new Map<string, number>();
     for (let r = 0; r < rolloutsPerCandidate; r++) {
       let pool = availablePool.filter((p) => p.player_id !== candidate.player_id);
-      for (let i = 0; i < gapSlots.length; i++) {
+      for (let i = 0; i < gapPicks.length; i++) {
         if (pool.length === 0) break;
         const seed = seedBase + r * 7919 + i * 104729;
-        const picked = naiveOpponentPick(gapSlots[i], pool, state, seed);
+        const picked = naiveOpponentPick(gapPicks[i].slot, gapPicks[i].round, pool, state, seed);
         pool = pool.filter((p) => p.player_id !== picked.player_id);
       }
       const best = naiveBestResponse(pool);
@@ -292,17 +326,17 @@ function main() {
     const shortlist = shortlistNames
       .map((n) => available.find((p) => p.name === n))
       .filter((p): p is PlayerRecord => Boolean(p));
-    const gapSlots = opponentSlotsBetween(state);
+    const gapPicks = opponentPicksBetween(state);
     const seedBase = deriveSeedBase(state);
     const engine = buildSimEngine(available);
 
     cases++;
-    process.stdout.write(`... running gap=${gap} (${gapSlots.length} opp picks) budget=${budget}\n`);
-    const ref = naiveSimulateAll(shortlist, available, state, gapSlots, budget, seedBase);
-    const opt = simulateAll(engine, shortlist, state, gapSlots, budget, seedBase, Date.now(), 1e12);
+    process.stdout.write(`... running gap=${gap} (${gapPicks.length} opp picks) budget=${budget}\n`);
+    const ref = naiveSimulateAll(shortlist, available, state, gapPicks, budget, seedBase);
+    const opt = simulateAll(engine, shortlist, state, gapPicks, budget, seedBase, Date.now(), 1e12);
     const m = assertEqualResults(`gap=${gap} budget=${budget}`, ref, opt);
     if (m === 0) {
-      console.log(`OK  gap=${gap} (${gapSlots.length} opp picks) budget=${budget} — ${ref.length} candidates identical`);
+      console.log(`OK  gap=${gap} (${gapPicks.length} opp picks) budget=${budget} — ${ref.length} candidates identical`);
     }
     totalMismatches += m;
   }

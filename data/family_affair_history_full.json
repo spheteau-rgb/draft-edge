@@ -1,0 +1,7556 @@
+{
+ "_note": "5 complete 14-round Family Affair drafts, 2021-2025.",
+ "picks": [
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Christian McCaffrey",
+   "pos": "RB",
+   "overall": 1
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Calvin Ridley",
+   "pos": "WR",
+   "overall": 24
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Antonio Gibson",
+   "pos": "RB",
+   "overall": 25
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "T.J. Hockenson",
+   "pos": "TE",
+   "overall": 48
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Russell Wilson",
+   "pos": "QB",
+   "overall": 49
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Diontae Johnson",
+   "pos": "WR",
+   "overall": 72
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Odell Beckham Jr.",
+   "pos": "WR",
+   "overall": 73
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Robbie Chosen",
+   "pos": "WR",
+   "overall": 96
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Laviska Shenault Jr.",
+   "pos": "WR",
+   "overall": 97
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Corey Davis",
+   "pos": "WR",
+   "overall": 120
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jakobi Meyers",
+   "pos": "WR",
+   "overall": 121
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Patriots",
+   "pos": "DST",
+   "overall": 144
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Giovani Bernard",
+   "pos": "RB",
+   "overall": 145
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Matt Prater",
+   "pos": "K",
+   "overall": 168
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Comets",
+   "auto": false,
+   "player": "Derrick Henry",
+   "pos": "RB",
+   "overall": 2
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Comets",
+   "auto": false,
+   "player": "Clyde Edwards-Helaire",
+   "pos": "RB",
+   "overall": 23
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Comets",
+   "auto": false,
+   "player": "Justin Jefferson",
+   "pos": "WR",
+   "overall": 26
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jerry Jeudy",
+   "pos": "WR",
+   "overall": 47
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Comets",
+   "auto": false,
+   "player": "Amari Cooper",
+   "pos": "WR",
+   "overall": 50
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Comets",
+   "auto": false,
+   "player": "Deebo Samuel",
+   "pos": "WR",
+   "overall": 71
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jamaal Williams",
+   "pos": "RB",
+   "overall": 74
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Comets",
+   "auto": false,
+   "player": "Mike Gesicki",
+   "pos": "TE",
+   "overall": 95
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Comets",
+   "auto": false,
+   "player": "Harrison Butker",
+   "pos": "K",
+   "overall": 98
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Comets",
+   "auto": false,
+   "player": "Bills",
+   "pos": "DST",
+   "overall": 119
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Comets",
+   "auto": false,
+   "player": "Ben Roethlisberger",
+   "pos": "QB",
+   "overall": 122
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Comets",
+   "auto": false,
+   "player": "Marquez Valdes-Scantling",
+   "pos": "WR",
+   "overall": 143
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Comets",
+   "auto": false,
+   "player": "Rashaad Penny",
+   "pos": "RB",
+   "overall": 146
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Comets",
+   "auto": false,
+   "player": "Mecole Hardman",
+   "pos": "WR",
+   "overall": 167
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Dalvin Cook",
+   "pos": "RB",
+   "overall": 3
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Miles Sanders",
+   "pos": "RB",
+   "overall": 22
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Kyler Murray",
+   "pos": "QB",
+   "overall": 27
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Julio Jones",
+   "pos": "WR",
+   "overall": 46
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Chris Godwin",
+   "pos": "WR",
+   "overall": 51
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Dallas Goedert",
+   "pos": "TE",
+   "overall": 70
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "James Conner",
+   "pos": "RB",
+   "overall": 75
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Marvin Jones",
+   "pos": "WR",
+   "overall": 94
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Ravens",
+   "pos": "DST",
+   "overall": 99
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "James White",
+   "pos": "RB",
+   "overall": 118
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Will Fuller",
+   "pos": "WR",
+   "overall": 123
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Matthew Stafford",
+   "pos": "QB",
+   "overall": 142
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Robbie Gould",
+   "pos": "K",
+   "overall": 147
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Mason Crosby",
+   "pos": "K",
+   "overall": 166
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Alvin Kamara",
+   "pos": "RB",
+   "overall": 4
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "DeAndre Hopkins",
+   "pos": "WR",
+   "overall": 21
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "DK Metcalf",
+   "pos": "WR",
+   "overall": 28
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Allen Robinson",
+   "pos": "WR",
+   "overall": 45
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Myles Gaskin",
+   "pos": "RB",
+   "overall": 52
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Chase Claypool",
+   "pos": "WR",
+   "overall": 69
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Tom Brady",
+   "pos": "QB",
+   "overall": 76
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Logan Thomas",
+   "pos": "TE",
+   "overall": 93
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Rams",
+   "pos": "DST",
+   "overall": 100
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Antonio Brown",
+   "pos": "WR",
+   "overall": 117
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Zack Moss",
+   "pos": "RB",
+   "overall": 124
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Greg Zuerlein",
+   "pos": "K",
+   "overall": 141
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Marquez Callaway",
+   "pos": "WR",
+   "overall": 148
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Daniel Carlson",
+   "pos": "K",
+   "overall": 165
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Patrick Mahomes",
+   "pos": "QB",
+   "overall": 5
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "James Robinson",
+   "pos": "RB",
+   "overall": 20
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "George Kittle",
+   "pos": "TE",
+   "overall": 29
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "D'Andre Swift",
+   "pos": "RB",
+   "overall": 44
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Gus Edwards",
+   "pos": "RB",
+   "overall": 53
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Tyler Lockett",
+   "pos": "WR",
+   "overall": 68
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Brandon Aiyuk",
+   "pos": "WR",
+   "overall": 77
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Michael Carter",
+   "pos": "RB",
+   "overall": 92
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Jared Cook",
+   "pos": "TE",
+   "overall": 101
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Ty'Son Williams",
+   "pos": "RB",
+   "overall": 116
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Trevor Lawrence",
+   "pos": "QB",
+   "overall": 125
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Zach Ertz",
+   "pos": "TE",
+   "overall": 140
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Cardinals",
+   "pos": "DST",
+   "overall": 149
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Domination",
+   "auto": false,
+   "player": "Davante Adams",
+   "pos": "WR",
+   "overall": 6
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Domination",
+   "auto": false,
+   "player": "Aaron Rodgers",
+   "pos": "QB",
+   "overall": 19
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Domination",
+   "auto": false,
+   "player": "Josh Jacobs",
+   "pos": "RB",
+   "overall": 30
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Domination",
+   "auto": false,
+   "player": "Terry McLaurin",
+   "pos": "WR",
+   "overall": 43
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Domination",
+   "auto": false,
+   "player": "Mark Andrews",
+   "pos": "TE",
+   "overall": 54
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Domination",
+   "auto": false,
+   "player": "Melvin Gordon",
+   "pos": "RB",
+   "overall": 67
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Domination",
+   "auto": false,
+   "player": "DeVonta Smith",
+   "pos": "WR",
+   "overall": 78
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Domination",
+   "auto": false,
+   "player": "Leonard Fournette",
+   "pos": "RB",
+   "overall": 91
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Domination",
+   "auto": true,
+   "player": "Darrynton Evans",
+   "pos": "RB",
+   "overall": 102
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Domination",
+   "auto": false,
+   "player": "Rob Gronkowski",
+   "pos": "TE",
+   "overall": 115
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Domination",
+   "auto": true,
+   "player": "Kirk Cousins",
+   "pos": "QB",
+   "overall": 126
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Domination",
+   "auto": true,
+   "player": "Robert Tonyan",
+   "pos": "TE",
+   "overall": 139
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Domination",
+   "auto": false,
+   "player": "Colts",
+   "pos": "DST",
+   "overall": 150
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Domination",
+   "auto": false,
+   "player": "Brandon McManus",
+   "pos": "K",
+   "overall": 163
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Aaron Jones",
+   "pos": "RB",
+   "overall": 7
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Darren Waller",
+   "pos": "TE",
+   "overall": 18
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Chris Carson",
+   "pos": "RB",
+   "overall": 31
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Mike Evans",
+   "pos": "WR",
+   "overall": 42
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "DJ Moore",
+   "pos": "WR",
+   "overall": 55
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Darrell Henderson Jr.",
+   "pos": "RB",
+   "overall": 66
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Ryan Tannehill",
+   "pos": "QB",
+   "overall": 79
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Kenny Golladay",
+   "pos": "WR",
+   "overall": 90
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Steelers",
+   "pos": "DST",
+   "overall": 103
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Younghoe Koo",
+   "pos": "K",
+   "overall": 114
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Michael Gallup",
+   "pos": "WR",
+   "overall": 127
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Devin Singletary",
+   "pos": "RB",
+   "overall": 138
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Phillip Lindsay",
+   "pos": "RB",
+   "overall": 151
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Tre'Quan Smith",
+   "pos": "WR",
+   "overall": 162
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Ezekiel Elliott",
+   "pos": "RB",
+   "overall": 8
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Austin Ekeler",
+   "pos": "RB",
+   "overall": 17
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "A.J. Brown",
+   "pos": "WR",
+   "overall": 32
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Lamar Jackson",
+   "pos": "QB",
+   "overall": 41
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Kyle Pitts",
+   "pos": "TE",
+   "overall": 56
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Mike Davis",
+   "pos": "RB",
+   "overall": 65
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Michael Thomas",
+   "pos": "WR",
+   "overall": 80
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Trey Sermon",
+   "pos": "RB",
+   "overall": 89
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Tyler Boyd",
+   "pos": "WR",
+   "overall": 104
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Michael Pittman",
+   "pos": "WR",
+   "overall": 113
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Jalen Hurts",
+   "pos": "QB",
+   "overall": 128
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Browns",
+   "pos": "DST",
+   "overall": 137
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Amon-Ra St. Brown",
+   "pos": "WR",
+   "overall": 152
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Ryan Succop",
+   "pos": "K",
+   "overall": 161
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Jonathan Taylor",
+   "pos": "RB",
+   "overall": 9
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Stefon Diggs",
+   "pos": "WR",
+   "overall": 16
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Keenan Allen",
+   "pos": "WR",
+   "overall": 33
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Raheem Mostert",
+   "pos": "RB",
+   "overall": 40
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "DJ Chark",
+   "pos": "WR",
+   "overall": 57
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Justin Herbert",
+   "pos": "QB",
+   "overall": 64
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Courtland Sutton",
+   "pos": "WR",
+   "overall": 81
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Ronald Jones",
+   "pos": "RB",
+   "overall": 88
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Tyler Higbee",
+   "pos": "TE",
+   "overall": 105
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Buccaneers",
+   "pos": "DST",
+   "overall": 112
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Jason Sanders",
+   "pos": "K",
+   "overall": 129
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Emmanuel Sanders",
+   "pos": "WR",
+   "overall": 136
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Derek Carr",
+   "pos": "QB",
+   "overall": 153
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Tevin Coleman",
+   "pos": "RB",
+   "overall": 160
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Nick Chubb",
+   "pos": "RB",
+   "overall": 10
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Travis Kelce",
+   "pos": "TE",
+   "overall": 15
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "David Montgomery",
+   "pos": "RB",
+   "overall": 34
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Cooper Kupp",
+   "pos": "WR",
+   "overall": 39
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Kareem Hunt",
+   "pos": "RB",
+   "overall": 58
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Adam Thielen",
+   "pos": "WR",
+   "overall": 63
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Brandin Cooks",
+   "pos": "WR",
+   "overall": 82
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Matt Ryan",
+   "pos": "QB",
+   "overall": 87
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Kenyan Drake",
+   "pos": "RB",
+   "overall": 106
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Justin Tucker",
+   "pos": "K",
+   "overall": 111
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Jarvis Landry",
+   "pos": "WR",
+   "overall": 130
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Eagles",
+   "pos": "DST",
+   "overall": 135
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Tony Pollard",
+   "pos": "RB",
+   "overall": 154
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Justin Fields",
+   "pos": "QB",
+   "overall": 159
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Saquon Barkley",
+   "pos": "RB",
+   "overall": 11
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Joe Mixon",
+   "pos": "RB",
+   "overall": 14
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Josh Allen",
+   "pos": "QB",
+   "overall": 35
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Robert Woods",
+   "pos": "WR",
+   "overall": 38
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Chase Edmonds",
+   "pos": "RB",
+   "overall": 59
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "JuJu Smith-Schuster",
+   "pos": "WR",
+   "overall": 62
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Ja'Marr Chase",
+   "pos": "WR",
+   "overall": 83
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Jaylen Waddle",
+   "pos": "WR",
+   "overall": 86
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Joe Burrow",
+   "pos": "QB",
+   "overall": 107
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "AJ Dillon",
+   "pos": "RB",
+   "overall": 110
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Commanders",
+   "pos": "DST",
+   "overall": 131
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Rodrigo Blankenship",
+   "pos": "K",
+   "overall": 134
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Chris Herndon",
+   "pos": "TE",
+   "overall": 155
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Elijah Moore",
+   "pos": "WR",
+   "overall": 158
+  },
+  {
+   "year": 2021,
+   "round": 1,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Najee Harris",
+   "pos": "RB",
+   "overall": 12
+  },
+  {
+   "year": 2021,
+   "round": 2,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Tyreek Hill",
+   "pos": "WR",
+   "overall": 13
+  },
+  {
+   "year": 2021,
+   "round": 3,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Damien Harris",
+   "pos": "RB",
+   "overall": 36
+  },
+  {
+   "year": 2021,
+   "round": 4,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "CeeDee Lamb",
+   "pos": "WR",
+   "overall": 37
+  },
+  {
+   "year": 2021,
+   "round": 5,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Dak Prescott",
+   "pos": "QB",
+   "overall": 60
+  },
+  {
+   "year": 2021,
+   "round": 6,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Tee Higgins",
+   "pos": "WR",
+   "overall": 61
+  },
+  {
+   "year": 2021,
+   "round": 7,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Javonte Williams",
+   "pos": "RB",
+   "overall": 84
+  },
+  {
+   "year": 2021,
+   "round": 8,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Noah Fant",
+   "pos": "TE",
+   "overall": 85
+  },
+  {
+   "year": 2021,
+   "round": 9,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Marquise Brown",
+   "pos": "WR",
+   "overall": 108
+  },
+  {
+   "year": 2021,
+   "round": 10,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Sony Michel",
+   "pos": "RB",
+   "overall": 109
+  },
+  {
+   "year": 2021,
+   "round": 11,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Russell Gage",
+   "pos": "WR",
+   "overall": 132
+  },
+  {
+   "year": 2021,
+   "round": 12,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "T.Y. Hilton",
+   "pos": "WR",
+   "overall": 133
+  },
+  {
+   "year": 2021,
+   "round": 13,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "49ers",
+   "pos": "DST",
+   "overall": 156
+  },
+  {
+   "year": 2021,
+   "round": 14,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Tyler Bass",
+   "pos": "K",
+   "overall": 157
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Domination",
+   "auto": false,
+   "player": "Jonathan Taylor",
+   "pos": "RB",
+   "overall": 1
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Domination",
+   "auto": false,
+   "player": "Stefon Diggs",
+   "pos": "WR",
+   "overall": 24
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Domination",
+   "auto": false,
+   "player": "Mike Evans",
+   "pos": "WR",
+   "overall": 25
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Domination",
+   "auto": false,
+   "player": "Darren Waller",
+   "pos": "TE",
+   "overall": 48
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Domination",
+   "auto": false,
+   "player": "J.K. Dobbins",
+   "pos": "RB",
+   "overall": 49
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Domination",
+   "auto": false,
+   "player": "Tom Brady",
+   "pos": "QB",
+   "overall": 72
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Domination",
+   "auto": false,
+   "player": "Devin Singletary",
+   "pos": "RB",
+   "overall": 73
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Domination",
+   "auto": false,
+   "player": "Zach Ertz",
+   "pos": "TE",
+   "overall": 96
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Domination",
+   "auto": false,
+   "player": "Brandon Aiyuk",
+   "pos": "WR",
+   "overall": 97
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Domination",
+   "auto": false,
+   "player": "Matthew Stafford",
+   "pos": "QB",
+   "overall": 120
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Domination",
+   "auto": false,
+   "player": "Michael Gallup",
+   "pos": "WR",
+   "overall": 121
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Domination",
+   "auto": false,
+   "player": "Colts",
+   "pos": "DST",
+   "overall": 144
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Domination",
+   "auto": false,
+   "player": "Jamaal Williams",
+   "pos": "RB",
+   "overall": 145
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Domination",
+   "auto": false,
+   "player": "Robbie Gould",
+   "pos": "K",
+   "overall": 168
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Christian McCaffrey",
+   "pos": "RB",
+   "overall": 2
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Mark Andrews",
+   "pos": "TE",
+   "overall": 23
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Tyreek Hill",
+   "pos": "WR",
+   "overall": 26
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Travis Etienne",
+   "pos": "RB",
+   "overall": 47
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Justin Herbert",
+   "pos": "QB",
+   "overall": 50
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Brandin Cooks",
+   "pos": "WR",
+   "overall": 71
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Gabe Davis",
+   "pos": "WR",
+   "overall": 74
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Chase Edmonds",
+   "pos": "RB",
+   "overall": 95
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Rhamondre Stevenson",
+   "pos": "RB",
+   "overall": 98
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Packers",
+   "pos": "DST",
+   "overall": 119
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Isiah Pacheco",
+   "pos": "RB",
+   "overall": 122
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Robert Woods",
+   "pos": "WR",
+   "overall": 143
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Alec Pierce",
+   "pos": "WR",
+   "overall": 146
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Ryan Succop",
+   "pos": "K",
+   "overall": 167
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Patrick Mahomes",
+   "pos": "QB",
+   "overall": 3
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Deebo Samuel",
+   "pos": "WR",
+   "overall": 22
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Ezekiel Elliott",
+   "pos": "RB",
+   "overall": 27
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "DK Metcalf",
+   "pos": "WR",
+   "overall": 46
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Marvin Jones",
+   "pos": "WR",
+   "overall": 51
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Bills",
+   "pos": "DST",
+   "overall": 70
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Evan McPherson",
+   "pos": "K",
+   "overall": 75
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "James Cook",
+   "pos": "RB",
+   "overall": 94
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Cole Kmet",
+   "pos": "TE",
+   "overall": 99
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "David Njoku",
+   "pos": "TE",
+   "overall": 118
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "DeVante Parker",
+   "pos": "WR",
+   "overall": 123
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Michael Carter",
+   "pos": "RB",
+   "overall": 142
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Jameis Winston",
+   "pos": "QB",
+   "overall": 147
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "The Dan Clan",
+   "auto": false,
+   "player": "Sterling Shepard",
+   "pos": "WR",
+   "overall": 166
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Justin Jefferson",
+   "pos": "WR",
+   "overall": 4
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "CeeDee Lamb",
+   "pos": "WR",
+   "overall": 21
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "D'Andre Swift",
+   "pos": "RB",
+   "overall": 28
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "DJ Moore",
+   "pos": "WR",
+   "overall": 45
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Elijah Mitchell",
+   "pos": "RB",
+   "overall": 52
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Clyde Edwards-Helaire",
+   "pos": "RB",
+   "overall": 69
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Jaylen Waddle",
+   "pos": "WR",
+   "overall": 76
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Dak Prescott",
+   "pos": "QB",
+   "overall": 93
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Kenneth Walker III",
+   "pos": "RB",
+   "overall": 100
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Chris Olave",
+   "pos": "WR",
+   "overall": 117
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Trey Lance",
+   "pos": "QB",
+   "overall": 124
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Rams",
+   "pos": "DST",
+   "overall": 141
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Albert Okwuegbunam",
+   "pos": "TE",
+   "overall": 148
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Greg Joseph",
+   "pos": "K",
+   "overall": 165
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Derrick Henry",
+   "pos": "RB",
+   "overall": 5
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Leonard Fournette",
+   "pos": "RB",
+   "overall": 20
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Lamar Jackson",
+   "pos": "QB",
+   "overall": 29
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "DeVonta Smith",
+   "pos": "WR",
+   "overall": 44
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Dallas Goedert",
+   "pos": "TE",
+   "overall": 53
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Russell Wilson",
+   "pos": "QB",
+   "overall": 68
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Marquise Brown",
+   "pos": "WR",
+   "overall": 77
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Amari Cooper",
+   "pos": "WR",
+   "overall": 92
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Aaron Rodgers",
+   "pos": "QB",
+   "overall": 101
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Buccaneers",
+   "pos": "DST",
+   "overall": 116
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Kenneth Gainwell",
+   "pos": "RB",
+   "overall": 125
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Matt Gay",
+   "pos": "K",
+   "overall": 140
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Dawson Knox",
+   "pos": "TE",
+   "overall": 149
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Irv Smith",
+   "pos": "TE",
+   "overall": 164
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Joe Mixon",
+   "pos": "RB",
+   "overall": 6
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Nick Chubb",
+   "pos": "RB",
+   "overall": 19
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Kyle Pitts",
+   "pos": "TE",
+   "overall": 30
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Courtland Sutton",
+   "pos": "WR",
+   "overall": 43
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Terry McLaurin",
+   "pos": "WR",
+   "overall": 54
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "JuJu Smith-Schuster",
+   "pos": "WR",
+   "overall": 67
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Rashod Bateman",
+   "pos": "WR",
+   "overall": 78
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Damien Harris",
+   "pos": "RB",
+   "overall": 91
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Kirk Cousins",
+   "pos": "QB",
+   "overall": 102
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "49ers",
+   "pos": "DST",
+   "overall": 115
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Kadarius Toney",
+   "pos": "WR",
+   "overall": 126
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Harrison Butker",
+   "pos": "K",
+   "overall": 139
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Jakobi Meyers",
+   "pos": "WR",
+   "overall": 150
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Alexander Mattison",
+   "pos": "RB",
+   "overall": 163
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Austin Ekeler",
+   "pos": "RB",
+   "overall": 7
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Ja'Marr Chase",
+   "pos": "WR",
+   "overall": 18
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "James Conner",
+   "pos": "RB",
+   "overall": 31
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Michael Pittman",
+   "pos": "WR",
+   "overall": 42
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Dameon Pierce",
+   "pos": "RB",
+   "overall": 55
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Michael Thomas",
+   "pos": "WR",
+   "overall": 66
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "DeAndre Hopkins",
+   "pos": "WR",
+   "overall": 79
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Amon-Ra St. Brown",
+   "pos": "WR",
+   "overall": 90
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "T.J. Hockenson",
+   "pos": "TE",
+   "overall": 103
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Drake London",
+   "pos": "WR",
+   "overall": 114
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Saints",
+   "pos": "DST",
+   "overall": 127
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Tua Tagovailoa",
+   "pos": "QB",
+   "overall": 138
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Justin Fields",
+   "pos": "QB",
+   "overall": 151
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Brandon McManus",
+   "pos": "K",
+   "overall": 162
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Travis Kelce",
+   "pos": "TE",
+   "overall": 8
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Saquon Barkley",
+   "pos": "RB",
+   "overall": 17
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Josh Jacobs",
+   "pos": "RB",
+   "overall": 32
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Chris Godwin",
+   "pos": "WR",
+   "overall": 41
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Jalen Hurts",
+   "pos": "QB",
+   "overall": 56
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Rashaad Penny",
+   "pos": "RB",
+   "overall": 65
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Allen Lazard",
+   "pos": "WR",
+   "overall": 80
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Darnell Mooney",
+   "pos": "WR",
+   "overall": 89
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Elijah Moore",
+   "pos": "WR",
+   "overall": 104
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "K.J. Osborn",
+   "pos": "WR",
+   "overall": 113
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Raheem Mostert",
+   "pos": "RB",
+   "overall": 128
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Skyy Moore",
+   "pos": "WR",
+   "overall": 137
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Daniel Carlson",
+   "pos": "K",
+   "overall": 152
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Patriots",
+   "pos": "DST",
+   "overall": 161
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Dalvin Cook",
+   "pos": "RB",
+   "overall": 9
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Davante Adams",
+   "pos": "WR",
+   "overall": 16
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Keenan Allen",
+   "pos": "WR",
+   "overall": 33
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Breece Hall",
+   "pos": "RB",
+   "overall": 40
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Kyler Murray",
+   "pos": "QB",
+   "overall": 57
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Cordarrelle Patterson",
+   "pos": "RB",
+   "overall": 64
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Jerry Jeudy",
+   "pos": "WR",
+   "overall": 81
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Miles Sanders",
+   "pos": "RB",
+   "overall": 88
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Gerald Everett",
+   "pos": "TE",
+   "overall": 105
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "George Pickens",
+   "pos": "WR",
+   "overall": 112
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Rodrigo Blankenship",
+   "pos": "K",
+   "overall": 129
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Steelers",
+   "pos": "DST",
+   "overall": 136
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Garrett Wilson",
+   "pos": "WR",
+   "overall": 153
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Kenny Golladay",
+   "pos": "WR",
+   "overall": 160
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Comets",
+   "auto": false,
+   "player": "Aaron Jones",
+   "pos": "RB",
+   "overall": 10
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Comets",
+   "auto": false,
+   "player": "Javonte Williams",
+   "pos": "RB",
+   "overall": 15
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Comets",
+   "auto": false,
+   "player": "Mike Williams",
+   "pos": "WR",
+   "overall": 34
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Comets",
+   "auto": false,
+   "player": "Adam Thielen",
+   "pos": "WR",
+   "overall": 39
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Comets",
+   "auto": false,
+   "player": "AJ Dillon",
+   "pos": "RB",
+   "overall": 58
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Comets",
+   "auto": false,
+   "player": "Hunter Renfrow",
+   "pos": "WR",
+   "overall": 63
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Comets",
+   "auto": false,
+   "player": "Chase Claypool",
+   "pos": "WR",
+   "overall": 82
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Comets",
+   "auto": false,
+   "player": "Mike Gesicki",
+   "pos": "TE",
+   "overall": 87
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Comets",
+   "auto": false,
+   "player": "Tony Pollard",
+   "pos": "RB",
+   "overall": 106
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Comets",
+   "auto": false,
+   "player": "Justin Tucker",
+   "pos": "K",
+   "overall": 111
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Comets",
+   "auto": false,
+   "player": "Derek Carr",
+   "pos": "QB",
+   "overall": 130
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Comets",
+   "auto": false,
+   "player": "Chargers",
+   "pos": "DST",
+   "overall": 135
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Comets",
+   "auto": false,
+   "player": "Romeo Doubs",
+   "pos": "WR",
+   "overall": 154
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Comets",
+   "auto": false,
+   "player": "Tyler Higbee",
+   "pos": "TE",
+   "overall": 159
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Cooper Kupp",
+   "pos": "WR",
+   "overall": 11
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Najee Harris",
+   "pos": "RB",
+   "overall": 14
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Tee Higgins",
+   "pos": "WR",
+   "overall": 35
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Cam Akers",
+   "pos": "RB",
+   "overall": 38
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "George Kittle",
+   "pos": "TE",
+   "overall": 59
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Antonio Gibson",
+   "pos": "RB",
+   "overall": 62
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Joe Burrow",
+   "pos": "QB",
+   "overall": 83
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Diontae Johnson",
+   "pos": "WR",
+   "overall": 86
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Christian Kirk",
+   "pos": "WR",
+   "overall": 107
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "James Robinson",
+   "pos": "RB",
+   "overall": 110
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Treylon Burks",
+   "pos": "WR",
+   "overall": 131
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Tyler Lockett",
+   "pos": "WR",
+   "overall": 134
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Broncos",
+   "pos": "DST",
+   "overall": 155
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Dustin Hopkins",
+   "pos": "K",
+   "overall": 158
+  },
+  {
+   "year": 2022,
+   "round": 1,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Alvin Kamara",
+   "pos": "RB",
+   "overall": 12
+  },
+  {
+   "year": 2022,
+   "round": 2,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Josh Allen",
+   "pos": "QB",
+   "overall": 13
+  },
+  {
+   "year": 2022,
+   "round": 3,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "A.J. Brown",
+   "pos": "WR",
+   "overall": 36
+  },
+  {
+   "year": 2022,
+   "round": 4,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "David Montgomery",
+   "pos": "RB",
+   "overall": 37
+  },
+  {
+   "year": 2022,
+   "round": 5,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Dalton Schultz",
+   "pos": "TE",
+   "overall": 60
+  },
+  {
+   "year": 2022,
+   "round": 6,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Allen Robinson",
+   "pos": "WR",
+   "overall": 61
+  },
+  {
+   "year": 2022,
+   "round": 7,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Kareem Hunt",
+   "pos": "RB",
+   "overall": 84
+  },
+  {
+   "year": 2022,
+   "round": 8,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Melvin Gordon",
+   "pos": "RB",
+   "overall": 85
+  },
+  {
+   "year": 2022,
+   "round": 9,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Ravens",
+   "pos": "DST",
+   "overall": 108
+  },
+  {
+   "year": 2022,
+   "round": 10,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Tyler Bass",
+   "pos": "K",
+   "overall": 109
+  },
+  {
+   "year": 2022,
+   "round": 11,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Tyler Allgeier",
+   "pos": "RB",
+   "overall": 132
+  },
+  {
+   "year": 2022,
+   "round": 12,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Pat Freiermuth",
+   "pos": "TE",
+   "overall": 133
+  },
+  {
+   "year": 2022,
+   "round": 13,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Julio Jones",
+   "pos": "WR",
+   "overall": 156
+  },
+  {
+   "year": 2022,
+   "round": 14,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Darrell Henderson Jr.",
+   "pos": "RB",
+   "overall": 157
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Bijan Robinson",
+   "pos": "RB",
+   "overall": 1
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Josh Allen",
+   "pos": "QB",
+   "overall": 24
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Calvin Ridley",
+   "pos": "WR",
+   "overall": 25
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Chris Olave",
+   "pos": "WR",
+   "overall": 48
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Alvin Kamara",
+   "pos": "RB",
+   "overall": 49
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "James Cook",
+   "pos": "RB",
+   "overall": 72
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Kyle Pitts",
+   "pos": "TE",
+   "overall": 73
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Zay Flowers",
+   "pos": "WR",
+   "overall": 96
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Tank Bigsby",
+   "pos": "RB",
+   "overall": 97
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Michael Thomas",
+   "pos": "WR",
+   "overall": 120
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Anthony Richardson",
+   "pos": "QB",
+   "overall": 121
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Daniel Jones",
+   "pos": "QB",
+   "overall": 144
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Ravens",
+   "pos": "DST",
+   "overall": 145
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Riley Patterson",
+   "pos": "K",
+   "overall": 168
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Patrick Mahomes",
+   "pos": "QB",
+   "overall": 2
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Joe Mixon",
+   "pos": "RB",
+   "overall": 23
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Aaron Jones",
+   "pos": "RB",
+   "overall": 26
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "J.K. Dobbins",
+   "pos": "RB",
+   "overall": 47
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "George Kittle",
+   "pos": "TE",
+   "overall": 50
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Patriots",
+   "pos": "DST",
+   "overall": 71
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Christian Kirk",
+   "pos": "WR",
+   "overall": 74
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Gabe Davis",
+   "pos": "WR",
+   "overall": 95
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Rashaad Penny",
+   "pos": "RB",
+   "overall": 98
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Greg Dulcich",
+   "pos": "TE",
+   "overall": 119
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Roschon Johnson",
+   "pos": "RB",
+   "overall": 122
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Sam LaPorta",
+   "pos": "TE",
+   "overall": 143
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Chigoziem Okonkwo",
+   "pos": "TE",
+   "overall": 146
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Jake Moody",
+   "pos": "K",
+   "overall": 167
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Jalen Hurts",
+   "pos": "QB",
+   "overall": 3
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Jonathan Taylor",
+   "pos": "RB",
+   "overall": 22
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Alexander Mattison",
+   "pos": "RB",
+   "overall": 27
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Kenneth Walker III",
+   "pos": "RB",
+   "overall": 46
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "T.J. Hockenson",
+   "pos": "TE",
+   "overall": 51
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Eagles",
+   "pos": "DST",
+   "overall": 70
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Jahan Dotson",
+   "pos": "WR",
+   "overall": 75
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Marquise Brown",
+   "pos": "WR",
+   "overall": 94
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Zach Charbonnet",
+   "pos": "RB",
+   "overall": 99
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "De'Von Achane",
+   "pos": "RB",
+   "overall": 118
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Taysom Hill",
+   "pos": "TE",
+   "overall": 123
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Cole Kmet",
+   "pos": "TE",
+   "overall": 142
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Tyler Allgeier",
+   "pos": "RB",
+   "overall": 147
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Brandon Aubrey",
+   "pos": "K",
+   "overall": 166
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Comets",
+   "auto": false,
+   "player": "Christian McCaffrey",
+   "pos": "RB",
+   "overall": 4
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Comets",
+   "auto": false,
+   "player": "CeeDee Lamb",
+   "pos": "WR",
+   "overall": 21
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Comets",
+   "auto": false,
+   "player": "Amon-Ra St. Brown",
+   "pos": "WR",
+   "overall": 28
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Comets",
+   "auto": false,
+   "player": "Isiah Pacheco",
+   "pos": "RB",
+   "overall": 45
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Comets",
+   "auto": false,
+   "player": "Tee Higgins",
+   "pos": "WR",
+   "overall": 52
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Comets",
+   "auto": false,
+   "player": "Trevor Lawrence",
+   "pos": "QB",
+   "overall": 69
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Comets",
+   "auto": false,
+   "player": "Evan Engram",
+   "pos": "TE",
+   "overall": 76
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Comets",
+   "auto": false,
+   "player": "Cowboys",
+   "pos": "DST",
+   "overall": 93
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Comets",
+   "auto": false,
+   "player": "Elijah Mitchell",
+   "pos": "RB",
+   "overall": 100
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Comets",
+   "auto": false,
+   "player": "Romeo Doubs",
+   "pos": "WR",
+   "overall": 117
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jake Elliott",
+   "pos": "K",
+   "overall": 124
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Comets",
+   "auto": false,
+   "player": "Kadarius Toney",
+   "pos": "WR",
+   "overall": 141
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Comets",
+   "auto": false,
+   "player": "Rashod Bateman",
+   "pos": "WR",
+   "overall": 148
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Comets",
+   "auto": false,
+   "player": "Deuce Vaughn",
+   "pos": "RB",
+   "overall": 165
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Domination",
+   "auto": false,
+   "player": "Justin Jefferson",
+   "pos": "WR",
+   "overall": 5
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Domination",
+   "auto": false,
+   "player": "Dameon Pierce",
+   "pos": "RB",
+   "overall": 20
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Domination",
+   "auto": false,
+   "player": "Deebo Samuel",
+   "pos": "WR",
+   "overall": 29
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Domination",
+   "auto": false,
+   "player": "Aaron Rodgers",
+   "pos": "QB",
+   "overall": 44
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Domination",
+   "auto": false,
+   "player": "Amari Cooper",
+   "pos": "WR",
+   "overall": 53
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Domination",
+   "auto": false,
+   "player": "Khalil Herbert",
+   "pos": "RB",
+   "overall": 68
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Domination",
+   "auto": false,
+   "player": "Mike Evans",
+   "pos": "WR",
+   "overall": 77
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Domination",
+   "auto": false,
+   "player": "Deshaun Watson",
+   "pos": "QB",
+   "overall": 92
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Domination",
+   "auto": false,
+   "player": "Pat Freiermuth",
+   "pos": "TE",
+   "overall": 101
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Domination",
+   "auto": false,
+   "player": "Ezekiel Elliott",
+   "pos": "RB",
+   "overall": 116
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Domination",
+   "auto": false,
+   "player": "Dalton Schultz",
+   "pos": "TE",
+   "overall": 125
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Domination",
+   "auto": false,
+   "player": "Allen Lazard",
+   "pos": "WR",
+   "overall": 140
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Domination",
+   "auto": false,
+   "player": "Jets",
+   "pos": "DST",
+   "overall": 149
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Domination",
+   "auto": false,
+   "player": "Greg Joseph",
+   "pos": "K",
+   "overall": 164
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Ja'Marr Chase",
+   "pos": "WR",
+   "overall": 6
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Davante Adams",
+   "pos": "WR",
+   "overall": 19
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jaylen Waddle",
+   "pos": "WR",
+   "overall": 30
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jahmyr Gibbs",
+   "pos": "RB",
+   "overall": 43
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Dallas Goedert",
+   "pos": "TE",
+   "overall": 54
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Justin Fields",
+   "pos": "QB",
+   "overall": 67
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Rachaad White",
+   "pos": "RB",
+   "overall": 78
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Samaje Perine",
+   "pos": "RB",
+   "overall": 91
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Courtland Sutton",
+   "pos": "WR",
+   "overall": 102
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jamaal Williams",
+   "pos": "RB",
+   "overall": 115
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Dak Prescott",
+   "pos": "QB",
+   "overall": 126
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Steelers",
+   "pos": "DST",
+   "overall": 139
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jerick McKinnon",
+   "pos": "RB",
+   "overall": 150
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Greg Zuerlein",
+   "pos": "K",
+   "overall": 163
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Austin Ekeler",
+   "pos": "RB",
+   "overall": 7
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Garrett Wilson",
+   "pos": "WR",
+   "overall": 18
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "DJ Moore",
+   "pos": "WR",
+   "overall": 31
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Joe Burrow",
+   "pos": "QB",
+   "overall": 42
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Najee Harris",
+   "pos": "RB",
+   "overall": 55
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Drake London",
+   "pos": "WR",
+   "overall": 66
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Mike Williams",
+   "pos": "WR",
+   "overall": 79
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "D'Andre Swift",
+   "pos": "RB",
+   "overall": 90
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Dalton Kincaid",
+   "pos": "TE",
+   "overall": 103
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Harrison Butker",
+   "pos": "K",
+   "overall": 114
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Damien Harris",
+   "pos": "RB",
+   "overall": 127
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Jaxon Smith-Njigba",
+   "pos": "WR",
+   "overall": 138
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Raheem Mostert",
+   "pos": "RB",
+   "overall": 151
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Browns",
+   "pos": "DST",
+   "overall": 162
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Travis Kelce",
+   "pos": "TE",
+   "overall": 8
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Stefon Diggs",
+   "pos": "WR",
+   "overall": 17
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Travis Etienne",
+   "pos": "RB",
+   "overall": 32
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "DeVonta Smith",
+   "pos": "WR",
+   "overall": 41
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Breece Hall",
+   "pos": "RB",
+   "overall": 56
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Brian Robinson Jr.",
+   "pos": "RB",
+   "overall": 65
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Cam Akers",
+   "pos": "RB",
+   "overall": 80
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Jordan Addison",
+   "pos": "WR",
+   "overall": 89
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Michael Pittman",
+   "pos": "WR",
+   "overall": 104
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Skyy Moore",
+   "pos": "WR",
+   "overall": 113
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Elijah Moore",
+   "pos": "WR",
+   "overall": 128
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Russell Wilson",
+   "pos": "QB",
+   "overall": 137
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Packers",
+   "pos": "DST",
+   "overall": 152
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Daniel Carlson",
+   "pos": "K",
+   "overall": 161
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Derrick Henry",
+   "pos": "RB",
+   "overall": 9
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "A.J. Brown",
+   "pos": "WR",
+   "overall": 16
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Lamar Jackson",
+   "pos": "QB",
+   "overall": 33
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "James Conner",
+   "pos": "RB",
+   "overall": 40
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Darren Waller",
+   "pos": "TE",
+   "overall": 57
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "David Montgomery",
+   "pos": "RB",
+   "overall": 64
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Diontae Johnson",
+   "pos": "WR",
+   "overall": 81
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Chris Godwin",
+   "pos": "WR",
+   "overall": 88
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Antonio Gibson",
+   "pos": "RB",
+   "overall": 105
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Bills",
+   "pos": "DST",
+   "overall": 112
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Brandin Cooks",
+   "pos": "WR",
+   "overall": 129
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Tyler Bass",
+   "pos": "K",
+   "overall": 136
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Jakobi Meyers",
+   "pos": "WR",
+   "overall": 153
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Kenneth Gainwell",
+   "pos": "RB",
+   "overall": 160
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Cooper Kupp",
+   "pos": "WR",
+   "overall": 10
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Tyreek Hill",
+   "pos": "WR",
+   "overall": 15
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Rhamondre Stevenson",
+   "pos": "RB",
+   "overall": 34
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Mark Andrews",
+   "pos": "TE",
+   "overall": 39
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Keenan Allen",
+   "pos": "WR",
+   "overall": 58
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Miles Sanders",
+   "pos": "RB",
+   "overall": 63
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Terry McLaurin",
+   "pos": "WR",
+   "overall": 82
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Javonte Williams",
+   "pos": "RB",
+   "overall": 87
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Pack Attack",
+   "auto": true,
+   "player": "Kirk Cousins",
+   "pos": "QB",
+   "overall": 106
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Jaylen Warren",
+   "pos": "RB",
+   "overall": 111
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Treylon Burks",
+   "pos": "WR",
+   "overall": 130
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Saints",
+   "pos": "DST",
+   "overall": 135
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Jared Goff",
+   "pos": "QB",
+   "overall": 154
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Younghoe Koo",
+   "pos": "K",
+   "overall": 159
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Saquon Barkley",
+   "pos": "RB",
+   "overall": 11
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Nick Chubb",
+   "pos": "RB",
+   "overall": 14
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Dalvin Cook",
+   "pos": "RB",
+   "overall": 35
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "George Pickens",
+   "pos": "WR",
+   "overall": 38
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Jerry Jeudy",
+   "pos": "WR",
+   "overall": 59
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "DK Metcalf",
+   "pos": "WR",
+   "overall": 62
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Tua Tagovailoa",
+   "pos": "QB",
+   "overall": 83
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Brandon Aiyuk",
+   "pos": "WR",
+   "overall": 86
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "49ers",
+   "pos": "DST",
+   "overall": 107
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Odell Beckham Jr.",
+   "pos": "WR",
+   "overall": 110
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Juwan Johnson",
+   "pos": "TE",
+   "overall": 131
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Jeff Wilson",
+   "pos": "RB",
+   "overall": 134
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Geno Smith",
+   "pos": "QB",
+   "overall": 155
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Evan McPherson",
+   "pos": "K",
+   "overall": 158
+  },
+  {
+   "year": 2023,
+   "round": 1,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Josh Jacobs",
+   "pos": "RB",
+   "overall": 12
+  },
+  {
+   "year": 2023,
+   "round": 2,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Tony Pollard",
+   "pos": "RB",
+   "overall": 13
+  },
+  {
+   "year": 2023,
+   "round": 3,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Justin Herbert",
+   "pos": "QB",
+   "overall": 36
+  },
+  {
+   "year": 2023,
+   "round": 4,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Christian Watson",
+   "pos": "WR",
+   "overall": 37
+  },
+  {
+   "year": 2023,
+   "round": 5,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "David Njoku",
+   "pos": "TE",
+   "overall": 60
+  },
+  {
+   "year": 2023,
+   "round": 6,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "DeAndre Hopkins",
+   "pos": "WR",
+   "overall": 61
+  },
+  {
+   "year": 2023,
+   "round": 7,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Tyler Lockett",
+   "pos": "WR",
+   "overall": 84
+  },
+  {
+   "year": 2023,
+   "round": 8,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "AJ Dillon",
+   "pos": "RB",
+   "overall": 85
+  },
+  {
+   "year": 2023,
+   "round": 9,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Jaguars",
+   "pos": "DST",
+   "overall": 108
+  },
+  {
+   "year": 2023,
+   "round": 10,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Justin Tucker",
+   "pos": "K",
+   "overall": 109
+  },
+  {
+   "year": 2023,
+   "round": 11,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Adam Thielen",
+   "pos": "WR",
+   "overall": 132
+  },
+  {
+   "year": 2023,
+   "round": 12,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Jake Ferguson",
+   "pos": "TE",
+   "overall": 133
+  },
+  {
+   "year": 2023,
+   "round": 13,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Luke Musgrave",
+   "pos": "TE",
+   "overall": 156
+  },
+  {
+   "year": 2023,
+   "round": 14,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Tyler Boyd",
+   "pos": "WR",
+   "overall": 157
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Domination",
+   "auto": false,
+   "player": "Tyreek Hill",
+   "pos": "WR",
+   "overall": 1
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Domination",
+   "auto": false,
+   "player": "Deebo Samuel",
+   "pos": "WR",
+   "overall": 24
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Domination",
+   "auto": false,
+   "player": "Lamar Jackson",
+   "pos": "QB",
+   "overall": 25
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Domination",
+   "auto": false,
+   "player": "George Kittle",
+   "pos": "TE",
+   "overall": 48
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Domination",
+   "auto": false,
+   "player": "Nico Collins",
+   "pos": "WR",
+   "overall": 49
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Domination",
+   "auto": false,
+   "player": "Gus Edwards",
+   "pos": "RB",
+   "overall": 72
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Domination",
+   "auto": false,
+   "player": "Tee Higgins",
+   "pos": "WR",
+   "overall": 73
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Domination",
+   "auto": false,
+   "player": "Austin Ekeler",
+   "pos": "RB",
+   "overall": 96
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Domination",
+   "auto": false,
+   "player": "Devin Singletary",
+   "pos": "RB",
+   "overall": 97
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Domination",
+   "auto": false,
+   "player": "Keenan Allen",
+   "pos": "WR",
+   "overall": 120
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Domination",
+   "auto": false,
+   "player": "Ezekiel Elliott",
+   "pos": "RB",
+   "overall": 121
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Domination",
+   "auto": false,
+   "player": "Cole Kmet",
+   "pos": "TE",
+   "overall": 144
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Domination",
+   "auto": false,
+   "player": "Steelers",
+   "pos": "DST",
+   "overall": 145
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Domination",
+   "auto": false,
+   "player": "Jake Moody",
+   "pos": "K",
+   "overall": 168
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Saquon Barkley",
+   "pos": "RB",
+   "overall": 2
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "James Cook",
+   "pos": "RB",
+   "overall": 23
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Jordan Love",
+   "pos": "QB",
+   "overall": 26
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "DeVonta Smith",
+   "pos": "WR",
+   "overall": 47
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Amari Cooper",
+   "pos": "WR",
+   "overall": 50
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Najee Harris",
+   "pos": "RB",
+   "overall": 71
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Dallas Goedert",
+   "pos": "TE",
+   "overall": 74
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Deshaun Watson",
+   "pos": "QB",
+   "overall": 95
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Jake Elliott",
+   "pos": "K",
+   "overall": 98
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Texans",
+   "pos": "DST",
+   "overall": 119
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Marquise Brown",
+   "pos": "WR",
+   "overall": 122
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Dolphins",
+   "pos": "DST",
+   "overall": 143
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Ty Chandler",
+   "pos": "RB",
+   "overall": 146
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Matthew Stafford",
+   "pos": "QB",
+   "overall": 167
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Christian McCaffrey",
+   "pos": "RB",
+   "overall": 3
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Jalen Hurts",
+   "pos": "QB",
+   "overall": 22
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Joe Mixon",
+   "pos": "RB",
+   "overall": 27
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "James Conner",
+   "pos": "RB",
+   "overall": 46
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Ravens",
+   "pos": "DST",
+   "overall": 51
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "David Njoku",
+   "pos": "TE",
+   "overall": 70
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Tank Dell",
+   "pos": "WR",
+   "overall": 75
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "DeAndre Hopkins",
+   "pos": "WR",
+   "overall": 94
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "J.K. Dobbins",
+   "pos": "RB",
+   "overall": 99
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Caleb Williams",
+   "pos": "QB",
+   "overall": 118
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Trey Benson",
+   "pos": "RB",
+   "overall": 123
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Isaiah Likely",
+   "pos": "TE",
+   "overall": 142
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Chargers",
+   "pos": "DST",
+   "overall": 147
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Blake Grupe",
+   "pos": "K",
+   "overall": 166
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Breece Hall",
+   "pos": "RB",
+   "overall": 4
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Patrick Mahomes",
+   "pos": "QB",
+   "overall": 21
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Cooper Kupp",
+   "pos": "WR",
+   "overall": 28
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "DK Metcalf",
+   "pos": "WR",
+   "overall": 45
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Alvin Kamara",
+   "pos": "RB",
+   "overall": 52
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Calvin Ridley",
+   "pos": "WR",
+   "overall": 69
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Malik Nabers",
+   "pos": "WR",
+   "overall": 76
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Chris Godwin",
+   "pos": "WR",
+   "overall": 93
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Jonathon Brooks",
+   "pos": "RB",
+   "overall": 100
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Jaylen Warren",
+   "pos": "RB",
+   "overall": 117
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Keon Coleman",
+   "pos": "WR",
+   "overall": 124
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Brandon Aubrey",
+   "pos": "K",
+   "overall": 141
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Pat Freiermuth",
+   "pos": "TE",
+   "overall": 148
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Eagles",
+   "pos": "DST",
+   "overall": 165
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Amon-Ra St. Brown",
+   "pos": "WR",
+   "overall": 5
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Derrick Henry",
+   "pos": "RB",
+   "overall": 20
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Josh Allen",
+   "pos": "QB",
+   "overall": 29
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Brandon Aiyuk",
+   "pos": "WR",
+   "overall": 44
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Raheem Mostert",
+   "pos": "RB",
+   "overall": 53
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "David Montgomery",
+   "pos": "RB",
+   "overall": 68
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Trey McBride",
+   "pos": "TE",
+   "overall": 77
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Justin Tucker",
+   "pos": "K",
+   "overall": 92
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Cowboys",
+   "pos": "DST",
+   "overall": 101
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Diontae Johnson",
+   "pos": "WR",
+   "overall": 116
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Rome Odunze",
+   "pos": "WR",
+   "overall": 125
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Tyler Allgeier",
+   "pos": "RB",
+   "overall": 140
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Jakobi Meyers",
+   "pos": "WR",
+   "overall": 149
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Jordan Addison",
+   "pos": "WR",
+   "overall": 164
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Bijan Robinson",
+   "pos": "RB",
+   "overall": 6
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jahmyr Gibbs",
+   "pos": "RB",
+   "overall": 19
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Chris Olave",
+   "pos": "WR",
+   "overall": 30
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Drake London",
+   "pos": "WR",
+   "overall": 43
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Michael Pittman",
+   "pos": "WR",
+   "overall": 54
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Dalton Kincaid",
+   "pos": "TE",
+   "overall": 67
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Joe Burrow",
+   "pos": "QB",
+   "overall": 78
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Brian Robinson Jr.",
+   "pos": "RB",
+   "overall": 91
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jets",
+   "pos": "DST",
+   "overall": 102
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jayden Daniels",
+   "pos": "QB",
+   "overall": 115
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Courtland Sutton",
+   "pos": "WR",
+   "overall": 126
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Ladd McConkey",
+   "pos": "WR",
+   "overall": 139
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Chuba Hubbard",
+   "pos": "RB",
+   "overall": 150
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Tyler Bass",
+   "pos": "K",
+   "overall": 163
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Jonathan Taylor",
+   "pos": "RB",
+   "overall": 7
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Josh Jacobs",
+   "pos": "RB",
+   "overall": 18
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Travis Kelce",
+   "pos": "TE",
+   "overall": 31
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Mike Evans",
+   "pos": "WR",
+   "overall": 42
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "George Pickens",
+   "pos": "WR",
+   "overall": 55
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Tony Pollard",
+   "pos": "RB",
+   "overall": 66
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Christian Watson",
+   "pos": "WR",
+   "overall": 79
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Brock Purdy",
+   "pos": "QB",
+   "overall": 90
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Younghoe Koo",
+   "pos": "K",
+   "overall": 103
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Bills",
+   "pos": "DST",
+   "overall": 114
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "MarShawn Lloyd",
+   "pos": "RB",
+   "overall": 127
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Jerry Jeudy",
+   "pos": "WR",
+   "overall": 138
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Dalton Schultz",
+   "pos": "TE",
+   "overall": 151
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Adam Thielen",
+   "pos": "WR",
+   "overall": 162
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "CeeDee Lamb",
+   "pos": "WR",
+   "overall": 8
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Puka Nacua",
+   "pos": "WR",
+   "overall": 17
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "C.J. Stroud",
+   "pos": "QB",
+   "overall": 32
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Zamir White",
+   "pos": "RB",
+   "overall": 41
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Aaron Jones",
+   "pos": "RB",
+   "overall": 56
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Xavier Worthy",
+   "pos": "WR",
+   "overall": 65
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Zack Moss",
+   "pos": "RB",
+   "overall": 80
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Romeo Doubs",
+   "pos": "WR",
+   "overall": 89
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Jake Ferguson",
+   "pos": "TE",
+   "overall": 104
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Brian Thomas Jr.",
+   "pos": "WR",
+   "overall": 113
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Tyjae Spears",
+   "pos": "RB",
+   "overall": 128
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Brock Bowers",
+   "pos": "TE",
+   "overall": 137
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Colts",
+   "pos": "DST",
+   "overall": 152
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Jason Sanders",
+   "pos": "K",
+   "overall": 161
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Ja'Marr Chase",
+   "pos": "WR",
+   "overall": 9
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Marvin Harrison Jr.",
+   "pos": "WR",
+   "overall": 16
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "De'Von Achane",
+   "pos": "RB",
+   "overall": 33
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Kenneth Walker III",
+   "pos": "RB",
+   "overall": 40
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Jaylen Waddle",
+   "pos": "WR",
+   "overall": 57
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "DJ Moore",
+   "pos": "WR",
+   "overall": 64
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Kyle Pitts",
+   "pos": "TE",
+   "overall": 81
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Dak Prescott",
+   "pos": "QB",
+   "overall": 88
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Trevor Lawrence",
+   "pos": "QB",
+   "overall": 105
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "49ers",
+   "pos": "DST",
+   "overall": 112
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Ka'imi Fairbairn",
+   "pos": "K",
+   "overall": 129
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Suicide squad 84",
+   "auto": true,
+   "player": "Justin Herbert",
+   "pos": "QB",
+   "overall": 136
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Suicide squad 84",
+   "auto": true,
+   "player": "Jason Myers",
+   "pos": "K",
+   "overall": 153
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Suicide squad 84",
+   "auto": true,
+   "player": "Kirk Cousins",
+   "pos": "QB",
+   "overall": 160
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Justin Jefferson",
+   "pos": "WR",
+   "overall": 10
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Kyren Williams",
+   "pos": "RB",
+   "overall": 15
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Sam LaPorta",
+   "pos": "TE",
+   "overall": 34
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Rachaad White",
+   "pos": "RB",
+   "overall": 39
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Javonte Williams",
+   "pos": "RB",
+   "overall": 58
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "D'Andre Swift",
+   "pos": "RB",
+   "overall": 63
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Tua Tagovailoa",
+   "pos": "QB",
+   "overall": 82
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Zay Flowers",
+   "pos": "WR",
+   "overall": 87
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Jameson Williams",
+   "pos": "WR",
+   "overall": 106
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Anthony Richardson",
+   "pos": "QB",
+   "overall": 111
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Browns",
+   "pos": "DST",
+   "overall": 130
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Jaxon Smith-Njigba",
+   "pos": "WR",
+   "overall": 135
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Gabe Davis",
+   "pos": "WR",
+   "overall": 154
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Evan McPherson",
+   "pos": "K",
+   "overall": 159
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "A.J. Brown",
+   "pos": "WR",
+   "overall": 11
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Garrett Wilson",
+   "pos": "WR",
+   "overall": 14
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Davante Adams",
+   "pos": "WR",
+   "overall": 35
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Mark Andrews",
+   "pos": "TE",
+   "overall": 38
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Nick Chubb",
+   "pos": "RB",
+   "overall": 59
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Kyler Murray",
+   "pos": "QB",
+   "overall": 62
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Rhamondre Stevenson",
+   "pos": "RB",
+   "overall": 83
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Terry McLaurin",
+   "pos": "WR",
+   "overall": 86
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Jerome Ford",
+   "pos": "RB",
+   "overall": 107
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Chase Brown",
+   "pos": "RB",
+   "overall": 110
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Blake Corum",
+   "pos": "RB",
+   "overall": 131
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Jaylen Wright",
+   "pos": "RB",
+   "overall": 134
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Khalil Herbert",
+   "pos": "RB",
+   "overall": 155
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Khalil Shakir",
+   "pos": "WR",
+   "overall": 158
+  },
+  {
+   "year": 2024,
+   "round": 1,
+   "team": "Comets",
+   "auto": false,
+   "player": "Travis Etienne",
+   "pos": "RB",
+   "overall": 12
+  },
+  {
+   "year": 2024,
+   "round": 2,
+   "team": "Comets",
+   "auto": false,
+   "player": "Isiah Pacheco",
+   "pos": "RB",
+   "overall": 13
+  },
+  {
+   "year": 2024,
+   "round": 3,
+   "team": "Comets",
+   "auto": false,
+   "player": "Stefon Diggs",
+   "pos": "WR",
+   "overall": 36
+  },
+  {
+   "year": 2024,
+   "round": 4,
+   "team": "Comets",
+   "auto": false,
+   "player": "Rashee Rice",
+   "pos": "WR",
+   "overall": 37
+  },
+  {
+   "year": 2024,
+   "round": 5,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jared Goff",
+   "pos": "QB",
+   "overall": 60
+  },
+  {
+   "year": 2024,
+   "round": 6,
+   "team": "Comets",
+   "auto": false,
+   "player": "Evan Engram",
+   "pos": "TE",
+   "overall": 61
+  },
+  {
+   "year": 2024,
+   "round": 7,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jayden Reed",
+   "pos": "WR",
+   "overall": 84
+  },
+  {
+   "year": 2024,
+   "round": 8,
+   "team": "Comets",
+   "auto": false,
+   "player": "Christian Kirk",
+   "pos": "WR",
+   "overall": 85
+  },
+  {
+   "year": 2024,
+   "round": 9,
+   "team": "Comets",
+   "auto": false,
+   "player": "Rico Dowdle",
+   "pos": "RB",
+   "overall": 108
+  },
+  {
+   "year": 2024,
+   "round": 10,
+   "team": "Comets",
+   "auto": false,
+   "player": "Harrison Butker",
+   "pos": "K",
+   "overall": 109
+  },
+  {
+   "year": 2024,
+   "round": 11,
+   "team": "Comets",
+   "auto": false,
+   "player": "Bears",
+   "pos": "DST",
+   "overall": 132
+  },
+  {
+   "year": 2024,
+   "round": 12,
+   "team": "Comets",
+   "auto": false,
+   "player": "Aaron Rodgers",
+   "pos": "QB",
+   "overall": 133
+  },
+  {
+   "year": 2024,
+   "round": 13,
+   "team": "Comets",
+   "auto": false,
+   "player": "Tyler Conklin",
+   "pos": "TE",
+   "overall": 156
+  },
+  {
+   "year": 2024,
+   "round": 14,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jamaal Williams",
+   "pos": "RB",
+   "overall": 157
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Bijan Robinson",
+   "pos": "RB",
+   "overall": 1
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Josh Allen",
+   "pos": "QB",
+   "overall": 24
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Kenneth Walker III",
+   "pos": "RB",
+   "overall": 25
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "RJ Harvey",
+   "pos": "RB",
+   "overall": 48
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Jordan Mason",
+   "pos": "RB",
+   "overall": 49
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Calvin Ridley",
+   "pos": "WR",
+   "overall": 72
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Brandon Aubrey",
+   "pos": "K",
+   "overall": 73
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Emeka Egbuka",
+   "pos": "WR",
+   "overall": 96
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Evan Engram",
+   "pos": "TE",
+   "overall": 97
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Steelers",
+   "pos": "DST",
+   "overall": 120
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Keon Coleman",
+   "pos": "WR",
+   "overall": 121
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Chris Olave",
+   "pos": "WR",
+   "overall": 144
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Keenan Allen",
+   "pos": "WR",
+   "overall": 145
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Harlem Knights",
+   "auto": false,
+   "player": "Darnell Mooney",
+   "pos": "WR",
+   "overall": 168
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Ja'Marr Chase",
+   "pos": "WR",
+   "overall": 2
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Bucky Irving",
+   "pos": "RB",
+   "overall": 23
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "De'Von Achane",
+   "pos": "RB",
+   "overall": 26
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "DK Metcalf",
+   "pos": "WR",
+   "overall": 47
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Jayden Daniels",
+   "pos": "QB",
+   "overall": 50
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Tony Pollard",
+   "pos": "RB",
+   "overall": 71
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Zay Flowers",
+   "pos": "WR",
+   "overall": 74
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Deebo Samuel",
+   "pos": "WR",
+   "overall": 95
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Jerome Ford",
+   "pos": "RB",
+   "overall": 98
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Jordan Addison",
+   "pos": "WR",
+   "overall": 119
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Kyle Pitts",
+   "pos": "TE",
+   "overall": 122
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "49ers",
+   "pos": "DST",
+   "overall": 143
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Khalil Shakir",
+   "pos": "WR",
+   "overall": 146
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Gladiators",
+   "auto": false,
+   "player": "Cameron Dicker",
+   "pos": "K",
+   "overall": 167
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Saquon Barkley",
+   "pos": "RB",
+   "overall": 3
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Joe Burrow",
+   "pos": "QB",
+   "overall": 22
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Alvin Kamara",
+   "pos": "RB",
+   "overall": 27
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "David Montgomery",
+   "pos": "RB",
+   "overall": 46
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Eagles",
+   "pos": "DST",
+   "overall": 51
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Mark Andrews",
+   "pos": "TE",
+   "overall": 70
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Jakobi Meyers",
+   "pos": "WR",
+   "overall": 75
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Jerry Jeudy",
+   "pos": "WR",
+   "overall": 94
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Tank Bigsby",
+   "pos": "RB",
+   "overall": 99
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Ravens",
+   "pos": "DST",
+   "overall": 118
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Ollie Gordon II",
+   "pos": "RB",
+   "overall": 123
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Kendre Miller",
+   "pos": "RB",
+   "overall": 142
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Rashod Bateman",
+   "pos": "WR",
+   "overall": 147
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "The Dan Clan",
+   "auto": true,
+   "player": "Tyler Bass",
+   "pos": "K",
+   "overall": 166
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jahmyr Gibbs",
+   "pos": "RB",
+   "overall": 4
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Comets",
+   "auto": false,
+   "player": "Kyren Williams",
+   "pos": "RB",
+   "overall": 21
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Comets",
+   "auto": false,
+   "player": "Drake London",
+   "pos": "WR",
+   "overall": 28
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Comets",
+   "auto": false,
+   "player": "Davante Adams",
+   "pos": "WR",
+   "overall": 45
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jaxon Smith-Njigba",
+   "pos": "WR",
+   "overall": 52
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Comets",
+   "auto": false,
+   "player": "T.J. Hockenson",
+   "pos": "TE",
+   "overall": 69
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jared Goff",
+   "pos": "QB",
+   "overall": 76
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Comets",
+   "auto": false,
+   "player": "Matthew Golden",
+   "pos": "WR",
+   "overall": 93
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Comets",
+   "auto": false,
+   "player": "Broncos",
+   "pos": "DST",
+   "overall": 100
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Comets",
+   "auto": false,
+   "player": "Braelon Allen",
+   "pos": "RB",
+   "overall": 117
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Comets",
+   "auto": false,
+   "player": "Harrison Butker",
+   "pos": "K",
+   "overall": 124
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Comets",
+   "auto": false,
+   "player": "Trevor Lawrence",
+   "pos": "QB",
+   "overall": 141
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Comets",
+   "auto": false,
+   "player": "Jonnu Smith",
+   "pos": "TE",
+   "overall": 148
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Comets",
+   "auto": false,
+   "player": "Isaac Guerendo",
+   "pos": "RB",
+   "overall": 165
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Ashton Jeanty",
+   "pos": "RB",
+   "overall": 5
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Brian Thomas Jr.",
+   "pos": "WR",
+   "overall": 20
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Puka Nacua",
+   "pos": "WR",
+   "overall": 29
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "TreVeyon Henderson",
+   "pos": "RB",
+   "overall": 44
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Courtland Sutton",
+   "pos": "WR",
+   "overall": 53
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "George Pickens",
+   "pos": "WR",
+   "overall": 68
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Travis Kelce",
+   "pos": "TE",
+   "overall": 77
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Javonte Williams",
+   "pos": "RB",
+   "overall": 92
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Bo Nix",
+   "pos": "QB",
+   "overall": 101
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Suicide squad 84",
+   "auto": true,
+   "player": "Rhamondre Stevenson",
+   "pos": "RB",
+   "overall": 116
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Evan McPherson",
+   "pos": "K",
+   "overall": 125
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Vikings",
+   "pos": "DST",
+   "overall": 140
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Chris Godwin",
+   "pos": "WR",
+   "overall": 149
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Suicide squad 84",
+   "auto": false,
+   "player": "Luther Burden III",
+   "pos": "WR",
+   "overall": 164
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Josh Jacobs",
+   "pos": "RB",
+   "overall": 6
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Jonathan Taylor",
+   "pos": "RB",
+   "overall": 19
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "George Kittle",
+   "pos": "TE",
+   "overall": 30
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Mike Evans",
+   "pos": "WR",
+   "overall": 43
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "DJ Moore",
+   "pos": "WR",
+   "overall": 54
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Baker Mayfield",
+   "pos": "QB",
+   "overall": 67
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Jacory Croskey-Merritt",
+   "pos": "RB",
+   "overall": 78
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Tucker Kraft",
+   "pos": "TE",
+   "overall": 91
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Packers",
+   "pos": "DST",
+   "overall": 102
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Nick Chubb",
+   "pos": "RB",
+   "overall": 115
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Matt Gay",
+   "pos": "K",
+   "overall": 126
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Michael Pittman",
+   "pos": "WR",
+   "overall": 139
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Jaguars",
+   "auto": false,
+   "player": "Justin Fields",
+   "pos": "QB",
+   "overall": 150
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Jaguars",
+   "auto": true,
+   "player": "Jake Ferguson",
+   "pos": "TE",
+   "overall": 163
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Derrick Henry",
+   "pos": "RB",
+   "overall": 7
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Brock Bowers",
+   "pos": "TE",
+   "overall": 18
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "A.J. Brown",
+   "pos": "WR",
+   "overall": 31
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Jalen Hurts",
+   "pos": "QB",
+   "overall": 42
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Garrett Wilson",
+   "pos": "WR",
+   "overall": 55
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Xavier Worthy",
+   "pos": "WR",
+   "overall": 66
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Zach Charbonnet",
+   "pos": "RB",
+   "overall": 79
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Kaleb Johnson",
+   "pos": "RB",
+   "overall": 90
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "J.K. Dobbins",
+   "pos": "RB",
+   "overall": 103
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Jaylen Waddle",
+   "pos": "WR",
+   "overall": 114
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Cam Skattebo",
+   "pos": "RB",
+   "overall": 127
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Outlaws",
+   "auto": true,
+   "player": "Jaydon Blue",
+   "pos": "RB",
+   "overall": 138
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Outlaws",
+   "auto": true,
+   "player": "Commanders",
+   "pos": "DST",
+   "overall": 151
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Outlaws",
+   "auto": false,
+   "player": "Chase McLaughlin",
+   "pos": "K",
+   "overall": 162
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Christian McCaffrey",
+   "pos": "RB",
+   "overall": 8
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Tyreek Hill",
+   "pos": "WR",
+   "overall": 17
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Breece Hall",
+   "pos": "RB",
+   "overall": 32
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Sam LaPorta",
+   "pos": "TE",
+   "overall": 41
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Patrick Mahomes",
+   "pos": "QB",
+   "overall": 56
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Jameson Williams",
+   "pos": "WR",
+   "overall": 65
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Tetairoa McMillan",
+   "pos": "WR",
+   "overall": 80
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Travis Etienne",
+   "pos": "RB",
+   "overall": 89
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Josh Downs",
+   "pos": "WR",
+   "overall": 104
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Christian Kirk",
+   "pos": "WR",
+   "overall": 113
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Jayden Reed",
+   "pos": "WR",
+   "overall": 128
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Marquise Brown",
+   "pos": "WR",
+   "overall": 137
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Jake Bates",
+   "pos": "K",
+   "overall": 152
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Mama There Goes That Man",
+   "auto": false,
+   "player": "Dolphins",
+   "pos": "DST",
+   "overall": 161
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Domination",
+   "auto": false,
+   "player": "Justin Jefferson",
+   "pos": "WR",
+   "overall": 9
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Domination",
+   "auto": false,
+   "player": "Amon-Ra St. Brown",
+   "pos": "WR",
+   "overall": 16
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Domination",
+   "auto": false,
+   "player": "James Conner",
+   "pos": "RB",
+   "overall": 33
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Domination",
+   "auto": false,
+   "player": "D'Andre Swift",
+   "pos": "RB",
+   "overall": 40
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Domination",
+   "auto": false,
+   "player": "Aaron Jones",
+   "pos": "RB",
+   "overall": 57
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Domination",
+   "auto": false,
+   "player": "Travis Hunter",
+   "pos": "WR",
+   "overall": 64
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Domination",
+   "auto": false,
+   "player": "David Njoku",
+   "pos": "TE",
+   "overall": 81
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Domination",
+   "auto": false,
+   "player": "Tyrone Tracy Jr.",
+   "pos": "RB",
+   "overall": 88
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Domination",
+   "auto": false,
+   "player": "Cooper Kupp",
+   "pos": "WR",
+   "overall": 105
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Domination",
+   "auto": false,
+   "player": "Jordan Love",
+   "pos": "QB",
+   "overall": 112
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Domination",
+   "auto": false,
+   "player": "Colston Loveland",
+   "pos": "TE",
+   "overall": 129
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Domination",
+   "auto": false,
+   "player": "Aaron Rodgers",
+   "pos": "QB",
+   "overall": 136
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Domination",
+   "auto": true,
+   "player": "Chargers",
+   "pos": "DST",
+   "overall": 153
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Domination",
+   "auto": true,
+   "player": "Jason Sanders",
+   "pos": "K",
+   "overall": 160
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "CeeDee Lamb",
+   "pos": "WR",
+   "overall": 10
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Malik Nabers",
+   "pos": "WR",
+   "overall": 15
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Trey McBride",
+   "pos": "TE",
+   "overall": 34
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Tee Higgins",
+   "pos": "WR",
+   "overall": 39
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Isiah Pacheco",
+   "pos": "RB",
+   "overall": 58
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Ricky Pearsall",
+   "pos": "WR",
+   "overall": 63
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Jaylen Warren",
+   "pos": "RB",
+   "overall": 82
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Brock Purdy",
+   "pos": "QB",
+   "overall": 87
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Trey Benson",
+   "pos": "RB",
+   "overall": 106
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Drake Maye",
+   "pos": "QB",
+   "overall": 111
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Rome Odunze",
+   "pos": "WR",
+   "overall": 130
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Texans",
+   "pos": "DST",
+   "overall": 135
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Tyjae Spears",
+   "pos": "RB",
+   "overall": 154
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Black and Blue Warhorses",
+   "auto": false,
+   "player": "Brandon McManus",
+   "pos": "K",
+   "overall": 159
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Nico Collins",
+   "pos": "WR",
+   "overall": 11
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Chase Brown",
+   "pos": "RB",
+   "overall": 14
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Ladd McConkey",
+   "pos": "WR",
+   "overall": 35
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Omarion Hampton",
+   "pos": "RB",
+   "overall": 38
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Terry McLaurin",
+   "pos": "WR",
+   "overall": 59
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Dak Prescott",
+   "pos": "QB",
+   "overall": 62
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Rashee Rice",
+   "pos": "WR",
+   "overall": 83
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Tyler Warren",
+   "pos": "TE",
+   "overall": 86
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Stefon Diggs",
+   "pos": "WR",
+   "overall": 107
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Quinshon Judkins",
+   "pos": "RB",
+   "overall": 110
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Brian Robinson Jr.",
+   "pos": "RB",
+   "overall": 131
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Caleb Williams",
+   "pos": "QB",
+   "overall": 134
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Cowboys",
+   "pos": "DST",
+   "overall": 155
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Pack Attack",
+   "auto": false,
+   "player": "Cam Little",
+   "pos": "K",
+   "overall": 158
+  },
+  {
+   "year": 2025,
+   "round": 1,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Lamar Jackson",
+   "pos": "QB",
+   "overall": 12
+  },
+  {
+   "year": 2025,
+   "round": 2,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "James Cook",
+   "pos": "RB",
+   "overall": 13
+  },
+  {
+   "year": 2025,
+   "round": 3,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Chuba Hubbard",
+   "pos": "RB",
+   "overall": 36
+  },
+  {
+   "year": 2025,
+   "round": 4,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "DeVonta Smith",
+   "pos": "WR",
+   "overall": 37
+  },
+  {
+   "year": 2025,
+   "round": 5,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Joe Mixon",
+   "pos": "RB",
+   "overall": 60
+  },
+  {
+   "year": 2025,
+   "round": 6,
+   "team": "Mac Diesel",
+   "auto": false,
+   "player": "Marvin Harrison Jr.",
+   "pos": "WR",
+   "overall": 61
+  },
+  {
+   "year": 2025,
+   "round": 7,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Kyler Murray",
+   "pos": "QB",
+   "overall": 84
+  },
+  {
+   "year": 2025,
+   "round": 8,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Bills",
+   "pos": "DST",
+   "overall": 85
+  },
+  {
+   "year": 2025,
+   "round": 9,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Dallas Goedert",
+   "pos": "TE",
+   "overall": 108
+  },
+  {
+   "year": 2025,
+   "round": 10,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Austin Ekeler",
+   "pos": "RB",
+   "overall": 109
+  },
+  {
+   "year": 2025,
+   "round": 11,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Jake Elliott",
+   "pos": "K",
+   "overall": 132
+  },
+  {
+   "year": 2025,
+   "round": 12,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Rachaad White",
+   "pos": "RB",
+   "overall": 133
+  },
+  {
+   "year": 2025,
+   "round": 13,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "MarShawn Lloyd",
+   "pos": "RB",
+   "overall": 156
+  },
+  {
+   "year": 2025,
+   "round": 14,
+   "team": "Mac Diesel",
+   "auto": true,
+   "player": "Zach Ertz",
+   "pos": "TE",
+   "overall": 157
+  }
+ ]
+}

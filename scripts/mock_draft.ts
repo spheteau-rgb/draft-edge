@@ -16,6 +16,7 @@ import { loadModelConfig } from "@/lib/config";
 import { getRecommendation } from "@/lib/optimizer";
 import { playerValue } from "@/lib/vorp";
 import { managerAffinity, runShock } from "@/lib/market";
+import { roundBucketShare, autopickRoundBucketShare, managerAutopickRate } from "@/lib/priors";
 import { slotForPick, roundForPick, nextUserPick, LEAGUE_TEAMS, DRAFT_ROUNDS, USER_SLOT } from "@/lib/store";
 import type { PlayerRecord, DraftState, DraftPick, TeamRoster, Position } from "@/types";
 
@@ -31,21 +32,30 @@ function mulberry32(seed: number): () => number {
   };
 }
 
-function estimateRosterNeed(managerSlot: number, position: Position, state: DraftState): number {
-  const roster = state.rosters.find((r) => r.manager_slot === managerSlot);
-  if (!roster) return 0.5;
-  const requiredByPos: Partial<Record<Position, number>> = { QB: 1, RB: 2, WR: 2, TE: 1, K: 1, DST: 1 };
-  const required = requiredByPos[position] ?? 1;
-  const filled = roster.bench_player_ids.length; // proxy; opponents don't set starters here
-  void filled;
-  // Count opponent's players at this position.
-  return required; // opponents just weigh needs loosely; detail handled by softmax
+function estimateRosterNeed(
+  managerSlot: number,
+  position: Position,
+  counts: Record<Position, number>
+): number {
+  const demand = loadModelConfig().lookahead.opponent_policy.roster_demand;
+  const starters = demand.starter_requirement[position] ?? 0;
+  const target = Math.max(starters, demand.roster_target[position] ?? starters);
+  const have = counts[position];
+  if (starters > 0 && have < starters) return (starters - have) / starters;
+  if (have >= target) return 0;
+  return demand.depth_need_weight * ((target - have) / Math.max(1, target - starters));
 }
 
 /**
- * Opponent policy mirrors lib/lookahead's naive reference AND respects the same
- * roster-construction realities a human uses (one QB/TE/K/DST, K/DST late). This
- * keeps opponents realistic so the user's optimizer faces a plausible board.
+ * Opponent policy mirrors lib/lookahead: softmax over PositionScore, then the
+ * empirical round-conditional K/DST hazard, then the autopick mixture.
+ *
+ * Legality comes from opponent_policy.roster_demand.roster_target, NOT from
+ * roster_construction — the latter is the user's own rule set (one QB, one TE,
+ * no DST before R9). Applying it to all 11 opponents produced a board where
+ * nobody ever took a backup QB and no kicker went before R13, which is not
+ * this room. The empirical hazard supplies the real K/DST timing on its own
+ * (its share is 0 before R7 for K and before R4 for DST).
  */
 function opponentPick(
   managerSlot: number,
@@ -55,17 +65,14 @@ function opponentPick(
   rng: () => number
 ): PlayerRecord {
   const config = loadModelConfig();
-  const rc = config.roster_construction;
+  const op = config.lookahead.opponent_policy;
   const counts = positionCounts(managerSlot, state, pool);
-  const weights = config.lookahead.opponent_policy.position_score_weights;
-  const temperature = config.lookahead.opponent_policy.softmax_temperature;
+  const weights = op.position_score_weights;
+  const temperature = op.softmax_temperature;
 
   const legal = (pos: Position): boolean => {
-    const cap = rc.position_caps[pos];
-    if (cap !== undefined && counts[pos] >= cap) return false;
-    const earliest = rc.earliest_round[pos];
-    if (earliest !== undefined && round < earliest) return false;
-    return true;
+    const target = op.roster_demand.roster_target[pos];
+    return target === undefined || counts[pos] < target;
   };
 
   const legalPositions = POSITIONS.filter((pos) => legal(pos) && pool.some((p) => p.position === pos));
@@ -76,13 +83,13 @@ function opponentPick(
     const bestAtPos = atPos.length > 0 ? Math.max(...atPos.map(playerValue)) : 0;
     const bestOverall = pool.length > 0 ? Math.max(...pool.map(playerValue)) : 1;
     const marketBest = bestOverall > 0 ? Math.max(0, bestAtPos) / bestOverall : 0;
-    const need = estimateRosterNeed(managerSlot, pos, state);
+    const need = estimateRosterNeed(managerSlot, pos, counts);
     const affinity = managerAffinity(managerSlot, pos);
-    const shock = runShock(pos, state.picks);
+    const shock = runShock(pos, state.picks, round);
     const runPressure = (shock + 3) / 6;
     return (
       weights.market_best_at_pos * marketBest +
-      weights.roster_need * (need > 0 ? 0.5 : 0.1) +
+      weights.roster_need * need +
       weights.manager_affinity * affinity +
       weights.run_pressure * runPressure
     );
@@ -90,7 +97,36 @@ function opponentPick(
   const maxScore = Math.max(...scores);
   const exps = scores.map((s) => Math.exp((s - maxScore) / Math.max(1e-6, temperature)));
   const sumExp = exps.reduce((a, b) => a + b, 0) || 1;
-  const probs = exps.map((e) => e / sumExp);
+  let probs = exps.map((e) => e / sumExp);
+
+  if (op.kdst_hazard.enabled) {
+    const empirical = roundBucketShare(round);
+    const w = op.kdst_hazard.weight;
+    const isKdst = usePositions.map((pos) => pos === "K" || pos === "DST");
+    const next = probs.slice();
+    let hazardMass = 0;
+    for (let i = 0; i < usePositions.length; i++) {
+      if (!isKdst[i]) continue;
+      next[i] = w * (empirical[usePositions[i]] ?? 0) + (1 - w) * probs[i];
+      hazardMass += next[i];
+    }
+    const rest = Math.max(0, 1 - hazardMass);
+    const skillMass = probs.reduce((sum, p, i) => (isKdst[i] ? sum : sum + p), 0);
+    if (skillMass > 0) {
+      for (let i = 0; i < usePositions.length; i++) {
+        if (!isKdst[i]) next[i] = (probs[i] / skillMass) * rest;
+      }
+      probs = next;
+    }
+  }
+
+  if (op.autopick.enabled) {
+    const a = managerAutopickRate(managerSlot, op.autopick.manager_rate_shrinkage_k);
+    if (a > 0) {
+      const auto = autopickRoundBucketShare(round, op.autopick.bucket_share_shrinkage_k);
+      probs = probs.map((p, i) => (1 - a) * p + a * (auto[usePositions[i]] ?? 0));
+    }
+  }
 
   let u = rng();
   let cum = 0;
