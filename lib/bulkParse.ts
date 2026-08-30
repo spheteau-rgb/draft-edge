@@ -298,31 +298,21 @@ export function parseBulkPaste(
       if (byPos.length > 0) resolved = byPos;
     }
 
+    // Still more than one player (Bijan vs Brian Robinson — same name, team AND
+    // position). Guessing here is worse than asking: picking the wrong Robinson
+    // both records a pick the room never made and marks the other one gone, and
+    // nothing downstream would ever flag it. Surface it for a human instead.
     if (resolved.length > 1) {
-      // Same name, team AND position (Bijan vs Brian Robinson, both RB/ATL).
-      // With no block context this is loose text a human should resolve; with
-      // context it's a real draft row, so take the higher-value player still on
-      // the board — the star is the overwhelmingly likely intent, and later
-      // rows self-correct once he is marked drafted.
-      if (teams.size === 0 && positions.size === 0) {
-        unresolved.push({
+      unresolved.push({
+        raw_line: line,
+        candidates: resolved.map((p) => ({
           raw_line: line,
-          candidates: resolved.map((p) => ({
-            raw_line: line,
-            player_id: p.player.player_id,
-            player_name: p.player.name,
-            position: p.player.position,
-          })),
-        });
-        continue;
-      }
-      const available = resolved.filter(
-        (p) => !draftedIds.has(p.player.player_id) && !seenInPaste.has(p.player.player_id)
-      );
-      const pool = available.length > 0 ? available : resolved;
-      resolved = [
-        pool.reduce((a, b) => (a.player.fundamental_rank <= b.player.fundamental_rank ? a : b)),
-      ];
+          player_id: p.player.player_id,
+          player_name: p.player.name,
+          position: p.player.position,
+        })),
+      });
+      continue;
     }
 
     const chosen = resolved[0];

@@ -20,9 +20,22 @@ import type { DraftEvent, DraftPick, DraftState, TeamRoster } from "@/types";
 import { loadPlayerPool } from "@/lib/players";
 import { bestLineup } from "@/lib/lineup";
 
+export interface BatchApplyResult {
+  state: DraftState;
+  applied: DraftEvent[];
+  failed: { event: DraftEvent; error: string }[];
+}
+
 export interface DraftStateStore {
   getState(): Promise<DraftState>;
   applyEvent(event: DraftEvent): Promise<DraftState>;
+  /**
+   * Apply many picks in one read-modify-write. A late-round catch-up paste can
+   * carry 100+ picks; looping applyEvent would mean 100+ sequential Redis
+   * round-trips and 300+ full state rebuilds, which blows the 60-second pick
+   * clock. Invalid events are reported instead of aborting the batch.
+   */
+  applyEvents(events: DraftEvent[]): Promise<BatchApplyResult>;
   undo(): Promise<DraftState>;
   /** Wipe the entire event log back to pick 1 — for running practice/mock drafts back to back. */
   reset(): Promise<DraftState>;
@@ -192,6 +205,39 @@ function appendEvent(log: DraftEvent[], event: DraftEvent, currentState: DraftSt
   return [...log, event];
 }
 
+/**
+ * Batch form of appendEvent for `draft_pick` events. Tracks drafted ids in a
+ * running set rather than rebuilding state per event, and reports bad events
+ * instead of throwing so one unresolvable name can't drop the other 99 picks.
+ */
+function appendEventBatch(
+  log: DraftEvent[],
+  events: DraftEvent[],
+  currentState: DraftState
+): { log: DraftEvent[]; applied: DraftEvent[]; failed: { event: DraftEvent; error: string }[] } {
+  const nextLog = [...log];
+  const drafted = new Set(currentState.drafted_player_ids);
+  const applied: DraftEvent[] = [];
+  const failed: { event: DraftEvent; error: string }[] = [];
+
+  for (const event of events) {
+    const playerId = resolvePlayerId(event);
+    if (!playerId) {
+      failed.push({ event, error: `could not resolve player_id for "${event.player_name}" (${event.position})` });
+      continue;
+    }
+    if (drafted.has(playerId)) {
+      failed.push({ event, error: `duplicate pick — ${event.player_name} already drafted` });
+      continue;
+    }
+    drafted.add(playerId);
+    nextLog.push(event);
+    applied.push(event);
+  }
+
+  return { log: nextLog, applied, failed };
+}
+
 /** Drop the most recent non-undo event (undo events themselves are never replayed, so they don't need to be recorded). */
 function popLastPick(log: DraftEvent[]): DraftEvent[] {
   const next = [...log];
@@ -217,6 +263,13 @@ class InMemoryDraftStateStore implements DraftStateStore {
     this.log = appendEvent(this.log, event, this.state);
     this.state = rebuildStateFromLog(this.log);
     return this.state;
+  }
+
+  async applyEvents(events: DraftEvent[]): Promise<BatchApplyResult> {
+    const { log, applied, failed } = appendEventBatch(this.log, events, this.state);
+    this.log = log;
+    this.state = rebuildStateFromLog(log);
+    return { state: this.state, applied, failed };
   }
 
   async undo(): Promise<DraftState> {
@@ -283,6 +336,15 @@ class RedisDraftStateStore implements DraftStateStore {
     const nextLog = appendEvent(log, event, currentState);
     await this.writeLog(nextLog);
     return rebuildStateFromLog(nextLog);
+  }
+
+  async applyEvents(events: DraftEvent[]): Promise<BatchApplyResult> {
+    const log = await this.readLog();
+    const currentState = rebuildStateFromLog(log);
+    const { log: nextLog, applied, failed } = appendEventBatch(log, events, currentState);
+    if (applied.length === 0) return { state: currentState, applied, failed };
+    await this.writeLog(nextLog);
+    return { state: rebuildStateFromLog(nextLog), applied, failed };
   }
 
   async undo(): Promise<DraftState> {

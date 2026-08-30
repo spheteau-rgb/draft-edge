@@ -9,7 +9,7 @@
  */
 import { NextResponse } from "next/server";
 import type { DraftEvent } from "@/types";
-import { getDraftStateStore } from "@/lib/store";
+import { getDraftStateStore, roundForPick, slotForPick } from "@/lib/store";
 import { loadPlayerPool } from "@/lib/players";
 import { parseBulkPaste, type BulkParseMatch } from "@/lib/bulkParse";
 
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
   const store = getDraftStateStore();
   const { players } = loadPlayerPool();
-  let state = await store.getState();
+  const state = await store.getState();
 
   const { matched, already_drafted, unresolved } = parseBulkPaste(
     body.text,
@@ -35,37 +35,37 @@ export async function POST(request: Request) {
     body.order ?? "recent_first"
   );
 
-  const applied: BulkParseMatch[] = [];
-  const failed: { raw_line: string; error: string }[] = [];
-
-  for (const m of matched) {
-    const event: DraftEvent = {
+  const observedAt = new Date().toISOString();
+  const byPickNumber = new Map<number, BulkParseMatch>();
+  const events: DraftEvent[] = matched.map((m, i) => {
+    const pickNumber = state.current_pick + i;
+    byPickNumber.set(pickNumber, m);
+    return {
       event_type: "draft_pick",
       source: "manual",
-      source_event_id: `bulk-${m.player_id}-${Date.now()}`,
-      pick_number: state.current_pick,
-      round: state.current_round,
-      manager_slot: state.on_the_clock_slot,
+      source_event_id: `bulk-${m.player_id}-${pickNumber}`,
+      pick_number: pickNumber,
+      round: roundForPick(pickNumber),
+      manager_slot: slotForPick(pickNumber),
       player_source_id: null,
       player_id: m.player_id,
       player_name: m.player_name,
       position: m.position,
       nfl_team: "",
-      observed_at: new Date().toISOString(),
+      observed_at: observedAt,
     };
-    try {
-      state = await store.applyEvent(event);
-      applied.push(m);
-    } catch (err) {
-      failed.push({ raw_line: m.raw_line, error: err instanceof Error ? err.message : "failed to apply" });
-    }
-  }
+  });
+
+  const result = await store.applyEvents(events);
 
   return NextResponse.json({
-    state,
-    applied,
+    state: result.state,
+    applied: result.applied.map((e) => byPickNumber.get(e.pick_number)!),
     already_drafted,
     unresolved,
-    failed,
+    failed: result.failed.map((f) => ({
+      raw_line: byPickNumber.get(f.event.pick_number)?.raw_line ?? f.event.player_name,
+      error: f.error,
+    })),
   });
 }

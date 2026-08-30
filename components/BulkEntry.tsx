@@ -10,6 +10,14 @@ import { submitBulkPaste, type BulkApplyResult } from "@/lib/apiClient";
  * confident about in one shot. Anything ambiguous is surfaced instead of
  * guessed (docs/06 error-handling rule: never silently mis-record a pick).
  */
+/** A round-14 catch-up paste can resolve 100+ picks; dumping every name buries the summary. */
+const MAX_LISTED = 12;
+
+function summarize(items: string[], sep = ", "): string {
+  if (items.length <= MAX_LISTED) return items.join(sep);
+  return `${items.slice(0, MAX_LISTED).join(sep)}${sep}…and ${items.length - MAX_LISTED} more`;
+}
+
 export default function BulkEntry({ onChanged }: { onChanged: () => void }) {
   const [text, setText] = useState("");
   const [order, setOrder] = useState<"recent_first" | "oldest_first">("recent_first");
@@ -76,7 +84,7 @@ export default function BulkEntry({ onChanged }: { onChanged: () => void }) {
             <div className="bulk-entry-result">
               {result.applied.length > 0 && (
                 <p>
-                  ✓ Applied {result.applied.length}: {result.applied.map((m) => m.player_name).join(", ")}
+                  ✓ Applied {result.applied.length}: {summarize(result.applied.map((m) => m.player_name))}
                 </p>
               )}
               {result.already_drafted.length > 0 && (
@@ -84,14 +92,14 @@ export default function BulkEntry({ onChanged }: { onChanged: () => void }) {
               )}
               {result.failed.length > 0 && (
                 <p className="manual-entry-error">
-                  {result.failed.length} failed: {result.failed.map((f) => f.raw_line).join(" / ")}
+                  {result.failed.length} failed: {summarize(result.failed.map((f) => f.raw_line), " / ")}
                 </p>
               )}
               {result.unresolved.length > 0 && (
                 <div className="bulk-entry-unresolved">
                   <p>Couldn&apos;t confidently match {result.unresolved.length} line(s) — enter these manually:</p>
                   <ul>
-                    {result.unresolved.map((u, i) => (
+                    {result.unresolved.slice(0, MAX_LISTED).map((u, i) => (
                       <li key={i}>
                         &quot;{u.raw_line}&quot;
                         {u.candidates.length > 0 && (
@@ -100,6 +108,9 @@ export default function BulkEntry({ onChanged }: { onChanged: () => void }) {
                       </li>
                     ))}
                   </ul>
+                  {result.unresolved.length > MAX_LISTED && (
+                    <p className="bulk-entry-muted">…and {result.unresolved.length - MAX_LISTED} more.</p>
+                  )}
                 </div>
               )}
             </div>
