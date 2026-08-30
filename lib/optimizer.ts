@@ -28,7 +28,7 @@ import { computeLeagueMarketRanks, tierUrgency, managerAffinity, runShock } from
 import { survivalProb, adjustedSurvival, adpSigmaForRank } from "@/lib/survival";
 import { computeCenterScale, applyZ, type CenterScale } from "@/lib/standardize";
 import { generateReasons, confidenceLabel, checkDoNotReach, type ScoredCandidate } from "@/lib/reasons";
-import { runLookahead, computeFinalScore } from "@/lib/lookahead";
+import { runLookahead, computeFinalScore, buildSimValuation } from "@/lib/lookahead";
 
 interface ComponentSet {
   player: PlayerRecord;
@@ -77,16 +77,34 @@ function playersForManager(manager_slot: number, state: DraftState, allPlayers: 
   return allPlayers.filter((p) => ids.has(p.player_id));
 }
 
+interface ComponentBundle {
+  components: ComponentSet[];
+  replacementValues: Record<Position, number>;
+  counts: Record<Position, number>;
+}
+
 /** Build the per-player component set (VORP, roster gain, urgency, market, upside, uncertainty). */
 function computeComponents(
   available: PlayerRecord[],
   allPlayers: PlayerRecord[],
   state: DraftState,
   stage: ReturnType<typeof stageForRound>
-): ComponentSet[] {
+): ComponentBundle {
   const config = loadModelConfig();
   const replacementValues = computeAllReplacementValues(available);
   const marketRanks = computeLeagueMarketRanks(available, state);
+
+  // Both sides of MarketMispricing must be ranks over the SAME population.
+  // `player.fundamental_rank` is a rank over the whole preseason pool while
+  // computeLeagueMarketRanks ranks only who is left, so differencing them added
+  // a drifting offset that grew with every pick and, worse, reordered
+  // candidates by how many drafted players happened to sit above them. Ranking
+  // fundamental value over the available pool puts both on "spots among who's
+  // still on the board."
+  const availableFundamentalRank = new Map<string, number>();
+  [...available]
+    .sort((a, b) => a.fundamental_rank - b.fundamental_rank)
+    .forEach((p, idx) => availableFundamentalRank.set(p.player_id, idx + 1));
   const userPlayers = playersForManager(state.user_slot, state, allPlayers);
   const counts = rosterCounts(userPlayers);
   const round = state.current_round;
@@ -116,7 +134,7 @@ function computeComponents(
     p90Stats[pos] = { mean, sd: Math.sqrt(variance) };
   }
 
-  return available.map((p) => {
+  const components = available.map((p) => {
     const vorp = computeVORP(p, replacementValues[p.position] ?? 0);
     const rGain = currentRosterGain(p, userPlayers);
     const rosterGain = computeRosterGain(vorp, rGain, stage);
@@ -125,7 +143,8 @@ function computeComponents(
     const leagueMarketRank = marketEntry?.rank ?? p.league_market_rank;
     // Positive = the room is letting him fall further than fundamental value
     // suggests (a "discount"); negative = the room reaches for him early.
-    const marketMispricing = leagueMarketRank - p.fundamental_rank;
+    const marketMispricing =
+      leagueMarketRank - (availableFundamentalRank.get(p.player_id) ?? p.fundamental_rank);
     // Position-NORMALIZED ceiling: weekly_p90 z-scored WITHIN the player's
     // position. Raw weekly_p90 is cross-position points, so QBs (25-30 pt
     // ceilings) dominated the upside term and surfaced backup QBs in R10-14
@@ -178,6 +197,8 @@ function computeComponents(
       needBoost: construction.needBoost,
     };
   });
+
+  return { components, replacementValues, counts };
 }
 
 /** docs/03 §Candidate generation — fixed union of top-N by each metric (config/model.yaml candidate_pool). */
@@ -271,7 +292,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
   const available = allPlayers.filter((p) => !draftedIds.has(p.player_id) && !p.is_drafted);
   if (available.length === 0) throw new Error("optimizer: no available players");
 
-  const components = computeComponents(available, allPlayers, state, stage);
+  const { components, replacementValues, counts } = computeComponents(available, allPlayers, state, stage);
   const candidates = buildCandidatePool(components);
   if (candidates.length === 0) throw new Error("optimizer: empty candidate pool");
 
@@ -311,7 +332,8 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
   const rolloutResults = await runLookahead(
     shortlist.map((s) => s.player),
     available,
-    lookaheadState
+    lookaheadState,
+    buildSimValuation(replacementValues, counts)
   );
   const rolloutMap = new Map(rolloutResults.map((r) => [r.candidatePlayerId, r]));
   const lookaheadCS = computeCenterScale(

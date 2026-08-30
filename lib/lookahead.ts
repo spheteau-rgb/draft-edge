@@ -215,15 +215,60 @@ function memoizedRoundShare(memo: PositionScoreMemo, round: number): Record<Posi
  * approximation. Equivalence to naive per-call bucketing is asserted in
  * scripts/test_lookahead_equiv.ts.
  */
+/**
+ * Currency for the rollout. Raw season points cannot be used: QBs outscore
+ * every other position by ~180 points, so "best player left" was ALWAYS the
+ * top remaining QB regardless of which candidate the user took. That made
+ * LookaheadValue identical across the shortlist (the z-scored term then
+ * amplified pure float noise) and measured a player the user often cannot even
+ * roster. VORP is position-normalized, so the term finally answers the
+ * question it is supposed to: how much does taking p now cost me at my next
+ * turn?
+ */
+export interface SimValuation {
+  valueOf: (player: PlayerRecord) => number;
+  /** Positions the user could still legally roster at their next pick, given they took `candidate` now. */
+  userEligiblePositions: (candidate: PlayerRecord) => Set<Position>;
+}
+
+/**
+ * Standard valuation: VORP against the live replacement level, with the user's
+ * own position caps (no backup QB/TE, one K, one DST) deciding what counts as a
+ * usable response.
+ */
+export function buildSimValuation(
+  replacementValues: Record<Position, number>,
+  userCounts: Record<Position, number>
+): SimValuation {
+  const caps = loadModelConfig().roster_construction.position_caps;
+  const eligibleCache = new Map<Position, Set<Position>>();
+  return {
+    valueOf: (p) => playerValue(p) - (replacementValues[p.position] ?? 0),
+    userEligiblePositions: (candidate) => {
+      const cached = eligibleCache.get(candidate.position);
+      if (cached) return cached;
+      const eligible = new Set<Position>();
+      for (const pos of POSITIONS) {
+        const cap = caps[pos];
+        const have = (userCounts[pos] ?? 0) + (candidate.position === pos ? 1 : 0);
+        if (cap === undefined || have < cap) eligible.add(pos);
+      }
+      eligibleCache.set(candidate.position, eligible);
+      return eligible;
+    },
+  };
+}
+
 interface SimEngine {
-  /** All players, playerValue descending (ties keep pool order) — best-available scans. */
+  /** All players, value descending (ties keep pool order) — opponent fallback scans. */
   valueDescGlobal: PlayerRecord[];
-  /** Per position, playerValue descending — best-at-position value scans. */
+  /** Per position, value descending — best-at-position scans. */
   byPosValueDesc: Map<Position, PlayerRecord[]>;
   /** Per position, ADP ascending (ties keep pool order) — top-3 / argmax selection. */
   byPosAdpAsc: Map<Position, PlayerRecord[]>;
   total: number;
   poolIds: Set<string>;
+  valuation: SimValuation;
 }
 
 /**
@@ -233,8 +278,9 @@ interface SimEngine {
  * pool order — that stability is what makes the incremental front-scans below
  * numerically identical to sorting the live remaining subset every call.
  */
-export function buildSimEngine(availablePool: PlayerRecord[]): SimEngine {
-  const valueDescGlobal = [...availablePool].sort((a, b) => playerValue(b) - playerValue(a));
+export function buildSimEngine(availablePool: PlayerRecord[], valuation: SimValuation): SimEngine {
+  const value = valuation.valueOf;
+  const valueDescGlobal = [...availablePool].sort((a, b) => value(b) - value(a));
   const byPosValueDesc = new Map<Position, PlayerRecord[]>();
   const byPosAdpAsc = new Map<Position, PlayerRecord[]>();
   const poolIds = new Set<string>();
@@ -253,9 +299,9 @@ export function buildSimEngine(availablePool: PlayerRecord[]): SimEngine {
     }
     aa.push(p);
   }
-  for (const arr of byPosValueDesc.values()) arr.sort((a, b) => playerValue(b) - playerValue(a));
+  for (const arr of byPosValueDesc.values()) arr.sort((a, b) => value(b) - value(a));
   for (const arr of byPosAdpAsc.values()) arr.sort((a, b) => a.market.expected_pick - b.market.expected_pick);
-  return { valueDescGlobal, byPosValueDesc, byPosAdpAsc, total: availablePool.length, poolIds };
+  return { valueDescGlobal, byPosValueDesc, byPosAdpAsc, total: availablePool.length, poolIds, valuation };
 }
 
 /** First player in a pre-sorted view not yet removed this rollout (or null). */
@@ -267,12 +313,37 @@ function firstNotRemoved(arr: PlayerRecord[] | undefined, removed: Set<string>):
 
 function bestAtPosValue(engine: SimEngine, position: Position, removed: Set<string>): number {
   const p = firstNotRemoved(engine.byPosValueDesc.get(position), removed);
-  return p ? playerValue(p) : 0;
+  return p ? engine.valuation.valueOf(p) : 0;
 }
 
-/** Best available player (max playerValue) not yet removed — the user's response at their next pick. */
-function bestResponse(engine: SimEngine, removed: Set<string>): PlayerRecord | null {
+/**
+ * The user's best response at their next pick: the highest-value player left
+ * at a position they can still legally roster. Restricting by eligibility
+ * matters — without it the "response" was routinely a second QB or a third TE
+ * the user's own roster rules forbid.
+ */
+function bestResponse(engine: SimEngine, removed: Set<string>, eligible: Set<Position>): PlayerRecord | null {
+  for (const p of engine.valueDescGlobal) {
+    if (!removed.has(p.player_id) && eligible.has(p.position)) return p;
+  }
   return firstNotRemoved(engine.valueDescGlobal, removed);
+}
+
+/**
+ * Total value across BOTH turns: what the candidate himself is worth plus what
+ * the board is expected to leave you at your next pick.
+ *
+ * Scoring only the second half (the old behaviour) answers "which pick leaves
+ * the nicest leftovers," which is anti-correlated with taking the best player:
+ * passing on the stud is exactly what leaves him on the board, so the term
+ * rewarded the weaker candidate. At pick 4 it ranked Jonathan Taylor (VORP 127)
+ * LAST of eight and De'Von Achane (VORP 82) near the top. The candidate's own
+ * value also restores real spread to the population, so median/MAD z-scoring no
+ * longer amplifies a ~2-point tail difference into a clamped +/-3 that swamps
+ * every other term in PickScore.
+ */
+function twoTurnValue(engine: SimEngine, candidate: PlayerRecord, responseValue: number): number {
+  return engine.valuation.valueOf(candidate) + responseValue;
 }
 
 /**
@@ -497,6 +568,7 @@ function deterministicLookahead(
   const policy = loadOpponentPolicy();
   const memo = createPositionScoreMemo();
   return shortlist.map((candidate) => {
+    const eligible = engine.valuation.userEligiblePositions(candidate);
     const removed = new Set<string>([candidate.player_id]);
     let remaining = engine.total - (engine.poolIds.has(candidate.player_id) ? 1 : 0);
     for (const gap of gapPicks) {
@@ -507,10 +579,10 @@ function deterministicLookahead(
         remaining--;
       }
     }
-    const best = bestResponse(engine, removed);
+    const best = bestResponse(engine, removed, eligible);
     return {
       candidatePlayerId: candidate.player_id,
-      lookaheadValue: best ? playerValue(best) : 0,
+      lookaheadValue: twoTurnValue(engine, candidate, best ? engine.valuation.valueOf(best) : 0),
       rolloutsUsed: 0,
       seedBundle: "deterministic",
       expectedBestResponsePlayerId: best ? best.player_id : null,
@@ -541,6 +613,7 @@ export function simulateAll(
     let used = 0;
     const responseCounts = new Map<string, number>();
     const candidateInPool = engine.poolIds.has(candidate.player_id);
+    const eligible = engine.valuation.userEligiblePositions(candidate);
     for (let r = 0; r < rolloutsPerCandidate; r++) {
       if (r % 50 === 0 && Date.now() - startTime > hardCeilingMs) break; // latency safety valve
       const removed = new Set<string>([candidate.player_id]);
@@ -556,8 +629,8 @@ export function simulateAll(
           remaining--;
         }
       }
-      const best = bestResponse(engine, removed);
-      sum += best ? playerValue(best) : 0;
+      const best = bestResponse(engine, removed, eligible);
+      sum += best ? engine.valuation.valueOf(best) : 0;
       used += 1;
       if (best) responseCounts.set(best.player_id, (responseCounts.get(best.player_id) ?? 0) + 1);
     }
@@ -571,7 +644,7 @@ export function simulateAll(
     }
     results.push({
       candidatePlayerId: candidate.player_id,
-      lookaheadValue: used > 0 ? sum / used : 0,
+      lookaheadValue: twoTurnValue(engine, candidate, used > 0 ? sum / used : 0),
       rolloutsUsed: used,
       seedBundle: `seed-${seedBase}`,
       expectedBestResponsePlayerId: modeResponse,
@@ -587,12 +660,13 @@ export function simulateAll(
 export async function runLookahead(
   shortlist: PlayerRecord[],
   availablePool: PlayerRecord[],
-  state: DraftState
+  state: DraftState,
+  valuation: SimValuation
 ): Promise<RolloutResult[]> {
   const config = loadModelConfig();
   const gapPicks = opponentPicksBetween(state);
   const seedBase = deriveSeedBase(state);
-  const engine = buildSimEngine(availablePool);
+  const engine = buildSimEngine(availablePool, valuation);
 
   // Never simulate opponents beyond your next pick, and if you're on the
   // clock right now with no gap, the "lookahead" degenerates to "what's
@@ -624,31 +698,4 @@ export async function runLookahead(
   // Floor: deterministic survival-aware lookahead — the sequential term must
   // always be present in some form (CLAUDE.md, docs/03).
   return deterministicLookahead(engine, shortlist, state, gapPicks);
-}
-
-/**
- * Precompute hook: when the user is `lookahead.precompute_ahead_picks` picks
- * away, kick off the rollout in the background so it's ready before their
- * turn (docs/03 §Precompute while you wait). Caller decides transport
- * (in-memory cache, KV, etc.) — this just runs the computation.
- */
-export async function precomputeIfUpcoming(
-  state: DraftState,
-  availablePool: PlayerRecord[]
-): Promise<RolloutResult[] | null> {
-  const config = loadModelConfig();
-  if (state.on_the_clock_slot === state.user_slot) return null; // it's already the user's turn
-  const picksAway = state.user_next_pick - state.current_pick;
-  if (picksAway <= 0 || picksAway > config.lookahead.precompute_ahead_picks) return null;
-
-  const shortlist = [...availablePool]
-    .filter((p) => !p.is_drafted)
-    .sort((a, b) => playerValue(b) - playerValue(a))
-    .slice(0, config.candidate_pool.shortlist_size);
-
-  try {
-    return await runLookahead(shortlist, availablePool, state);
-  } catch {
-    return null;
-  }
 }

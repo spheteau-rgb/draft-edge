@@ -16,11 +16,13 @@
 
 import { loadPlayerPool } from "@/lib/players";
 import { loadModelConfig } from "@/lib/config";
-import { playerValue } from "@/lib/vorp";
+import { computeAllReplacementValues } from "@/lib/vorp";
 import { managerAffinity, runShock } from "@/lib/market";
 import {
   simulateAll,
   buildSimEngine,
+  buildSimValuation,
+  type SimValuation,
   opponentPicksBetween,
   deriveSeedBase,
   type RolloutResult,
@@ -59,11 +61,12 @@ function naivePositionScore(
   managerSlot: number,
   pool: PlayerRecord[],
   state: DraftState,
-  weights: { market_best_at_pos: number; roster_need: number; manager_affinity: number; run_pressure: number }
+  weights: { market_best_at_pos: number; roster_need: number; manager_affinity: number; run_pressure: number },
+  valueOf: (p: PlayerRecord) => number
 ): number {
   const atPos = pool.filter((p) => p.position === position);
-  const bestAtPos = atPos.length > 0 ? Math.max(...atPos.map(playerValue)) : 0;
-  const bestOverall = pool.length > 0 ? Math.max(...pool.map(playerValue)) : 1;
+  const bestAtPos = atPos.length > 0 ? Math.max(...atPos.map(valueOf)) : 0;
+  const bestOverall = pool.length > 0 ? Math.max(...pool.map(valueOf)) : 1;
   const marketBest = bestOverall > 0 ? Math.max(0, bestAtPos) / bestOverall : 0;
   const rosterNeed = estimateRosterNeed(managerSlot, position, state);
   const affinity = managerAffinity(managerSlot, position);
@@ -82,14 +85,15 @@ function naiveOpponentPick(
   round: number,
   pool: PlayerRecord[],
   state: DraftState,
-  rngSeed: number
+  rngSeed: number,
+  valueOf: (p: PlayerRecord) => number
 ): PlayerRecord {
   const config = loadModelConfig();
   const op = config.lookahead.opponent_policy;
   const rng = mulberry32(rngSeed);
   const weights = op.position_score_weights;
   const temperature = op.softmax_temperature;
-  const scores = POSITIONS.map((pos) => naivePositionScore(pos, managerSlot, pool, state, weights));
+  const scores = POSITIONS.map((pos) => naivePositionScore(pos, managerSlot, pool, state, weights, valueOf));
   const maxScore = Math.max(...scores);
   const exps = scores.map((s) => Math.exp((s - maxScore) / Math.max(1e-6, temperature)));
   const sumExp = exps.reduce((a, b) => a + b, 0) || 1;
@@ -141,7 +145,7 @@ function naiveOpponentPick(
     .slice()
     .sort((a, b) => a.market.expected_pick - b.market.expected_pick);
   if (atPos.length === 0) {
-    return [...pool].sort((a, b) => playerValue(b) - playerValue(a))[0];
+    return [...pool].sort((a, b) => valueOf(b) - valueOf(a))[0];
   }
   const top3 = atPos.slice(0, 3);
   const rawProbs = op.top3_player_probs.slice(0, top3.length);
@@ -161,11 +165,13 @@ function naiveOpponentPick(
   return top3[chosenIdx];
 }
 
-function naiveBestResponse(pool: PlayerRecord[]): PlayerRecord | null {
-  return pool.reduce<PlayerRecord | null>(
-    (acc, p) => (!acc || playerValue(p) > playerValue(acc) ? p : acc),
-    null
-  );
+function naiveBestResponse(
+  pool: PlayerRecord[],
+  valueOf: (p: PlayerRecord) => number,
+  eligible: Set<Position>
+): PlayerRecord | null {
+  const sorted = [...pool].sort((a, b) => valueOf(b) - valueOf(a));
+  return sorted.find((p) => eligible.has(p.position)) ?? sorted[0] ?? null;
 }
 
 function naiveSimulateAll(
@@ -174,23 +180,26 @@ function naiveSimulateAll(
   state: DraftState,
   gapPicks: OpponentPick[],
   rolloutsPerCandidate: number,
-  seedBase: number
+  seedBase: number,
+  valuation: SimValuation
 ): RolloutResult[] {
+  const valueOf = valuation.valueOf;
   const results: RolloutResult[] = [];
   for (const candidate of shortlist) {
     let sum = 0;
     let used = 0;
+    const eligible = valuation.userEligiblePositions(candidate);
     const responseCounts = new Map<string, number>();
     for (let r = 0; r < rolloutsPerCandidate; r++) {
       let pool = availablePool.filter((p) => p.player_id !== candidate.player_id);
       for (let i = 0; i < gapPicks.length; i++) {
         if (pool.length === 0) break;
         const seed = seedBase + r * 7919 + i * 104729;
-        const picked = naiveOpponentPick(gapPicks[i].slot, gapPicks[i].round, pool, state, seed);
+        const picked = naiveOpponentPick(gapPicks[i].slot, gapPicks[i].round, pool, state, seed, valueOf);
         pool = pool.filter((p) => p.player_id !== picked.player_id);
       }
-      const best = naiveBestResponse(pool);
-      sum += best ? playerValue(best) : 0;
+      const best = naiveBestResponse(pool, valueOf, eligible);
+      sum += best ? valueOf(best) : 0;
       used += 1;
       if (best) responseCounts.set(best.player_id, (responseCounts.get(best.player_id) ?? 0) + 1);
     }
@@ -204,7 +213,7 @@ function naiveSimulateAll(
     }
     results.push({
       candidatePlayerId: candidate.player_id,
-      lookaheadValue: used > 0 ? sum / used : 0,
+      lookaheadValue: valueOf(candidate) + (used > 0 ? sum / used : 0),
       rolloutsUsed: used,
       seedBundle: `seed-${seedBase}`,
       expectedBestResponsePlayerId: modeResponse,
@@ -328,11 +337,15 @@ function main() {
       .filter((p): p is PlayerRecord => Boolean(p));
     const gapPicks = opponentPicksBetween(state);
     const seedBase = deriveSeedBase(state);
-    const engine = buildSimEngine(available);
+    const valuation = buildSimValuation(
+      computeAllReplacementValues(available),
+      { QB: 0, RB: 0, WR: 0, TE: 0, K: 0, DST: 0 }
+    );
+    const engine = buildSimEngine(available, valuation);
 
     cases++;
     process.stdout.write(`... running gap=${gap} (${gapPicks.length} opp picks) budget=${budget}\n`);
-    const ref = naiveSimulateAll(shortlist, available, state, gapPicks, budget, seedBase);
+    const ref = naiveSimulateAll(shortlist, available, state, gapPicks, budget, seedBase, valuation);
     const opt = simulateAll(engine, shortlist, state, gapPicks, budget, seedBase, Date.now(), 1e12);
     const m = assertEqualResults(`gap=${gap} budget=${budget}`, ref, opt);
     if (m === 0) {

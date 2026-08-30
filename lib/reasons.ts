@@ -66,7 +66,10 @@ export function generateReasons(top: ScoredCandidate, runnerUp: ScoredCandidate 
     reasons.push("POSITION_CLIFF");
   }
 
-  const marketGap = top.player.league_market_rank - top.player.fundamental_rank;
+  // `top.market` is the LIVE mispricing the optimizer actually scored on (both
+  // ranks taken over the currently-available pool). The static player.* rank
+  // fields are preseason snapshots and drift apart from it as the draft runs.
+  const marketGap = top.market;
   if (marketGap >= MARKET_GAP_RANK_THRESHOLD) {
     // The room lets him fall further than his fundamental value would suggest.
     reasons.push("LEAGUE_DISCOUNT");

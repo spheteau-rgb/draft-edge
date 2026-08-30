@@ -217,6 +217,15 @@ async function main() {
     if (slot === USER_SLOT) {
       const rec = await getRecommendation(state, players);
       chosen = available.find((p) => p.player_id === rec.recommended_player_id) ?? available[0];
+      if (process.env.MOCK_DEBUG) {
+        console.log(
+          `  [P${pickNumber} R${round}] ${rec.recommended_player_name}/${rec.position} score=${rec.score.toFixed(2)} surv=${rec.survival_to_next_pick.toFixed(2)} | alts: ` +
+            rec.alternatives
+              .slice(0, 4)
+              .map((a) => `${a.name}/${a.position} ${a.score.toFixed(2)} s=${a.survival_to_next_pick.toFixed(2)}`)
+              .join(" | ")
+        );
+      }
       userPicks.push({ round, name: chosen.name, pos: chosen.position });
     } else {
       chosen = opponentPick(slot, available, state, round, rng);
