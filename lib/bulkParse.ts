@@ -16,6 +16,8 @@ export interface BulkParseMatch {
   player_id: string;
   player_name: string;
   position: Position;
+  /** "round.pick" label found next to this entry in the paste, if any — see ParsedEntry.pickLabel. */
+  pick_label?: string;
 }
 
 export interface BulkParseResult {
@@ -102,6 +104,14 @@ export interface ParsedEntry {
   teams: Set<string>;
   /** Position codes found in this pick's block (e.g. "RB"), DST-normalized. */
   positions: Set<string>;
+  /**
+   * The "round.pick" label (e.g. "3.04") found adjacent to this entry, if any.
+   * A grid-style draft board (columns = teams, rows = rounds) copies/pastes in
+   * DOM order, not chronological pick order — so when this is present it must
+   * be used to compute the real overall pick number instead of guessing from
+   * paste position (see app/api/draft/bulk/route.ts).
+   */
+  pickLabel?: string;
 }
 
 /**
@@ -122,19 +132,15 @@ export interface ParsedEntry {
  * disambiguated by team/position/value instead of dropped as ambiguous.
  */
 function extractEntries(lines: string[]): ParsedEntry[] {
-  const pickIdx = new Set<number>();
-  const pickValues: string[] = [];
+  const pickLabelAtIndex = new Map<number, string>();
   lines.forEach((l, i) => {
-    if (PICK_NUMBER_RE.test(l)) {
-      pickIdx.add(i);
-      pickValues.push(l);
-    }
+    if (PICK_NUMBER_RE.test(l)) pickLabelAtIndex.set(i, l);
   });
-  const canGuessOwnerLines = isPlausiblePickSequence(pickValues);
+  const canGuessOwnerLines = isPlausiblePickSequence([...pickLabelAtIndex.values()]);
 
   const isStructural = (l: string, i: number): boolean =>
     PICK_LABEL_RE.test(l) ||
-    (canGuessOwnerLines && pickIdx.has(i + 1) && !pickIdx.has(i)) ||
+    (canGuessOwnerLines && pickLabelAtIndex.has(i + 1) && !pickLabelAtIndex.has(i)) ||
     ACTION_WORD_RE.test(l) ||
     ROUND_HEADER_RE.test(l) ||
     BYE_RE.test(l) ||
@@ -169,7 +175,25 @@ function extractEntries(lines: string[]): ParsedEntry[] {
       if (POSITION_CODES.has(up)) positions.add(normPos(up));
       else if (NFL_TEAM_CODES.has(up)) teams.add(normTeam(up));
     }
-    return { line: lines[i], teams, positions };
+
+    // The "round.pick" label for this entry can sit either just before it
+    // (owner-name, pick-label, PLAYER NAME — the guessed-owner-line layout) or
+    // just after it (PLAYER NAME, pick-label, position/team — the grid-cell
+    // layout). Search this entry's whole block and take the closest one.
+    const blockStart = k > 0 ? nameIdx[k - 1] + 1 : 0;
+    let pickLabel: string | undefined;
+    let bestDist = Infinity;
+    for (let j = blockStart; j < end; j++) {
+      const label = pickLabelAtIndex.get(j);
+      if (label === undefined) continue;
+      const dist = Math.abs(j - i);
+      if (dist < bestDist) {
+        bestDist = dist;
+        pickLabel = label;
+      }
+    }
+
+    return { line: lines[i], teams, positions, pickLabel };
   });
 }
 
@@ -257,7 +281,7 @@ export function parseBulkPaste(
   // surfaces as a scary "failed" instead of a no-op.
   const seenInPaste = new Set<string>();
 
-  for (const { line, teams, positions } of entries) {
+  for (const { line, teams, positions, pickLabel } of entries) {
     const normLine = normalizeName(line);
     const abbrev = ABBREVIATED_NAME_RE.exec(line.trim());
     const abbrevInitial = abbrev ? abbrev[1].toLowerCase() : "";
@@ -327,6 +351,7 @@ export function parseBulkPaste(
       player_id: chosen.player.player_id,
       player_name: chosen.player.name,
       position: chosen.player.position,
+      pick_label: pickLabel,
     });
   }
 

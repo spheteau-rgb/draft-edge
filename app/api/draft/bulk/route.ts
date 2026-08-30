@@ -9,13 +9,31 @@
  */
 import { NextResponse } from "next/server";
 import type { DraftEvent } from "@/types";
-import { getDraftStateStore, roundForPick, slotForPick } from "@/lib/store";
+import { getDraftStateStore, roundForPick, slotForPick, LEAGUE_TEAMS } from "@/lib/store";
 import { loadPlayerPool } from "@/lib/players";
 import { parseBulkPaste, type BulkParseMatch } from "@/lib/bulkParse";
 
 interface BulkBody {
   text?: string;
   order?: "recent_first" | "oldest_first";
+}
+
+const PICK_LABEL_RE = /^(\d{1,2})\.(\d{1,2})$/;
+
+/**
+ * "round.pick" labels (e.g. "3.04") number picks by position within their
+ * round in true chronological order, independent of snake direction — so the
+ * overall pick number is always (round-1)*teams + posInRound. This is what
+ * lets a grid-style draft board (columns=teams, rows=rounds, pastes in DOM
+ * order rather than chronological order) still resolve to the right pick.
+ */
+function overallPickFromLabel(label: string, teams: number): number | null {
+  const m = PICK_LABEL_RE.exec(label);
+  if (!m) return null;
+  const round = Number(m[1]);
+  const posInRound = Number(m[2]);
+  if (!round || !posInRound || posInRound > teams) return null;
+  return (round - 1) * teams + posInRound;
 }
 
 export async function POST(request: Request) {
@@ -37,8 +55,15 @@ export async function POST(request: Request) {
 
   const observedAt = new Date().toISOString();
   const byPickNumber = new Map<number, BulkParseMatch>();
-  const events: DraftEvent[] = matched.map((m, i) => {
-    const pickNumber = state.current_pick + i;
+  // Sequential fallback only advances for entries with no "round.pick" label
+  // (a plain CBS "last N picks" feed) — labeled entries (a pasted grid) get
+  // their real overall pick number straight from the label instead of guess
+  // order, since a grid's paste order isn't chronological pick order.
+  let sequentialPick = state.current_pick;
+  const events: DraftEvent[] = matched.map((m) => {
+    const labeledPick = m.pick_label ? overallPickFromLabel(m.pick_label, LEAGUE_TEAMS) : null;
+    const pickNumber = labeledPick ?? sequentialPick;
+    sequentialPick = pickNumber + 1;
     byPickNumber.set(pickNumber, m);
     return {
       event_type: "draft_pick",
