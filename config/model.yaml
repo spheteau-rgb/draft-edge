@@ -136,6 +136,18 @@ roster_construction:
   # Additive z-boost to a candidate that fills an UNFILLED starter slot, so an
   # empty WR2 outranks bench depth at a full position late in the draft.
   starter_need_boost: 1.0
+  # Smaller boost for a candidate that can ONLY reach a starter slot via the
+  # single shared RWT flex — i.e. its own dedicated minimum (RB:2/WR:2/TE:1)
+  # is already met and it would just be adding a 3rd/redundant body to that
+  # position. Root cause of the 3.4 Skattebo-over-WR1 mock-draft failure
+  # (docs/07 real-draft replay): with RB:2/WR:0 rostered, a 3rd RB filling the
+  # still-open flex slot and a WR filling its still-EMPTY WR1 dedicated slot
+  # both got the full starter_need_boost (1.0) — the model couldn't tell "a
+  # redundant 3rd RB happens to also cover the flex" from "this fills my only
+  # empty starter position." Flex-only fills now get a materially smaller
+  # boost than a position with its own dedicated slot unfilled, so a
+  # completely-empty WR1 outranks a 3rd RB competing only for the flex.
+  flex_only_boost: 0.35
   # Secondary, smaller boost to build sensible RB/WR depth (bye/injury coverage)
   # before hoarding one position. Without it the VORP-driven model piled into RB
   # once WR starters were filled, yielding fragile 8-RB / 2-WR rosters — the fit

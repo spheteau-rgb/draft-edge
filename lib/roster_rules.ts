@@ -72,19 +72,26 @@ export function mustFillPositions(
 }
 
 /**
- * Does the user still have an unfilled *starter* slot this position can fill?
- * RB/WR/TE also count toward the shared RWT flex, so their effective starter
- * demand is the dedicated slots plus the flex until it's covered by the group.
+ * Does the user still have an unfilled *starter* slot this position can fill,
+ * and is that slot the position's own DEDICATED minimum or only the single
+ * shared RWT flex? RB/WR/TE both count toward the flex, but a candidate whose
+ * own dedicated slots (RB:2/WR:2/TE:1) are already full and can only reach a
+ * starter role by taking the ONE shared flex is a materially weaker "need"
+ * than a position with a completely empty dedicated slot — two different
+ * positions can't both legitimately claim the same single flex opening as
+ * full-strength need. Distinguishing them is what keeps a 3rd RB (flex-only)
+ * from outscoring an empty WR1 (dedicated) at equal need-boost (docs/07 real-
+ * draft replay: this was the root cause of the 3.4 Skattebo-over-WR failure).
  */
-function fillsStarterNeed(position: Position, counts: Record<Position, number>): boolean {
-  if (position === "QB") return counts.QB < STARTER_SLOTS.QB;
-  if (position === "K") return counts.K < STARTER_SLOTS.K;
-  if (position === "DST") return counts.DST < STARTER_SLOTS.DST;
+function starterNeedKind(position: Position, counts: Record<Position, number>): "dedicated" | "flex" | "none" {
+  if (position === "QB") return counts.QB < STARTER_SLOTS.QB ? "dedicated" : "none";
+  if (position === "K") return counts.K < STARTER_SLOTS.K ? "dedicated" : "none";
+  if (position === "DST") return counts.DST < STARTER_SLOTS.DST ? "dedicated" : "none";
 
   // RB/WR/TE: dedicated minimums first, then the single shared RWT flex.
   const dedicated =
     position === "RB" ? STARTER_SLOTS.RB : position === "WR" ? STARTER_SLOTS.WR : STARTER_SLOTS.TE;
-  if (counts[position] < dedicated) return true;
+  if (counts[position] < dedicated) return "dedicated";
 
   // Flex still open if the combined RB/WR/TE surplus beyond dedicated minimums
   // hasn't yet claimed the one RWT slot.
@@ -92,7 +99,7 @@ function fillsStarterNeed(position: Position, counts: Record<Position, number>):
     Math.max(0, counts.RB - STARTER_SLOTS.RB) +
     Math.max(0, counts.WR - STARTER_SLOTS.WR) +
     Math.max(0, counts.TE - STARTER_SLOTS.TE);
-  return surplus < STARTER_SLOTS.RWT;
+  return surplus < STARTER_SLOTS.RWT ? "flex" : "none";
 }
 
 /**
@@ -134,8 +141,11 @@ export function evaluateConstruction(
   //    the thinner position gets the larger boost — an RB:5/WR:2 roster gives
   //    WR a 3x nudge, steering the next picks to WR until the split evens out.
   let needBoost = 0;
-  if (fillsStarterNeed(position, counts)) {
+  const needKind = starterNeedKind(position, counts);
+  if (needKind === "dedicated") {
     needBoost = rc.starter_need_boost;
+  } else if (needKind === "flex") {
+    needBoost = rc.flex_only_boost;
   } else {
     const depthTarget = rc.depth_targets[position];
     if (depthTarget !== undefined && counts[position] < depthTarget) {

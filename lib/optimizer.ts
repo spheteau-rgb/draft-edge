@@ -54,6 +54,20 @@ interface ComponentSet {
 
 interface ScoredComponentSet extends ComponentSet {
   immediateScore: number;
+  /**
+   * needBoost - resolved earlyPenalty: the same roster-fit nudge folded into
+   * ImmediateScore (docs/03, docs/07 3.4 Skattebo-over-WR fix). LookaheadValue
+   * from lib/lookahead.ts is pure position-agnostic VORP (candidate + best
+   * response, both from buildSimValuation's valueOf) with zero fit/need
+   * weighting, so a redundant 3rd RB with no open dedicated slot could still
+   * out-rank an empty-starter WR1 once 0.55*z(LookaheadValue) was added back
+   * in. Reapplying the identical fit delta here — instead of touching
+   * lookahead.ts's rollout math — keeps the expensive CRN simulation
+   * position-agnostic (correct: it's answering "what's left on the board",
+   * not "what does the user need") while making sure FinalScore sees the same
+   * fit signal ImmediateScore already does.
+   */
+  fitAdjustment: number;
 }
 
 interface FinalScoredComponentSet extends ScoredComponentSet {
@@ -332,8 +346,9 @@ function scoreCandidate(
   }
 
   const immediateScore = baseScore + c.needBoost - earlyPenalty;
+  const fitAdjustment = c.needBoost - earlyPenalty;
 
-  return { ...c, immediateScore };
+  return { ...c, immediateScore, fitAdjustment };
 }
 
 /** Full pipeline (docs/03 Alg 3-5). Throws on any failure — caller decides the fallback. */
@@ -378,15 +393,30 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
     buildSimValuation(replacementValues, counts)
   );
   const rolloutMap = new Map(rolloutResults.map((r) => [r.candidatePlayerId, r]));
+  // z-standardize LookaheadValue over its OWN raw (position-agnostic VORP)
+  // distribution first — that's what the CRN rollout actually measured, and
+  // corrupting the pre-z values with a +/-1.0 fit nudge is a no-op when raw
+  // VORP spans ~150-180 points (docs/07 3.4 replay: the shift vanished under
+  // rounding). Then add the SAME fitAdjustment (needBoost - resolved
+  // earlyPenalty) already folded into ImmediateScore to the Z-SCORE itself,
+  // in the z-scale units it's calibrated in (docs/03 roster_construction:
+  // starter_need_boost/flex_only_boost are z-equivalents, exactly like the
+  // needBoost/earlyPenalty term added directly onto ImmediateScore's own
+  // z-scored baseScore). This is what stops a redundant 3rd RB (flex-only,
+  // RB dedicated slots already full) from out-scoring an empty WR1 (dedicated)
+  // purely on positional-scarcity VORP once 0.55*z(LookaheadValue) is added
+  // back into FinalScore.
   const lookaheadCS = computeCenterScale(
     shortlist.map((s) => rolloutMap.get(s.player.player_id)?.lookaheadValue ?? 0)
   );
+  const fitAdjustedLookaheadZ = (s: ScoredComponentSet) =>
+    applyZ(rolloutMap.get(s.player.player_id)?.lookaheadValue ?? 0, lookaheadCS) + s.fitAdjustment;
 
   const finalScored: FinalScoredComponentSet[] = shortlist
     .map((s) => {
       const rollout = rolloutMap.get(s.player.player_id);
       const lookaheadValue = rollout?.lookaheadValue ?? 0;
-      const finalScore = computeFinalScore(s.immediateScore, applyZ(lookaheadValue, lookaheadCS));
+      const finalScore = computeFinalScore(s.immediateScore, fitAdjustedLookaheadZ(s));
       return {
         ...s,
         lookaheadValue,

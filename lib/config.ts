@@ -61,6 +61,7 @@ export interface ModelConfig {
       >
     >;
     starter_need_boost: number;
+    flex_only_boost: number;
     depth_targets: Partial<Record<string, number>>;
     depth_boost: number;
   };
