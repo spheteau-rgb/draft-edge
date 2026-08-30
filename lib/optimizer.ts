@@ -38,6 +38,8 @@ interface ComponentSet {
   marketMispricing: number;
   upside: number;
   uncertainty: number;
+  /** P(still on the board at the user's next turn) — Alg 4. Scored as a discount, and reused for display. */
+  survival: number;
   /** Pre-baked z-value for the K/DST guardrail (docs/03), 0 for every other position. */
   rosterPenaltyRaw: number;
   leagueMarketRank: number;
@@ -75,6 +77,29 @@ function playersForManager(manager_slot: number, state: DraftState, allPlayers: 
     ...roster.bench_player_ids,
   ]);
   return allPlayers.filter((p) => ids.has(p.player_id));
+}
+
+/**
+ * The pick number survival and the lookahead are both measured to.
+ * `state.user_next_pick` equals `current_pick` while the user is on the clock,
+ * which is right for display but would make survival trivially 1.0; the real
+ * question is "will he last until my NEXT turn after this one."
+ */
+function survivalHorizon(state: DraftState): number {
+  return state.on_the_clock_slot === state.user_slot
+    ? nextUserPick(state.current_pick, state.user_slot)
+    : state.user_next_pick;
+}
+
+/**
+ * The slot that picks immediately after this one — the "about to snipe him"
+ * pressure signal. `on_the_clock_slot` is the user themselves while they are
+ * actively picking, so it can't be used directly.
+ */
+function pressureSlot(state: DraftState): number {
+  return state.on_the_clock_slot === state.user_slot
+    ? slotForPick(state.current_pick + 1)
+    : state.on_the_clock_slot;
 }
 
 interface ComponentBundle {
@@ -134,9 +159,16 @@ function computeComponents(
     p90Stats[pos] = { mean, sd: Math.sqrt(variance) };
   }
 
+  // Survival inputs. `managerAffinity` and `runShock` depend only on position
+  // (the slot and pick history are fixed for this call), so memoize them rather
+  // than recomputing per player across the whole available pool.
+  const horizon = survivalHorizon(state);
+  const oppSlot = pressureSlot(state);
+  const pressureByPos = new Map<Position, { pressure: number; shock: number }>();
+
   const components = available.map((p) => {
     const vorp = computeVORP(p, replacementValues[p.position] ?? 0);
-    const rGain = currentRosterGain(p, userPlayers);
+    const rGain = currentRosterGain(p, userPlayers, replacementValues);
     const rosterGain = computeRosterGain(vorp, rGain, stage);
     const urgency = tierUrgency(p.position, available, allPlayers);
     const marketEntry = marketRanks.get(p.player_id);
@@ -154,6 +186,21 @@ function computeComponents(
     const upside = ps && ps.sd > 0 ? (p.projection.weekly_p90 - ps.mean) / ps.sd : 0;
     const uncertainty =
       p.projection.weekly_mean > 0 ? p.projection.weekly_sd / p.projection.weekly_mean : 0;
+
+    let pressureEntry = pressureByPos.get(p.position);
+    if (!pressureEntry) {
+      pressureEntry = {
+        pressure: managerAffinity(oppSlot, p.position),
+        shock: runShock(p.position, state.picks, round),
+      };
+      pressureByPos.set(p.position, pressureEntry);
+    }
+    const survival = adjustedSurvival(
+      survivalProb(p.market.expected_pick, adpSigmaForRank(p.market.expected_pick), state.current_pick, horizon),
+      pressureEntry.pressure,
+      pressureEntry.shock,
+      urgency
+    );
 
     let rosterPenaltyRaw = 0;
     if (p.position === "K" || p.position === "DST") {
@@ -189,6 +236,7 @@ function computeComponents(
       marketMispricing,
       upside,
       uncertainty,
+      survival,
       rosterPenaltyRaw,
       leagueMarketRank,
       hardBlock,
@@ -233,7 +281,7 @@ function buildCandidatePool(components: ComponentSet[]): ComponentSet[] {
 /** PickScore(p) per docs/03 — robust (median/MAD) standardization frozen over the candidate union. */
 function scoreCandidate(
   c: ComponentSet,
-  cs: Record<"vorp" | "rosterGain" | "urgency" | "market" | "upside" | "uncertainty", CenterScale>,
+  cs: Record<"vorp" | "rosterGain" | "urgency" | "market" | "upside" | "uncertainty" | "survival", CenterScale>,
   weights: ReturnType<typeof loadModelConfig>["stage_weights"]["R1_4"],
   overrideZ: number,
   earlyPenaltyConfig: ReturnType<typeof loadModelConfig>["roster_construction"]["early_position_penalty"]
@@ -244,6 +292,7 @@ function scoreCandidate(
   const marketZ = applyZ(c.marketMispricing, cs.market);
   const upsideZ = applyZ(c.upside, cs.upside);
   const uncertaintyZ = applyZ(c.uncertainty, cs.uncertainty);
+  const survivalZ = applyZ(c.survival, cs.survival);
 
   // Guardrail override: if this K/DST candidate's own VORP z-score clears the
   // "exceptional" bar, lift the pre-baked roster-penalty guardrail entirely.
@@ -256,7 +305,10 @@ function scoreCandidate(
     weights.market * marketZ +
     weights.upside * upsideZ -
     weights.roster_penalty * rosterPenaltyZ -
-    weights.uncertainty * uncertaintyZ;
+    weights.uncertainty * uncertaintyZ -
+    // Opportunity cost: a candidate who will still be there at your next turn
+    // is one you can have later for free, so discount him now.
+    weights.survival * survivalZ;
 
   // Roster-construction adjustments (lib/roster_rules.ts), applied as a direct
   // z-nudge through a sign-correct channel we own (NOT the kdst rosterPenalty
@@ -303,6 +355,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
     market: computeCenterScale(candidates.map((c) => c.marketMispricing)),
     upside: computeCenterScale(candidates.map((c) => c.upside)),
     uncertainty: computeCenterScale(candidates.map((c) => c.uncertainty)),
+    survival: computeCenterScale(candidates.map((c) => c.survival)),
   };
   const weights = config.stage_weights[stage];
   const overrideZ = config.kdst_guardrail.guardrail_override.exceptional_vorp_z;
@@ -313,18 +366,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
 
   const shortlist = scored.slice(0, config.candidate_pool.shortlist_size);
 
-  // `state.user_next_pick` means "the next pick_number where the user is on
-  // the clock, inclusive of right now" (docs/06) — it equals current_pick
-  // while the user is actively picking, which is correct for display
-  // (PickCard shows "YOUR PICK NOW — #N") but wrong as the lookahead/survival
-  // target: with gap=0 the rollout skips every opponent pick and survival is
-  // trivially 100%. The real question here is "will this player last until
-  // my NEXT turn after this one," so when on the clock, target the user's
-  // following pick instead.
-  const lookaheadTargetPick =
-    state.on_the_clock_slot === state.user_slot
-      ? nextUserPick(state.current_pick, state.user_slot)
-      : state.user_next_pick;
+  const lookaheadTargetPick = survivalHorizon(state);
   const lookaheadState: DraftState =
     lookaheadTargetPick === state.user_next_pick ? state : { ...state, user_next_pick: lookaheadTargetPick };
 
@@ -357,23 +399,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
   const top = finalScored[0];
   const runnerUp: FinalScoredComponentSet | null = finalScored[1] ?? null;
 
-  // Survival to the user's own next pick (docs/03 Alg 4). `on_the_clock_slot`
-  // is the user themselves while they're actively picking, so it can't be
-  // used as the "opponent about to snipe this player" pressure signal in
-  // that case — use the slot that picks immediately after this one instead.
-  const nextOpponentSlot =
-    state.on_the_clock_slot === state.user_slot ? slotForPick(state.current_pick + 1) : state.on_the_clock_slot;
-
-  // Same survival model used for the top pick, applied to any shortlisted
-  // candidate — the alternatives list showed a hardcoded 0% before this.
-  const survivalFor = (c: FinalScoredComponentSet): number => {
-    const sigma = adpSigmaForRank(c.player.market.expected_pick);
-    const baseSurv = survivalProb(c.player.market.expected_pick, sigma, state.current_pick, lookaheadTargetPick);
-    const pressure = managerAffinity(nextOpponentSlot, c.player.position);
-    const shock = runShock(c.player.position, state.picks, state.current_round);
-    return adjustedSurvival(baseSurv, pressure, shock, c.urgency);
-  };
-  const survival = survivalFor(top);
+  const survival = top.survival;
 
   const scoreCS = computeCenterScale(finalScored.map((s) => s.finalScore));
   const scoreGap = runnerUp ? top.finalScore - runnerUp.finalScore : scoreCS.scale;
@@ -393,7 +419,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
     ? {
         player: runnerUp.player,
         finalScore: runnerUp.finalScore,
-        survivalToNextPick: survivalFor(runnerUp),
+        survivalToNextPick: runnerUp.survival,
         rosterGain: runnerUp.rosterGain,
         urgency: runnerUp.urgency,
         market: runnerUp.marketMispricing,
@@ -411,7 +437,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
     name: s.player.name,
     position: s.player.position,
     score: s.finalScore,
-    survival_to_next_pick: survivalFor(s),
+    survival_to_next_pick: s.survival,
   }));
 
   const expectedResponse = top.expectedBestResponsePlayerId

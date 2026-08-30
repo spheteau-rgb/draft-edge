@@ -9,12 +9,26 @@ model_version: "1.0.0"
 
 # PickScore(p) = w_roster*z(RosterGain) + w_urg*z(Urgency) + w_mkt*z(MarketMispricing)
 #              + w_up*z(Upside) - w_pen*z(RosterPenalty) - w_unc*z(UncertaintyPenalty)
+#              - w_surv*z(AdjustedSurvival)
 # Round-stage dependent weights (docs/03 table). R10-14 uncertainty weight is
 # intentionally negative — do not "fix" it to positive.
+#
+# `survival` is an OPPORTUNITY-COST discount, subtracted: a candidate certain to
+# still be on the board at your next turn buys you nothing by being taken now.
+# Without it the score answered "who is best?" rather than docs/03 Alg 5's
+# actual question, "who should I take NOW?" With an empty QB slot the
+# lineup-fit term values a QB at his FULL points (he displaces nobody), so at
+# pick 28 the top four candidates were QBs at survival 1.00 while Saquon
+# Barkley sat at survival 0.00. The lookahead was meant to catch this and
+# cannot: its value is z-scored within a shortlist that is itself selected by
+# ImmediateScore, so a QB-dominated shortlist normalizes the very QB-vs-RB
+# signal that should demote them.
+# Tapers by stage: in R1-4 a miss costs a starter; by R10-14 the board is flat
+# enough that who-survives matters far less than raw ceiling.
 stage_weights:
-  R1_4:   { roster_gain: 0.55, urgency: 0.25, market: 0.08, upside: 0.07, roster_penalty: 0.05, uncertainty: 0.15 }
-  R5_9:   { roster_gain: 0.45, urgency: 0.30, market: 0.08, upside: 0.15, roster_penalty: 0.10, uncertainty: 0.08 }
-  R10_14: { roster_gain: 0.30, urgency: 0.20, market: 0.05, upside: 0.35, roster_penalty: 0.20, uncertainty: -0.05 }
+  R1_4:   { roster_gain: 0.55, urgency: 0.25, market: 0.08, upside: 0.07, roster_penalty: 0.05, uncertainty: 0.15, survival: 0.45 }
+  R5_9:   { roster_gain: 0.45, urgency: 0.30, market: 0.08, upside: 0.15, roster_penalty: 0.10, uncertainty: 0.08, survival: 0.35 }
+  R10_14: { roster_gain: 0.30, urgency: 0.20, market: 0.05, upside: 0.35, roster_penalty: 0.20, uncertainty: -0.05, survival: 0.15 }
 
 # Candidate generation (docs/03 §Candidate generation) — fixed, explicit pool.
 candidate_pool:

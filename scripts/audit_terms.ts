@@ -11,7 +11,8 @@ import { loadModelConfig, stageForRound } from "@/lib/config";
 import { computeAllReplacementValues, computeVORP, computeRosterGain } from "@/lib/vorp";
 import { currentRosterGain } from "@/lib/lineup";
 import { rosterCounts, evaluateConstruction, mustFillPositions } from "@/lib/roster_rules";
-import { computeLeagueMarketRanks, tierUrgency } from "@/lib/market";
+import { computeLeagueMarketRanks, tierUrgency, managerAffinity, runShock } from "@/lib/market";
+import { survivalProb, adjustedSurvival, adpSigmaForRank } from "@/lib/survival";
 import { computeCenterScale, applyZ } from "@/lib/standardize";
 import { runLookahead, buildSimValuation } from "@/lib/lookahead";
 import { slotForPick, nextUserPick, LEAGUE_TEAMS, DRAFT_ROUNDS, USER_SLOT } from "@/lib/store";
@@ -87,19 +88,50 @@ async function auditAt(pick: number, all: PlayerRecord[]) {
     p90Stats[pos] = { mean, sd: Math.sqrt(v) };
   }
 
+  // Same horizon/pressure-slot logic as lib/optimizer.ts.
+  const horizon =
+    state.on_the_clock_slot === USER_SLOT
+      ? nextUserPick(state.current_pick, USER_SLOT)
+      : state.user_next_pick;
+  const oppSlot =
+    state.on_the_clock_slot === USER_SLOT
+      ? slotForPick(state.current_pick + 1)
+      : state.on_the_clock_slot;
+  const pressureByPos = new Map<Position, { pressure: number; shock: number }>();
+
   const comps = available.map((p) => {
     const vorp = computeVORP(p, replacement[p.position] ?? 0);
-    const rGain = currentRosterGain(p, userPlayers);
+    const rGain = currentRosterGain(p, userPlayers, replacement);
     const rosterGain = computeRosterGain(vorp, rGain, stage);
     const urgency = tierUrgency(p.position, available, all);
     const lmr = marketRanks.get(p.player_id)?.rank ?? p.league_market_rank;
     const ps = p90Stats[p.position];
     const construction = evaluateConstruction(p.position, counts, state.current_round);
+    let pressureEntry = pressureByPos.get(p.position);
+    if (!pressureEntry) {
+      pressureEntry = {
+        pressure: managerAffinity(oppSlot, p.position),
+        shock: runShock(p.position, state.picks, state.current_round),
+      };
+      pressureByPos.set(p.position, pressureEntry);
+    }
+    const survival = adjustedSurvival(
+      survivalProb(
+        p.market.expected_pick,
+        adpSigmaForRank(p.market.expected_pick),
+        state.current_pick,
+        horizon
+      ),
+      pressureEntry.pressure,
+      pressureEntry.shock,
+      urgency
+    );
     return {
       p,
       vorp,
       rosterGain,
       urgency,
+      survival,
       market: lmr - p.fundamental_rank,
       upside: ps && ps.sd > 0 ? (p.projection.weekly_p90 - ps.mean) / ps.sd : 0,
       uncertainty: p.projection.weekly_mean > 0 ? p.projection.weekly_sd / p.projection.weekly_mean : 0,
@@ -126,6 +158,7 @@ async function auditAt(pick: number, all: PlayerRecord[]) {
     market: computeCenterScale(cands.map((c) => c.market)),
     upside: computeCenterScale(cands.map((c) => c.upside)),
     uncertainty: computeCenterScale(cands.map((c) => c.uncertainty)),
+    survival: computeCenterScale(cands.map((c) => c.survival)),
   };
 
   const scored = cands
@@ -136,10 +169,11 @@ async function auditAt(pick: number, all: PlayerRecord[]) {
         mkt: weights.market * applyZ(c.market, cs.market),
         up: weights.upside * applyZ(c.upside, cs.upside),
         unc: -weights.uncertainty * applyZ(c.uncertainty, cs.uncertainty),
+        surv: -weights.survival * applyZ(c.survival, cs.survival),
         need: c.needBoost,
         early: -c.earlyPenalty,
       };
-      const immediate = t.roster + t.urg + t.mkt + t.up + t.unc + t.need + t.early;
+      const immediate = t.roster + t.urg + t.mkt + t.up + t.unc + t.surv + t.need + t.early;
       return { c, t, immediate };
     })
     .sort((a, b) => b.immediate - a.immediate);
@@ -164,11 +198,11 @@ async function auditAt(pick: number, all: PlayerRecord[]) {
     return { ...s, laTerm, final: s.immediate + laTerm };
   });
   rows.sort((a, b) => b.final - a.final);
-  console.log("  name                  pos  roster   urg    mkt    up    unc   need  early  IMMED   look   FINAL");
+  console.log("  name                  pos  roster   urg    mkt    up    unc   surv   need  early  IMMED   look   FINAL   P(surv)");
   for (const r of rows) {
     console.log(
       `  ${r.c.p.name.padEnd(21)} ${r.c.p.position.padEnd(4)} ` +
-        [r.t.roster, r.t.urg, r.t.mkt, r.t.up, r.t.unc, r.t.need, r.t.early, r.immediate, r.laTerm, r.final]
+        [r.t.roster, r.t.urg, r.t.mkt, r.t.up, r.t.unc, r.t.surv, r.t.need, r.t.early, r.immediate, r.laTerm, r.final, r.c.survival]
           .map((v) => v.toFixed(2).padStart(6))
           .join(" ")
     );
@@ -178,7 +212,7 @@ async function auditAt(pick: number, all: PlayerRecord[]) {
 async function main() {
   const { players: all } = loadPlayerPool();
   console.log(`pool=${all.length}`);
-  for (const pk of [28, 33]) await auditAt(pk, all);
+  for (const pk of [4, 21, 45, 76, 100, 141, 160]) await auditAt(pk, all);
 }
 
 main();

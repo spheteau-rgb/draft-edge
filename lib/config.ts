@@ -16,6 +16,8 @@ export interface StageWeights {
   upside: number;
   roster_penalty: number;
   uncertainty: number;
+  /** Opportunity-cost discount on AdjustedSurvival — subtracted, not added. */
+  survival: number;
 }
 
 /** Loosely typed mirror of config/model.yaml. Extend as /lib modules need more fields. */

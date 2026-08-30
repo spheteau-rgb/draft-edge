@@ -13,20 +13,34 @@ PickScore(p) = w_roster * z(RosterGain)
              + w_up     * z(Upside)
              - w_pen    * z(RosterPenalty)
              - w_unc    * z(UncertaintyPenalty)
+             - w_surv   * z(AdjustedSurvival)
 ```
 The terms are NOT equally weighted after z-scoring. Weights are **round-stage
 dependent** (early: fundamentals dominate; late: upside dominates). Use exactly this
 table (put it in `config/model.yaml`; do not invent your own):
 
-| Draft stage | RosterGain | Urgency | Market | Upside | RosterPenalty | Uncertainty |
-|---|---|---|---|---|---|---|
-| **R1–4**   | 0.55 | 0.25 | 0.08 | 0.07 | 0.05 |  0.15 |
-| **R5–9**   | 0.45 | 0.30 | 0.08 | 0.15 | 0.10 |  0.08 |
-| **R10–14** | 0.30 | 0.20 | 0.05 | 0.35 | 0.20 | -0.05 |
+| Draft stage | RosterGain | Urgency | Market | Upside | RosterPenalty | Uncertainty | Survival |
+|---|---|---|---|---|---|---|---|
+| **R1–4**   | 0.55 | 0.25 | 0.08 | 0.07 | 0.05 |  0.15 | 0.45 |
+| **R5–9**   | 0.45 | 0.30 | 0.08 | 0.15 | 0.10 |  0.08 | 0.35 |
+| **R10–14** | 0.30 | 0.20 | 0.05 | 0.35 | 0.20 | -0.05 | 0.15 |
 
 The **negative** Uncertainty weight in R10–14 is intentional: late in the draft some
 uncertainty is valuable because you're hunting asymmetric (high-ceiling) bench
 outcomes, so variance is rewarded, not penalized. Do not "fix" it to positive.
+
+The **Survival** term is subtracted: it is an opportunity-cost discount, not a
+value signal. A candidate who is certain to still be on the board at your next
+turn buys you nothing by being taken now. Without it PickScore answers "who is
+best?" rather than Alg 5's actual question, "who should I take NOW?" — observed
+concretely at pick 28, where the top four candidates were QBs at survival 1.00
+while Saquon Barkley sat at survival 0.00 and the model took a QB. The Alg 5
+lookahead was meant to cover this and structurally cannot: its value is z-scored
+*within a shortlist that is itself selected by ImmediateScore*, so a
+QB-dominated shortlist normalizes away the very cross-position signal that
+should demote them. Survival must therefore be scored over the full candidate
+pool, before shortlisting. It uses the same `AdjustedSurvival` (Alg 4) and the
+same horizon as the lookahead, and it is computed once and reused for display.
 
 ### Candidate generation (define the set BEFORE standardizing)
 z-scores depend on the population, so the candidate set must be fixed and explicit —
@@ -120,6 +134,17 @@ Flex-aware gain: add p to your roster, solve best legal starting lineup
 CurrentRosterGain(p) = BestLineup(roster+p) - BestLineup(roster)
 RosterGain(p) = w_vorp*VORP(p) + w_fit*CurrentRosterGain(p)
 ```
+`BestLineup` must value an **unfilled starter slot at that position's
+replacement level, not at zero**. With a zero baseline, filling an open slot
+"gains" the player's full raw points, and raw points are not comparable across
+positions — in standard scoring a QB outscores an RB by roughly 180 points a
+season, so *any* QB beat *any* RB whenever the QB slot was open. That silently
+made the fit term rank by raw cross-position points while VORP, the quantity it
+is blended with, is position-normalized. Valuing the empty slot at replacement
+(the player you would otherwise stream) puts both halves of RosterGain on the
+same footing. The flex slot's baseline is the best of the RB/WR/TE replacement
+levels. Display code that wants the literal current lineup value passes no
+replacement levels and keeps the zero baseline.
 Weights shift by round:
 ```yaml
 rounds_1_4:  {vorp: 0.75, fit: 0.25}
@@ -186,10 +211,22 @@ take your best available response there, and average its value across rollouts u
 **common random numbers** (the SAME opponent-behavior random draws across all
 candidates, so differences reflect the candidate choice, not RNG noise):
 ```
-LookaheadValue(p) = mean over rollouts of [ best-available-response-value at your next pick,
+LookaheadValue(p) = Value(p)                                   # what you get NOW
+                  + mean over rollouts of [ best-available-response-value at your next pick,
                                             given you took p now and opponents then picked ]
 FinalScore(p) = ImmediateScore(p) + 0.55 * z(LookaheadValue(p))
 ```
+
+**The `Value(p)` term is load-bearing — do not drop it.** Scoring only the
+response half asks "which pick leaves the nicest leftovers," which is
+*anti-correlated* with taking the best player: passing on the stud is precisely
+what leaves him on the board, so the term rewards the weaker candidate. It also
+collapses the population's spread (every candidate's leftovers look alike), and
+median/MAD z-scoring then amplifies a ~2-point tail difference into a clamped
+±3 that swamps every other term in PickScore. Both failure modes showed up live
+at pick 4: Jonathan Taylor (VORP 127) ranked LAST of eight while De'Von Achane
+(VORP 82) ranked near the top. Summing both turns is the sequential objective
+this section actually describes.
 
 ### Rollout budget — adaptive, CRN (restore the strong design)
 ```
