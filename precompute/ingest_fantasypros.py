@@ -227,11 +227,16 @@ def fetch_rankings(position: str, season: int = SEASON, week: int = WEEK,
 
 def fetch_rankings_all_positions(season: int = SEASON, week: int = WEEK,
                                   use_cache: bool = True) -> dict[str, list[dict[str, Any]]]:
-    out = {}
-    for pos in DRAFTABLE_POSITIONS:
-        out[pos] = fetch_rankings(pos, season, week, use_cache)
-        time.sleep(0.4)
-    return out
+    """Single overall-ADP call (position=ALL), not per-position.
+
+    consensus-rankings?position=RB returns rank_ecr as the RB-only rank (RB1,
+    RB2, ...), not an overall draft-order rank -- that previously got wired
+    straight into `expected_pick`, so a kicker with rank_ecr=1 (K1) looked
+    like the #1 overall pick. position=ALL returns the same schema with a
+    true cross-positional rank_ecr (pos_rank still carries the per-position
+    label, e.g. "RB5") -- that's the one downstream market logic needs.
+    """
+    return {"ALL": fetch_rankings("ALL", season, week, use_cache)}
 
 
 def fetch_injuries(use_cache: bool = True) -> list[dict[str, Any]]:

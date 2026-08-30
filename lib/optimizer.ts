@@ -20,6 +20,7 @@ import type {
   ReasonCode,
 } from "@/types";
 import { loadModelConfig, stageForRound } from "@/lib/config";
+import { nextUserPick, slotForPick } from "@/lib/store";
 import { computeAllReplacementValues, computeVORP, computeRosterGain } from "@/lib/vorp";
 import { currentRosterGain } from "@/lib/lineup";
 import { computeLeagueMarketRanks, tierUrgency, managerAffinity, runShock } from "@/lib/market";
@@ -194,11 +195,26 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
 
   const shortlist = scored.slice(0, config.candidate_pool.shortlist_size);
 
+  // `state.user_next_pick` means "the next pick_number where the user is on
+  // the clock, inclusive of right now" (docs/06) — it equals current_pick
+  // while the user is actively picking, which is correct for display
+  // (PickCard shows "YOUR PICK NOW — #N") but wrong as the lookahead/survival
+  // target: with gap=0 the rollout skips every opponent pick and survival is
+  // trivially 100%. The real question here is "will this player last until
+  // my NEXT turn after this one," so when on the clock, target the user's
+  // following pick instead.
+  const lookaheadTargetPick =
+    state.on_the_clock_slot === state.user_slot
+      ? nextUserPick(state.current_pick, state.user_slot)
+      : state.user_next_pick;
+  const lookaheadState: DraftState =
+    lookaheadTargetPick === state.user_next_pick ? state : { ...state, user_next_pick: lookaheadTargetPick };
+
   // Alg 5 — CRN rollouts to the user's next pick, for the shortlist only (expensive step).
   const rolloutResults = await runLookahead(
     shortlist.map((s) => s.player),
     available,
-    state
+    lookaheadState
   );
   const rolloutMap = new Map(rolloutResults.map((r) => [r.candidatePlayerId, r]));
   const lookaheadCS = computeCenterScale(
@@ -222,12 +238,23 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
   const top = finalScored[0];
   const runnerUp: FinalScoredComponentSet | null = finalScored[1] ?? null;
 
-  // Survival to the user's own next pick (docs/03 Alg 4).
-  const sigma = adpSigmaForRank(top.player.market.expected_pick);
-  const baseSurv = survivalProb(top.player.market.expected_pick, sigma, state.current_pick, state.user_next_pick);
-  const pressure = managerAffinity(state.on_the_clock_slot, top.player.position);
-  const shock = runShock(top.player.position, state.picks);
-  const survival = adjustedSurvival(baseSurv, pressure, shock, top.urgency);
+  // Survival to the user's own next pick (docs/03 Alg 4). `on_the_clock_slot`
+  // is the user themselves while they're actively picking, so it can't be
+  // used as the "opponent about to snipe this player" pressure signal in
+  // that case — use the slot that picks immediately after this one instead.
+  const nextOpponentSlot =
+    state.on_the_clock_slot === state.user_slot ? slotForPick(state.current_pick + 1) : state.on_the_clock_slot;
+
+  // Same survival model used for the top pick, applied to any shortlisted
+  // candidate — the alternatives list showed a hardcoded 0% before this.
+  const survivalFor = (c: FinalScoredComponentSet): number => {
+    const sigma = adpSigmaForRank(c.player.market.expected_pick);
+    const baseSurv = survivalProb(c.player.market.expected_pick, sigma, state.current_pick, lookaheadTargetPick);
+    const pressure = managerAffinity(nextOpponentSlot, c.player.position);
+    const shock = runShock(c.player.position, state.picks);
+    return adjustedSurvival(baseSurv, pressure, shock, c.urgency);
+  };
+  const survival = survivalFor(top);
 
   const scoreCS = computeCenterScale(finalScored.map((s) => s.finalScore));
   const scoreGap = runnerUp ? top.finalScore - runnerUp.finalScore : scoreCS.scale;
@@ -247,7 +274,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
     ? {
         player: runnerUp.player,
         finalScore: runnerUp.finalScore,
-        survivalToNextPick: 0,
+        survivalToNextPick: survivalFor(runnerUp),
         rosterGain: runnerUp.rosterGain,
         urgency: runnerUp.urgency,
         market: runnerUp.marketMispricing,
@@ -265,7 +292,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
     name: s.player.name,
     position: s.player.position,
     score: s.finalScore,
-    survival_to_next_pick: 0,
+    survival_to_next_pick: survivalFor(s),
   }));
 
   const expectedResponse = top.expectedBestResponsePlayerId

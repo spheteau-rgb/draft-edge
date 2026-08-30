@@ -36,9 +36,18 @@ export function computeCenterScale(values: number[]): CenterScale {
   return { center, scale };
 }
 
-/** Apply a frozen center/scale to a single value. */
+// When a population is degenerate (near-identical values, MAD -> the 1e-9
+// epsilon floor above), dividing by that epsilon turns ordinary
+// floating-point rounding noise into a z-score in the hundreds of millions,
+// which then dominates every downstream weighted sum it feeds into. Clamping
+// to a generous but bounded range preserves ranking among genuinely spread
+// populations while making degenerate ones inert instead of catastrophic.
+const Z_SCORE_CLAMP = 8;
+
+/** Apply a frozen center/scale to a single value, clamped to +/-Z_SCORE_CLAMP. */
 export function applyZ(value: number, cs: CenterScale): number {
-  return (value - cs.center) / cs.scale;
+  const z = (value - cs.center) / cs.scale;
+  return Math.max(-Z_SCORE_CLAMP, Math.min(Z_SCORE_CLAMP, z));
 }
 
 /** Convenience: compute center/scale from `values` and return the z-scores for `values`. */

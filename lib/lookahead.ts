@@ -29,6 +29,15 @@ export interface RolloutResult {
 // not a tunable heuristic coefficient.
 const LEAGUE_TEAMS = 12;
 
+const POSITIONS: Position[] = ["QB", "RB", "WR", "TE", "K", "DST"];
+
+interface PositionScoreWeights {
+  market_best_at_pos: number;
+  roster_need: number;
+  manager_affinity: number;
+  run_pressure: number;
+}
+
 /**
  * FinalScore(p) = ImmediateScore(p) + 0.55 * z(LookaheadValue(p))
  * (weight from config/model.yaml lookahead.final_score_weight)
@@ -45,7 +54,7 @@ function slotForPick(pickNumber: number, teams = LEAGUE_TEAMS): number {
 }
 
 /** Manager slots that pick between the user's current turn and their next turn. */
-function opponentSlotsBetween(state: DraftState): number[] {
+export function opponentSlotsBetween(state: DraftState): number[] {
   const slots: number[] = [];
   for (let pick = state.current_pick + 1; pick < state.user_next_pick; pick++) {
     slots.push(slotForPick(pick));
@@ -54,7 +63,7 @@ function opponentSlotsBetween(state: DraftState): number[] {
 }
 
 /** Deterministic per-draft-state seed base so a snapshot's rollouts can be replayed exactly. */
-function deriveSeedBase(state: DraftState): number {
+export function deriveSeedBase(state: DraftState): number {
   return state.current_pick * 1000003 + state.drafted_player_ids.length * 97 + 1;
 }
 
@@ -80,26 +89,132 @@ function estimateRosterNeed(managerSlot: number, position: Position, state: Draf
 }
 
 /**
+ * managerAffinity(managerSlot, position) and runShock(position, state.picks)
+ * are pure functions of inputs that never change within a single runLookahead
+ * call (state.picks is the real draft history, untouched by simulated
+ * opponent picks) — memoizing them collapses what would otherwise be up to
+ * ~384,000 redundant recomputations (shortlist x rollouts x gapSlots x
+ * positions) down to at most a few dozen.
+ */
+interface PositionScoreMemo {
+  affinity: Map<string, number>;
+  shock: Map<Position, number>;
+}
+
+function createPositionScoreMemo(): PositionScoreMemo {
+  return { affinity: new Map(), shock: new Map() };
+}
+
+function memoizedAffinity(memo: PositionScoreMemo, managerSlot: number, position: Position): number {
+  const key = `${managerSlot}:${position}`;
+  let v = memo.affinity.get(key);
+  if (v === undefined) {
+    v = managerAffinity(managerSlot, position);
+    memo.affinity.set(key, v);
+  }
+  return v;
+}
+
+function memoizedRunShock(memo: PositionScoreMemo, position: Position, picks: DraftState["picks"]): number {
+  let v = memo.shock.get(position);
+  if (v === undefined) {
+    v = runShock(position, picks);
+    memo.shock.set(position, v);
+  }
+  return v;
+}
+
+/**
+ * Exact incremental simulation engine. Built ONCE per lookahead over the full
+ * (already-undrafted) available pool, then reused across every candidate and
+ * rollout. Instead of re-bucketing and re-scanning the whole ~600-player pool
+ * for every simulated opponent pick, each pick reads the front of three
+ * pre-sorted views, skipping only the handful of players removed so far this
+ * rollout. That makes each opponent-pick decision O(picks-removed-so-far)
+ * (<= ~2 dozen) instead of O(pool size) — identical numbers, no pool cap, no
+ * approximation. Equivalence to naive per-call bucketing is asserted in
+ * scripts/test_lookahead_equiv.ts.
+ */
+interface SimEngine {
+  /** All players, playerValue descending (ties keep pool order) — best-available scans. */
+  valueDescGlobal: PlayerRecord[];
+  /** Per position, playerValue descending — best-at-position value scans. */
+  byPosValueDesc: Map<Position, PlayerRecord[]>;
+  /** Per position, ADP ascending (ties keep pool order) — top-3 / argmax selection. */
+  byPosAdpAsc: Map<Position, PlayerRecord[]>;
+  total: number;
+  poolIds: Set<string>;
+}
+
+/**
+ * The pool handed to runLookahead is already fully undrafted (optimizer filters
+ * drafted + is_drafted before calling), so every player here is selectable.
+ * JS Array.sort is stable, so ties in both comparators preserve the original
+ * pool order — that stability is what makes the incremental front-scans below
+ * numerically identical to sorting the live remaining subset every call.
+ */
+export function buildSimEngine(availablePool: PlayerRecord[]): SimEngine {
+  const valueDescGlobal = [...availablePool].sort((a, b) => playerValue(b) - playerValue(a));
+  const byPosValueDesc = new Map<Position, PlayerRecord[]>();
+  const byPosAdpAsc = new Map<Position, PlayerRecord[]>();
+  const poolIds = new Set<string>();
+  for (const p of availablePool) {
+    poolIds.add(p.player_id);
+    let vd = byPosValueDesc.get(p.position);
+    if (!vd) {
+      vd = [];
+      byPosValueDesc.set(p.position, vd);
+    }
+    vd.push(p);
+    let aa = byPosAdpAsc.get(p.position);
+    if (!aa) {
+      aa = [];
+      byPosAdpAsc.set(p.position, aa);
+    }
+    aa.push(p);
+  }
+  for (const arr of byPosValueDesc.values()) arr.sort((a, b) => playerValue(b) - playerValue(a));
+  for (const arr of byPosAdpAsc.values()) arr.sort((a, b) => a.market.expected_pick - b.market.expected_pick);
+  return { valueDescGlobal, byPosValueDesc, byPosAdpAsc, total: availablePool.length, poolIds };
+}
+
+/** First player in a pre-sorted view not yet removed this rollout (or null). */
+function firstNotRemoved(arr: PlayerRecord[] | undefined, removed: Set<string>): PlayerRecord | null {
+  if (!arr) return null;
+  for (const p of arr) if (!removed.has(p.player_id)) return p;
+  return null;
+}
+
+function bestAtPosValue(engine: SimEngine, position: Position, removed: Set<string>): number {
+  const p = firstNotRemoved(engine.byPosValueDesc.get(position), removed);
+  return p ? playerValue(p) : 0;
+}
+
+/** Best available player (max playerValue) not yet removed — the user's response at their next pick. */
+function bestResponse(engine: SimEngine, removed: Set<string>): PlayerRecord | null {
+  return firstNotRemoved(engine.valueDescGlobal, removed);
+}
+
+/**
  * PositionScore(pos) = 0.45*market_best_at_pos + 0.25*roster_need
  *                    + 0.20*manager_affinity + 0.10*run_pressure
+ * Given the best-at-position value and best-overall value directly (both from
+ * the incremental engine), so no per-call pool scan is needed here.
  */
-function positionScore(
+function positionScoreFromValues(
   position: Position,
   managerSlot: number,
-  availablePool: PlayerRecord[],
+  bestAtPos: number,
+  bestOverall: number,
   state: DraftState,
-  weights: { market_best_at_pos: number; roster_need: number; manager_affinity: number; run_pressure: number }
+  weights: PositionScoreWeights,
+  memo: PositionScoreMemo
 ): number {
-  const atPos = availablePool.filter((p) => p.position === position && !p.is_drafted);
-  const bestAtPos = atPos.length > 0 ? Math.max(...atPos.map(playerValue)) : 0;
-  const bestOverall = availablePool.length > 0 ? Math.max(...availablePool.map(playerValue)) : 1;
   const marketBest = bestOverall > 0 ? Math.max(0, bestAtPos) / bestOverall : 0;
-
   const rosterNeed = estimateRosterNeed(managerSlot, position, state);
-  const affinity = managerAffinity(managerSlot, position);
-  const shock = runShock(position, state.picks); // capped [-3,3]
+  const affinity = memoizedAffinity(memo, managerSlot, position);
+  const shock = memoizedRunShock(memo, position, state.picks); // capped [-3,3]
   const runPressure = (shock + 3) / 6; // normalize to [0,1]
-
   return (
     weights.market_best_at_pos * marketBest +
     weights.roster_need * rosterNeed +
@@ -108,25 +223,40 @@ function positionScore(
   );
 }
 
+/** The six position scores for a single opponent decision, given current removals. */
+function scorePositions(
+  managerSlot: number,
+  engine: SimEngine,
+  removed: Set<string>,
+  state: DraftState,
+  weights: PositionScoreWeights,
+  memo: PositionScoreMemo
+): number[] {
+  const bestAtPos = POSITIONS.map((pos) => bestAtPosValue(engine, pos, removed));
+  const bestOverall = Math.max(...bestAtPos); // == max playerValue over the remaining pool
+  return POSITIONS.map((pos, i) =>
+    positionScoreFromValues(pos, managerSlot, bestAtPos[i], bestOverall, state, weights, memo)
+  );
+}
+
 /**
  * Opponent pick policy for a single rollout step (docs/03 §Alg 5):
- * PositionScore = 0.45*market_best_at_pos + 0.25*roster_need
- *               + 0.20*manager_affinity + 0.10*run_pressure
- * choose position via softmax(T=0.8); then top-3 market players at pos: 70/20/10.
+ * choose position via softmax(T); then top-3 by ADP at that position: 70/20/10.
+ * Incremental: reads engine views, skipping `removed`.
  */
-export function opponentPickPolicy(
+function opponentPickStep(
   managerSlot: number,
-  availablePool: PlayerRecord[],
+  engine: SimEngine,
+  removed: Set<string>,
   state: DraftState,
-  rngSeed: number
-): PlayerRecord {
-  const config = loadModelConfig();
+  rngSeed: number,
+  weights: PositionScoreWeights,
+  temperature: number,
+  top3Probs: number[],
+  memo: PositionScoreMemo
+): PlayerRecord | null {
   const rng = mulberry32(rngSeed);
-  const weights = config.lookahead.opponent_policy.position_score_weights;
-  const temperature = config.lookahead.opponent_policy.softmax_temperature;
-  const positions: Position[] = ["QB", "RB", "WR", "TE", "K", "DST"];
-
-  const scores = positions.map((pos) => positionScore(pos, managerSlot, availablePool, state, weights));
+  const scores = scorePositions(managerSlot, engine, removed, state, weights, memo);
   const maxScore = Math.max(...scores);
   const exps = scores.map((s) => Math.exp((s - maxScore) / Math.max(1e-6, temperature)));
   const sumExp = exps.reduce((a, b) => a + b, 0) || 1;
@@ -134,26 +264,30 @@ export function opponentPickPolicy(
 
   const u1 = rng();
   let cumulative = 0;
-  let chosenPos: Position = positions[positions.length - 1];
-  for (let i = 0; i < positions.length; i++) {
+  let chosenPos: Position = POSITIONS[POSITIONS.length - 1];
+  for (let i = 0; i < POSITIONS.length; i++) {
     cumulative += probs[i];
     if (u1 <= cumulative) {
-      chosenPos = positions[i];
+      chosenPos = POSITIONS[i];
       break;
     }
   }
 
-  const atPos = availablePool
-    .filter((p) => p.position === chosenPos && !p.is_drafted)
-    .sort((a, b) => a.market.expected_pick - b.market.expected_pick);
-
-  if (atPos.length === 0) {
-    const fallback = [...availablePool].sort((a, b) => playerValue(b) - playerValue(a))[0];
-    return fallback ?? availablePool[0];
+  const adpArr = engine.byPosAdpAsc.get(chosenPos);
+  const top3: PlayerRecord[] = [];
+  if (adpArr) {
+    for (const p of adpArr) {
+      if (removed.has(p.player_id)) continue;
+      top3.push(p);
+      if (top3.length === 3) break;
+    }
+  }
+  if (top3.length === 0) {
+    // Chosen position exhausted — fall back to overall best available.
+    return firstNotRemoved(engine.valueDescGlobal, removed);
   }
 
-  const top3 = atPos.slice(0, 3);
-  const rawProbs = config.lookahead.opponent_policy.top3_player_probs.slice(0, top3.length);
+  const rawProbs = top3Probs.slice(0, top3.length);
   const sumRaw = rawProbs.reduce((a, b) => a + b, 0) || 1;
   const normProbs = rawProbs.map((p) => p / sumRaw);
 
@@ -171,46 +305,49 @@ export function opponentPickPolicy(
 }
 
 /** Argmax version of the opponent policy (no sampling) — used by the deterministic floor. */
-function expectedOpponentPick(managerSlot: number, availablePool: PlayerRecord[], state: DraftState): PlayerRecord {
-  const config = loadModelConfig();
-  const weights = config.lookahead.opponent_policy.position_score_weights;
-  const positions: Position[] = ["QB", "RB", "WR", "TE", "K", "DST"];
-  let bestPos: Position = positions[0];
+function expectedOpponentPickStep(
+  managerSlot: number,
+  engine: SimEngine,
+  removed: Set<string>,
+  state: DraftState,
+  weights: PositionScoreWeights,
+  memo: PositionScoreMemo
+): PlayerRecord | null {
+  const scores = scorePositions(managerSlot, engine, removed, state, weights, memo);
+  let bestPos: Position = POSITIONS[0];
   let bestScore = -Infinity;
-  for (const pos of positions) {
-    const score = positionScore(pos, managerSlot, availablePool, state, weights);
-    if (score > bestScore) {
-      bestScore = score;
-      bestPos = pos;
+  for (let i = 0; i < POSITIONS.length; i++) {
+    if (scores[i] > bestScore) {
+      bestScore = scores[i];
+      bestPos = POSITIONS[i];
     }
   }
-  const atPos = availablePool
-    .filter((p) => p.position === bestPos && !p.is_drafted)
-    .sort((a, b) => a.market.expected_pick - b.market.expected_pick);
-  if (atPos.length > 0) return atPos[0];
-  const fallback = [...availablePool].sort((a, b) => playerValue(b) - playerValue(a))[0];
-  return fallback ?? availablePool[0];
-}
-
-function bestAvailableResponse(pool: PlayerRecord[]): PlayerRecord | null {
-  return pool.reduce<PlayerRecord | null>((acc, p) => (!acc || playerValue(p) > playerValue(acc) ? p : acc), null);
+  const first = firstNotRemoved(engine.byPosAdpAsc.get(bestPos), removed);
+  return first ?? firstNotRemoved(engine.valueDescGlobal, removed);
 }
 
 /** Never drop below this — deterministic expected lookahead (docs/03 §Alg 5 rollout budget). */
 function deterministicLookahead(
+  engine: SimEngine,
   shortlist: PlayerRecord[],
-  availablePool: PlayerRecord[],
   state: DraftState,
   gapSlots: number[]
 ): RolloutResult[] {
+  const config = loadModelConfig();
+  const weights = config.lookahead.opponent_policy.position_score_weights;
+  const memo = createPositionScoreMemo();
   return shortlist.map((candidate) => {
-    let pool = availablePool.filter((p) => p.player_id !== candidate.player_id);
+    const removed = new Set<string>([candidate.player_id]);
+    let remaining = engine.total - (engine.poolIds.has(candidate.player_id) ? 1 : 0);
     for (const slot of gapSlots) {
-      if (pool.length === 0) break;
-      const picked = expectedOpponentPick(slot, pool, state);
-      pool = pool.filter((p) => p.player_id !== picked.player_id);
+      if (remaining === 0) break;
+      const picked = expectedOpponentPickStep(slot, engine, removed, state, weights, memo);
+      if (picked && !removed.has(picked.player_id)) {
+        removed.add(picked.player_id);
+        remaining--;
+      }
     }
-    const best = bestAvailableResponse(pool);
+    const best = bestResponse(engine, removed);
     return {
       candidatePlayerId: candidate.player_id,
       lookaheadValue: best ? playerValue(best) : 0,
@@ -221,9 +358,14 @@ function deterministicLookahead(
   });
 }
 
-function simulateAll(
+/**
+ * CRN Monte Carlo over the shortlist against a prebuilt SimEngine. Exported for
+ * the equivalence test (scripts/test_lookahead_equiv.ts), which drives it with
+ * fixed seeds and asserts identical output to a naive per-call reference.
+ */
+export function simulateAll(
+  engine: SimEngine,
   shortlist: PlayerRecord[],
-  availablePool: PlayerRecord[],
   state: DraftState,
   gapSlots: number[],
   rolloutsPerCandidate: number,
@@ -231,23 +373,33 @@ function simulateAll(
   startTime: number,
   hardCeilingMs: number
 ): RolloutResult[] {
+  const config = loadModelConfig();
+  const weights = config.lookahead.opponent_policy.position_score_weights;
+  const temperature = config.lookahead.opponent_policy.softmax_temperature;
+  const top3Probs = config.lookahead.opponent_policy.top3_player_probs;
+  const memo = createPositionScoreMemo();
   const results: RolloutResult[] = [];
   for (const candidate of shortlist) {
     let sum = 0;
     let used = 0;
     const responseCounts = new Map<string, number>();
+    const candidateInPool = engine.poolIds.has(candidate.player_id);
     for (let r = 0; r < rolloutsPerCandidate; r++) {
       if (r % 50 === 0 && Date.now() - startTime > hardCeilingMs) break; // latency safety valve
-      let pool = availablePool.filter((p) => p.player_id !== candidate.player_id);
+      const removed = new Set<string>([candidate.player_id]);
+      let remaining = engine.total - (candidateInPool ? 1 : 0);
       for (let i = 0; i < gapSlots.length; i++) {
-        if (pool.length === 0) break;
-        // CRN: seed depends only on (rollout index, step index), never on the candidate,
-        // so every candidate's branch sees the same opponent-behavior random draws.
+        if (remaining === 0) break;
+        // CRN: seed depends only on (rollout index, step index), never on the
+        // candidate, so every candidate's branch sees the same opponent draws.
         const seed = seedBase + r * 7919 + i * 104729;
-        const picked = opponentPickPolicy(gapSlots[i], pool, state, seed);
-        pool = pool.filter((p) => p.player_id !== picked.player_id);
+        const picked = opponentPickStep(gapSlots[i], engine, removed, state, seed, weights, temperature, top3Probs, memo);
+        if (picked && !removed.has(picked.player_id)) {
+          removed.add(picked.player_id);
+          remaining--;
+        }
       }
-      const best = bestAvailableResponse(pool);
+      const best = bestResponse(engine, removed);
       sum += best ? playerValue(best) : 0;
       used += 1;
       if (best) responseCounts.set(best.player_id, (responseCounts.get(best.player_id) ?? 0) + 1);
@@ -283,6 +435,7 @@ export async function runLookahead(
   const config = loadModelConfig();
   const gapSlots = opponentSlotsBetween(state);
   const seedBase = deriveSeedBase(state);
+  const engine = buildSimEngine(availablePool);
 
   // Never simulate opponents beyond your next pick, and if you're on the
   // clock right now with no gap, the "lookahead" degenerates to "what's
@@ -293,8 +446,8 @@ export async function runLookahead(
     const t0 = Date.now();
     try {
       const results = simulateAll(
+        engine,
         shortlist,
-        availablePool,
         state,
         gapSlots,
         budget,
@@ -313,7 +466,7 @@ export async function runLookahead(
 
   // Floor: deterministic survival-aware lookahead — the sequential term must
   // always be present in some form (CLAUDE.md, docs/03).
-  return deterministicLookahead(shortlist, availablePool, state, gapSlots);
+  return deterministicLookahead(engine, shortlist, state, gapSlots);
 }
 
 /**
