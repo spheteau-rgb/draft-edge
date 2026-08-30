@@ -51,17 +51,36 @@ const TIER_URGENCY_THRESHOLD = 0.5;
  * using the scored candidate's components — never free-text/LLM-generated.
  * MODEL_DISAGREEMENT is added by the caller via checkDoNotReach, not here.
  */
-export function generateReasons(top: ScoredCandidate, runnerUp: ScoredCandidate | null): ReasonCode[] {
+export function generateReasons(
+  top: ScoredCandidate,
+  runnerUp: ScoredCandidate | null,
+  currentPick: number
+): ReasonCode[] {
   const reasons: ReasonCode[] = [];
+  const config = loadModelConfig();
+  const gapThreshold = config.do_not_reach.pick_gap_threshold;
 
   if (top.survivalToNextPick < SURVIVAL_LOW_THRESHOLD) {
     reasons.push("WONT_SURVIVE");
   }
 
+  // POSITION_CLIFF must reflect a genuine drop-off against the TRUE field, not
+  // just the next-ranked same-position candidate. `runnerUp` here is already
+  // the actual overall #2 by FinalScore (lib/optimizer.ts finalScored[1]), so
+  // requiring same-position is fine as far as it goes -- but if BOTH the
+  // candidate and that same-position runner-up are themselves reaching well
+  // past their own market ADP (e.g. two veteran QBs the room wouldn't touch
+  // for another 80+ picks, both inflated by the same starter_need_boost),
+  // the "cliff" is trivially real within that mispriced cluster and proves
+  // nothing about the real field. Require the comparator itself to NOT be a
+  // big reach past its own expected_pick before it counts as clearing the
+  // do-not-reach bar.
+  const runnerUpPickGap = runnerUp ? runnerUp.player.market.expected_pick - currentPick : 0;
   if (
     runnerUp &&
     runnerUp.player.position === top.player.position &&
-    top.rosterGain - runnerUp.rosterGain > CLIFF_ROSTER_GAIN_DELTA
+    top.rosterGain - runnerUp.rosterGain > CLIFF_ROSTER_GAIN_DELTA &&
+    runnerUpPickGap < gapThreshold
   ) {
     reasons.push("POSITION_CLIFF");
   }

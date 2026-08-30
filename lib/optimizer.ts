@@ -458,7 +458,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
       }
     : null;
 
-  let reasons = generateReasons(topCandidate, runnerUpCandidate);
+  let reasons = generateReasons(topCandidate, runnerUpCandidate, state.current_pick);
   const doNotReach = checkDoNotReach(topCandidate, state.current_pick, reasons);
   if (doNotReach) reasons = Array.from(new Set([...reasons, "MODEL_DISAGREEMENT" as ReasonCode])).slice(0, 3);
 
