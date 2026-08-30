@@ -283,7 +283,8 @@ def build_players_json(use_cache: bool = True) -> list[dict[str, Any]]:
     model_cfg = load_model_config()
     cv = model_cfg["weekly_cv_priors"]
 
-    ingested = fp.run_ingest(use_cache=use_cache)
+    ingested = fp.run_ingest(use_cache=use_cache,
+                             adp_scoring=model_cfg["market"].get("adp_scoring", "STD"))
     crosswalk = ingested["crosswalk"]
     projections = ingested["projections"]  # {pos: [player,...]}
     dst_weekly_pa = ingested["dst_weekly_pa"]  # {team_id: weekly_pa}
@@ -307,6 +308,15 @@ def build_players_json(use_cache: bool = True) -> list[dict[str, Any]]:
                 "rank_ecr": p.get("rank_ecr"),
                 "rank_std": p.get("rank_std"),
             }
+
+    # Real ADP (where players actually go), keyed by fpid. `rank_ave` is the
+    # mean draft position; `rank_ecr` in this payload is its rank order.
+    adp_by_fpid: dict[str, float] = {}
+    for p in ingested["adp"]:
+        try:
+            adp_by_fpid[str(p.get("player_id"))] = float(p["rank_ave"])
+        except (TypeError, ValueError, KeyError):
+            continue
 
     out_players: list[dict[str, Any]] = []
     skipped_no_crosswalk = 0
@@ -349,7 +359,10 @@ def build_players_json(use_cache: bool = True) -> list[dict[str, Any]]:
             except (TypeError, ValueError):
                 bye_week = None
 
-            adp_fp = rank_info.get("rank_ecr")
+            # Prefer real ADP; fall back to ECR rank only when the player has
+            # no ADP entry (deep bench, K/DST), never fabricating a number.
+            rank_ecr = rank_info.get("rank_ecr")
+            adp_fp = adp_by_fpid.get(fpid, rank_ecr)
             adp_sigma = 18.0
             sigma_tiers = model_cfg["market"]["adp_sigma_by_tier"]
             if adp_fp is not None:

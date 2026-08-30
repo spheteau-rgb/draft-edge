@@ -42,6 +42,26 @@ export interface ModelConfig {
     R12_plus: { K: number; DST: number };
     guardrail_override: { exceptional_vorp_z: number };
   };
+  roster_construction: {
+    position_caps: Partial<Record<string, number>>;
+    earliest_round: Partial<Record<string, number>>;
+    early_position_penalty: Partial<
+      Record<
+        string,
+        {
+          before_round: number;
+          penalty: number;
+          /** Lift the penalty if the player's real (history-adjusted) ADP is already this early — market-corroborated elite. */
+          override_expected_pick_max?: number;
+          /** Fallback lift if ADP is missing/stale: stricter than the generic guardrail override. */
+          override_vorp_z?: number;
+        }
+      >
+    >;
+    starter_need_boost: number;
+    depth_targets: Partial<Record<string, number>>;
+    depth_boost: number;
+  };
   market: {
     adp_weights: Record<string, number>;
     position_bias_cap: [number, number];

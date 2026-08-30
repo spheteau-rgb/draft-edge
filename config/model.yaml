@@ -67,8 +67,68 @@ kdst_guardrail:
   guardrail_override:
     exceptional_vorp_z: 1.5
 
+# Hard roster-construction layer (docs/03 §Roster construction). Applied BEFORE
+# scoring: structurally-wrong picks (a 2nd DST, a backup QB/TE, an early kicker)
+# are removed from the candidate pool entirely rather than relying on soft
+# z-penalties that upside/urgency can overwhelm. Locked with the user for the
+# Family Affair room; matches the league's own draft history. If every candidate
+# is hard-blocked (degenerate late-draft state) the optimizer ignores the blocks
+# so the live path still returns a pick (CLAUDE.md non-negotiable #1).
+roster_construction:
+  # Max players the optimizer will ever draft at each position (starter + bench).
+  # QB & TE capped at 1 per the user's explicit rule: no backup QB or TE. One K,
+  # one DST. RB/WR left generous (don't hoard 9+ at one spot).
+  position_caps:
+    QB: 1
+    TE: 1
+    K: 1
+    DST: 1
+    RB: 8
+    WR: 8
+  # Never recommend these positions before this (1-indexed) round. Matches the
+  # league pattern (first DST rounds 10-14, kickers last). Hard, not a nudge.
+  earliest_round:
+    K: 13
+    DST: 12
+  # Soft discouragement for taking a position before the room usually does.
+  # Never a hard block — a genuinely elite player can still win, but the bar is
+  # deliberately corroborated by real market signal, not just our own model:
+  #   - override_expected_pick_max: lift the penalty if the player's blended
+  #     ADP (CBS/FantasyPros, historical Family Affair position-bias applied —
+  #     lib/market.ts baseExpectedPick) already has him going this early. This
+  #     is "the room agrees he's elite," not just our model liking him.
+  #   - override_vorp_z: fallback if ADP data is missing/stale — requires a
+  #     STRICTER bar than the generic K/DST guardrail override (2.25 vs 1.5),
+  #     so "way too irresistible to pass" means something beyond routine value.
+  # QB leans R3: league history + the CBS QB-tier writeup both show true Tier-1
+  # QBs going R3-6, not R1-2 — R1-2 QB is a reach the room doesn't make.
+  early_position_penalty:
+    QB:
+      before_round: 3
+      penalty: 4.0
+      override_expected_pick_max: 24   # top-2-rounds-by-ADP == market-corroborated elite
+      override_vorp_z: 2.25
+    TE:
+      before_round: 3
+      penalty: 2.0
+      override_expected_pick_max: 24
+      override_vorp_z: 2.25
+  # Additive z-boost to a candidate that fills an UNFILLED starter slot, so an
+  # empty WR2 outranks bench depth at a full position late in the draft.
+  starter_need_boost: 1.0
+  # Secondary, smaller boost to build sensible RB/WR depth (bye/injury coverage)
+  # before hoarding one position. Without it the VORP-driven model piled into RB
+  # once WR starters were filled, yielding fragile 8-RB / 2-WR rosters — the fit
+  # term can't tell a redundant 3rd RB from a 3rd WR (both add ~0 to the best
+  # starting lineup). Keeps depth balanced until each hits its target.
+  depth_targets: { RB: 5, WR: 5 }
+  depth_boost: 0.4
+
 # Alg 4 — market model
 market:
+  # Family Affair is standard scoring plus small non-cumulative reception
+  # bonuses (4/7/10 rec), so STD ADP tracks this room better than HALF or PPR.
+  adp_scoring: STD
   adp_weights: { cbs: 0.50, fantasypros: 0.30, other: 0.20 }   # renormalize over what exists
   position_bias_cap: [-5, 5]   # never let thin history swing more than this
   manager_affinity_shrinkage_k: 8   # Beta-shrunk: (count + k*rate) / (total + k)

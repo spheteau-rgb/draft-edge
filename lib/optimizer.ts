@@ -20,9 +20,10 @@ import type {
   ReasonCode,
 } from "@/types";
 import { loadModelConfig, stageForRound } from "@/lib/config";
-import { nextUserPick, slotForPick } from "@/lib/store";
+import { nextUserPick, slotForPick, LEAGUE_TEAMS, DRAFT_ROUNDS } from "@/lib/store";
 import { computeAllReplacementValues, computeVORP, computeRosterGain } from "@/lib/vorp";
 import { currentRosterGain } from "@/lib/lineup";
+import { rosterCounts, evaluateConstruction, mustFillPositions } from "@/lib/roster_rules";
 import { computeLeagueMarketRanks, tierUrgency, managerAffinity, runShock } from "@/lib/market";
 import { survivalProb, adjustedSurvival, adpSigmaForRank } from "@/lib/survival";
 import { computeCenterScale, applyZ, type CenterScale } from "@/lib/standardize";
@@ -40,6 +41,13 @@ interface ComponentSet {
   /** Pre-baked z-value for the K/DST guardrail (docs/03), 0 for every other position. */
   rosterPenaltyRaw: number;
   leagueMarketRank: number;
+  /** Hard roster-construction layer (lib/roster_rules.ts). */
+  hardBlock: boolean;
+  hardBlockReason: string | null;
+  /** Soft, VORP-overridable penalty for an early QB/TE reach (z-scale). */
+  earlyPenalty: number;
+  /** Additive z-boost for a candidate that fills an unfilled starter slot. */
+  needBoost: number;
 }
 
 interface ScoredComponentSet extends ComponentSet {
@@ -80,7 +88,33 @@ function computeComponents(
   const replacementValues = computeAllReplacementValues(available);
   const marketRanks = computeLeagueMarketRanks(available, state);
   const userPlayers = playersForManager(state.user_slot, state, allPlayers);
+  const counts = rosterCounts(userPlayers);
   const round = state.current_round;
+
+  // End-of-draft "must-fill": how many picks does the user have left, and does
+  // that force the pool down to only still-needed mandatory positions (so K/DST
+  // actually get taken before the roster becomes illegal).
+  const totalPicks = LEAGUE_TEAMS * DRAFT_ROUNDS;
+  let remainingUserPicks = 0;
+  for (let pk = state.current_pick; pk <= totalPicks; pk++) {
+    if (slotForPick(pk) === state.user_slot) remainingUserPicks += 1;
+  }
+  const forced = mustFillPositions(counts, remainingUserPicks);
+
+  // Per-position weekly_p90 mean/sd over the available pool, so "upside" can be
+  // expressed as a WITHIN-position z-score. Raw weekly_p90 is cross-position
+  // points (QBs 25-30 pt ceilings dominate); a naive relative ceiling
+  // ((p90-mean)/mean) fixes the scale but INVERTS within-position ranking,
+  // rewarding low-mean scrubs. Within-position z keeps studs above scrubs AND
+  // is comparable across positions — the correct normalization.
+  const p90ByPos: Record<string, number[]> = {};
+  for (const p of available) (p90ByPos[p.position] ??= []).push(p.projection.weekly_p90);
+  const p90Stats: Record<string, { mean: number; sd: number }> = {};
+  for (const [pos, vals] of Object.entries(p90ByPos)) {
+    const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const variance = vals.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(1, vals.length);
+    p90Stats[pos] = { mean, sd: Math.sqrt(variance) };
+  }
 
   return available.map((p) => {
     const vorp = computeVORP(p, replacementValues[p.position] ?? 0);
@@ -92,7 +126,13 @@ function computeComponents(
     // Positive = the room is letting him fall further than fundamental value
     // suggests (a "discount"); negative = the room reaches for him early.
     const marketMispricing = leagueMarketRank - p.fundamental_rank;
-    const upside = p.projection.weekly_p90;
+    // Position-NORMALIZED ceiling: weekly_p90 z-scored WITHIN the player's
+    // position. Raw weekly_p90 is cross-position points, so QBs (25-30 pt
+    // ceilings) dominated the upside term and surfaced backup QBs in R10-14
+    // where upside is weighted heaviest (0.35). Within-position z removes that
+    // scale bias while preserving stud-over-scrub ordering at each position.
+    const ps = p90Stats[p.position];
+    const upside = ps && ps.sd > 0 ? (p.projection.weekly_p90 - ps.mean) / ps.sd : 0;
     const uncertainty =
       p.projection.weekly_mean > 0 ? p.projection.weekly_sd / p.projection.weekly_mean : 0;
 
@@ -100,6 +140,26 @@ function computeComponents(
     if (p.position === "K" || p.position === "DST") {
       const bucket = kdstBucket(round);
       rosterPenaltyRaw = config.kdst_guardrail[bucket][p.position as "K" | "DST"];
+    }
+
+    // Hard roster-construction layer: caps (no backup QB/TE, one K, one DST),
+    // earliest-round gates (K/DST), soft early-reach penalty, starter-need boost.
+    const construction = evaluateConstruction(p.position, counts, round);
+
+    // Must-fill override: near the end, restrict the pool to still-needed
+    // mandatory positions. A forced-needed position is also UN-blocked (it
+    // can't be at cap since it's below its minimum, and its earliest-round gate
+    // must yield to fielding a legal lineup).
+    let hardBlock = construction.hardBlock;
+    let hardBlockReason = construction.hardBlockReason;
+    if (forced) {
+      if (forced.has(p.position)) {
+        hardBlock = false;
+        hardBlockReason = null;
+      } else {
+        hardBlock = true;
+        hardBlockReason = `must-fill: only ${[...forced].join("/")} remaining`;
+      }
     }
 
     return {
@@ -112,6 +172,10 @@ function computeComponents(
       uncertainty,
       rosterPenaltyRaw,
       leagueMarketRank,
+      hardBlock,
+      hardBlockReason,
+      earlyPenalty: construction.earlyPenalty,
+      needBoost: construction.needBoost,
     };
   });
 }
@@ -119,6 +183,15 @@ function computeComponents(
 /** docs/03 §Candidate generation — fixed union of top-N by each metric (config/model.yaml candidate_pool). */
 function buildCandidatePool(components: ComponentSet[]): ComponentSet[] {
   const config = loadModelConfig().candidate_pool;
+  // Hard roster-construction filter FIRST (lib/roster_rules.ts): remove
+  // structurally-wrong picks (backup QB/TE, 2nd K/DST, early K/DST) before the
+  // pool is even built. Safety net (CLAUDE.md non-negotiable #1): if that would
+  // empty the pool — a degenerate late-draft state — keep the full set so the
+  // live path always returns a pick.
+  const eligible = components.filter((c) => !c.hardBlock);
+  const pool = eligible.length > 0 ? eligible : components;
+  components = pool;
+
   const byFundamental = [...components]
     .sort((a, b) => a.player.fundamental_rank - b.player.fundamental_rank)
     .slice(0, config.top_by_fundamental_value);
@@ -141,7 +214,8 @@ function scoreCandidate(
   c: ComponentSet,
   cs: Record<"vorp" | "rosterGain" | "urgency" | "market" | "upside" | "uncertainty", CenterScale>,
   weights: ReturnType<typeof loadModelConfig>["stage_weights"]["R1_4"],
-  overrideZ: number
+  overrideZ: number,
+  earlyPenaltyConfig: ReturnType<typeof loadModelConfig>["roster_construction"]["early_position_penalty"]
 ): ScoredComponentSet {
   const vorpZ = applyZ(c.vorp, cs.vorp);
   const rosterGainZ = applyZ(c.rosterGain, cs.rosterGain);
@@ -155,13 +229,36 @@ function scoreCandidate(
   let rosterPenaltyZ = c.rosterPenaltyRaw;
   if (rosterPenaltyZ !== 0 && vorpZ > overrideZ) rosterPenaltyZ = 0;
 
-  const immediateScore =
+  const baseScore =
     weights.roster_gain * rosterGainZ +
     weights.urgency * urgencyZ +
     weights.market * marketZ +
     weights.upside * upsideZ -
     weights.roster_penalty * rosterPenaltyZ -
     weights.uncertainty * uncertaintyZ;
+
+  // Roster-construction adjustments (lib/roster_rules.ts), applied as a direct
+  // z-nudge through a sign-correct channel we own (NOT the kdst rosterPenalty
+  // term). Applied directly (not scaled by the stage's roster-gain weight) so
+  // depth balance still bites in the late rounds where that weight shrinks:
+  //  - needBoost: fills an unfilled STARTER slot (+1.0) or builds depth toward
+  //    the RB/WR target (proportional to the gap) -> nudge up.
+  //  - earlyPenalty: QB/TE reached before the room usually takes them -> nudge
+  //    down, UNLESS the player is market-corroborated elite (his own blended,
+  //    history-adjusted ADP already has him going this early — not just our
+  //    model liking him) or clears a stricter VORP bar as a fallback. "Way too
+  //    irresistible to pass" requires the room to agree, per config/model.yaml.
+  let earlyPenalty = c.earlyPenalty;
+  if (earlyPenalty !== 0) {
+    const cfg = earlyPenaltyConfig[c.player.position];
+    const adpCorroborated =
+      cfg?.override_expected_pick_max !== undefined &&
+      c.player.market.expected_pick <= cfg.override_expected_pick_max;
+    const vorpCorroborated = cfg?.override_vorp_z !== undefined && vorpZ > cfg.override_vorp_z;
+    if (adpCorroborated || vorpCorroborated) earlyPenalty = 0;
+  }
+
+  const immediateScore = baseScore + c.needBoost - earlyPenalty;
 
   return { ...c, immediateScore };
 }
@@ -190,7 +287,7 @@ async function computeRecommendation(state: DraftState, allPlayers: PlayerRecord
   const overrideZ = config.kdst_guardrail.guardrail_override.exceptional_vorp_z;
 
   const scored = candidates
-    .map((c) => scoreCandidate(c, cs, weights, overrideZ))
+    .map((c) => scoreCandidate(c, cs, weights, overrideZ, config.roster_construction.early_position_penalty))
     .sort((a, b) => b.immediateScore - a.immediateScore);
 
   const shortlist = scored.slice(0, config.candidate_pool.shortlist_size);

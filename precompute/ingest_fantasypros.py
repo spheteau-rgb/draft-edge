@@ -239,6 +239,34 @@ def fetch_rankings_all_positions(season: int = SEASON, week: int = WEEK,
     return {"ALL": fetch_rankings("ALL", season, week, use_cache)}
 
 
+def fetch_adp(scoring: str = "STD", season: int = SEASON, week: int = WEEK,
+               use_cache: bool = True) -> list[dict[str, Any]]:
+    """GET /nfl/{season}/consensus-rankings?type=adp -- real average draft
+    position, i.e. where players ACTUALLY go.
+
+    Distinct from the default type=ranking (ECR), which is where experts say
+    players SHOULD go. The two diverge badly in the middle rounds: ECR had
+    Nico Collins at 14 overall when his real ADP is 27. `expected_pick` feeds
+    survival, so it needs ADP, not ECR.
+
+    `rank_ecr` here is the ADP rank order; `rank_ave` is the mean draft
+    position itself and is what survival wants. The public API tier is thin
+    (~2 contributing sources), so treat rank_std from this payload as
+    unreliable and keep the configured adp_sigma tiers instead.
+    """
+    cache_name = f"adp_{scoring}_{season}_{week}"
+    if use_cache:
+        cached = _read_cache(cache_name)
+        if cached:
+            return cached["data"]
+    data = _get(f"nfl/{season}/consensus-rankings",
+                {"position": "ALL", "week": str(week), "type": "adp", "scoring": scoring})
+    players = data.get("players", [])
+    _write_cache(cache_name, f"fantasypros:/nfl/{season}/consensus-rankings(type=adp)", players,
+                 extra={"scoring": scoring, "total_experts": data.get("total_experts")})
+    return players
+
+
 def fetch_injuries(use_cache: bool = True) -> list[dict[str, Any]]:
     """GET /nfl/injuries -- feeds injury_status + data_freshness."""
     if use_cache:
@@ -315,13 +343,14 @@ def build_identity_crosswalk(players: list[dict[str, Any]]) -> dict[str, dict[st
 # CLI entrypoint
 # ---------------------------------------------------------------------------
 
-def run_ingest(use_cache: bool = True) -> dict[str, Any]:
+def run_ingest(use_cache: bool = True, adp_scoring: str = "STD") -> dict[str, Any]:
     """Fetch everything documented in docs/04 §A once, cache to disk, and build
     the identity crosswalk. Never called at request time."""
     players = fetch_players(use_cache=use_cache)
     projections = fetch_projections_all_positions(use_cache=use_cache)
     dst_weekly_pa = fetch_dst_weekly_points_allowed(use_cache=use_cache)
     rankings = fetch_rankings_all_positions(use_cache=use_cache)
+    adp = fetch_adp(scoring=adp_scoring, use_cache=use_cache)
     injuries = fetch_injuries(use_cache=use_cache)
     news = fetch_news(use_cache=use_cache)
     crosswalk = build_identity_crosswalk(players)
@@ -331,13 +360,14 @@ def run_ingest(use_cache: bool = True) -> dict[str, Any]:
     with_cbs = sum(1 for v in crosswalk.values() if v["cbs_id"])
     print(f"[ingest_fantasypros] players={len(players)} crosswalk={len(crosswalk)} "
           f"with_cbs_id={with_cbs} projections_positions={list(projections.keys())} "
-          f"injuries={len(injuries)} news={len(news)}")
+          f"adp={len(adp)}({adp_scoring}) injuries={len(injuries)} news={len(news)}")
 
     return {
         "players": players,
         "projections": projections,
         "dst_weekly_pa": dst_weekly_pa,
         "rankings": rankings,
+        "adp": adp,
         "injuries": injuries,
         "news": news,
         "crosswalk": crosswalk,
