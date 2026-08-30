@@ -222,6 +222,8 @@ export interface RecommendationAlternative {
   survival_to_next_pick: number;
   /** Distinct reason a DO_NOT_REACH runner-up is surfaced (docs/03/06). */
   do_not_reach_flag?: boolean;
+  /** Advisory-only web-research tag (sleeper/bust/injury-watch) — never affects score/rank. */
+  community_note?: { tag: string; note: string; sources: string[] } | null;
 }
 
 export interface Recommendation {
@@ -253,6 +255,8 @@ export interface Recommendation {
    */
   expected_alternative_if_wait: { player_id: string; name: string } | null;
   edge_vs_runner_up: number | null;
+  /** Advisory-only web-research tag (sleeper/bust/injury-watch) — never affects score/rank. */
+  community_note?: { tag: string; note: string; sources: string[] } | null;
 }
 
 // ---------------------------------------------------------------------------

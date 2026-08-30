@@ -195,6 +195,26 @@ code {
   margin: 0.25rem 0;
 }
 
+.community-note-block {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px dashed #3a4048;
+  border-radius: 6px;
+  background: #1c2027;
+}
+.community-note-block h2 {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: #7a8290;
+  margin: 0 0 0.3rem;
+  text-transform: uppercase;
+}
+.community-note-block p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #b6bcc6;
+}
+
 /* ---------------------------------------------------------------------- */
 /* Alternatives                                                           */
 /* ---------------------------------------------------------------------- */

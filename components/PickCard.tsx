@@ -57,6 +57,13 @@ export default function PickCard({ rec }: { rec: Recommendation }) {
         </div>
       )}
 
+      {rec.community_note && (
+        <div className="community-note-block">
+          <h2>FROM THE WEB — {rec.community_note.tag.replace(/_/g, " ")}</h2>
+          <p>{rec.community_note.note}</p>
+        </div>
+      )}
+
       <div className="consequence-block">
         <p>
           <strong>{survivalPct}%</strong> chance he survives to your next pick

@@ -14,6 +14,7 @@ import type { Recommendation } from "@/types";
 import { getDraftStateStore } from "@/lib/store";
 import { loadPlayerPool } from "@/lib/players";
 import { getRecommendation } from "@/lib/optimizer";
+import { getCommunityNote } from "@/lib/communityNotes";
 
 // Must be recomputed every request against live draft state — never served
 // from Next.js's static/CDN cache (CLAUDE.md non-negotiable #1: the rec must
@@ -26,6 +27,15 @@ export async function GET() {
     const state = await store.getState();
     const { players } = loadPlayerPool();
     const recommendation = await getRecommendation(state, players);
+    // Advisory-only enrichment, attached after the optimizer runs so web-research
+    // notes can never influence score/rank/reason-code math (CLAUDE.md non-negotiable #1).
+    if (recommendation.recommended_player_id) {
+      recommendation.community_note = getCommunityNote(recommendation.recommended_player_id);
+    }
+    recommendation.alternatives = recommendation.alternatives.map((alt) => ({
+      ...alt,
+      community_note: getCommunityNote(alt.player_id),
+    }));
     return NextResponse.json(recommendation);
   } catch (err) {
     // eslint-disable-next-line no-console

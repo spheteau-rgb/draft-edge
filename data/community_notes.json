@@ -1,0 +1,137 @@
+{
+  "source": "manual web-research pass: expert analysis (ESPN, CBS Sports, FantasyPros, RotoBaller, PFF, Footballguys, Yahoo, PhillyVoice, NFL.com) + community consensus, Aug 2026 preseason",
+  "generated_at": "2026-08-30T00:00:00Z",
+  "disclaimer": "Advisory only. Never used in scoring/VORP/ranking math or reason-code generation. Purely supplementary color for the human drafter — cross-reference against players.json projections, which remain the source of truth.",
+  "themes": [
+    {
+      "tag": "RB_DEPTH_STRONG",
+      "summary": "Elite RB tier (Gibbs, Bijan, Taylor, CMC) still viewed as top of the format; RB hit-rate for top-24 finish remains under ~25% historically, so depth bets on mid-round backs are inherently risky."
+    },
+    {
+      "tag": "AGING_ELITE_RB_RISK",
+      "summary": "Multiple experts flag age/mileage risk on veteran workhorse RBs entering 2026 (CMC turns 30, has missed significant time 3 of last 6 years despite huge per-game upside when healthy; Barkley enters year 9 at 29 with 828 touches over prior two seasons; Derrick Henry also in this bucket at his age)."
+    },
+    {
+      "tag": "QB_RUSHING_PREMIUM",
+      "summary": "Dual-threat QBs with rushing volume graded as having a higher fantasy floor/ceiling combo this year (Josh Allen's rushing production cited specifically); some analysts see Kyler Murray as a top-6 QB upside play in a low-end QB2 draft slot."
+    },
+    {
+      "tag": "ROOKIE_WR_RELEVANCE_UP",
+      "summary": "First-round rookie WRs are hitting WR2-or-better as rookies more often than in past cycles; target share/scheme fit and QB quality are the differentiators experts cite for 2026's rookie WR class (Carnell Tate, Makai Lemon among names mentioned)."
+    },
+    {
+      "tag": "MIDDLE_ROUNDS_DECIDE_LEAGUES",
+      "summary": "Recurring theme across sources: rounds ~6-12 are where fantasy teams separate from the pack — backfield committee bets and rookie-role bets in that range are the highest-leverage picks after the top tiers are gone."
+    }
+  ],
+  "players": {
+    "13b21517-af7c-54d9-8617-f5510e7af952": {
+      "name": "Christian McCaffrey",
+      "tag": "INJURY_WATCH",
+      "note": "Turns 30 this season; missed significant time in 3 of last 6 years despite elite per-game upside (21-24.5 PPG) when healthy. Fear is described as \"entirely fair,\" not just noise — factor into pick-vs-alternative risk, not into ranking.",
+      "sources": ["https://sports.yahoo.com/articles/updated-christian-mccaffrey-fantasy-outlook-155040728.html", "https://www.si.com/fantasy/christian-mccaffrey-injury-update-is-he-still-the-top-pick-in-fantasy-football-01j4mq414338"]
+    },
+    "548df3d6-1608-5e61-afa6-addd9e96bedf": {
+      "name": "Saquon Barkley",
+      "tag": "INJURY_WATCH",
+      "note": "Age (29, year 9) and mileage (828 touches over last two seasons) flagged by multiple outlets; tweaked left foot/ankle in August 2026 Eagles camp (11-on-11 work) — monitor status, not yet reported as a missed-time injury.",
+      "sources": ["https://www.phillyvoice.com/2026-fantasy-football-running-back-rankings-stats-analysis-saquon-barkley-bijan-robinson-jahmyr-gibbs/", "https://sports.yahoo.com/fantasy/article/nfl-training-camp-injury-report-tracking-the-latest-news-updates-for-2026-fantasy-football-163938278.html"]
+    },
+    "877ea9c3-97e0-5b3c-89fa-b617cbc45768": {
+      "name": "De'Von Achane",
+      "tag": "BUST_WATCH",
+      "note": "Named as overvalued/bust candidate by at least one major outlet for 2026 — cited alongside efficiency-regression concerns. Treat as a single-source flag, not consensus.",
+      "sources": ["https://sports.yahoo.com/articles/10-fantasy-football-busts-2026-235358449.html"]
+    },
+    "3b9d2bcc-f934-5541-a21d-fd3751d03df4": {
+      "name": "Quinshon Judkins",
+      "tag": "MIXED_SIGNAL",
+      "note": "Conflicting takes: some sources list him as a breakout/sleeper candidate at his ADP, others flag him as overvalued/bust. Genuine expert disagreement — good MODEL_DISAGREEMENT candidate if your own rank diverges sharply from market.",
+      "sources": ["https://www.rotoballer.com/fantasy-football-breakout-candidates-sleepers-for-middle-to-late-rounds-2026/1902867", "https://sports.yahoo.com/articles/10-fantasy-football-busts-2026-235358449.html"]
+    },
+    "84a7dca7-745e-5317-9f29-92c8ebdc5f8e": {
+      "name": "CeeDee Lamb",
+      "tag": "BUST_WATCH",
+      "note": "At least one outlet lists him among early-round fantasy avoids for 2026 — single-source, worth a gut check against your own projection rather than a hard signal.",
+      "sources": ["https://sports.yahoo.com/articles/fantasy-football-busts-2026-not-154217474.html"]
+    },
+    "bc20df7b-c08f-59d2-8885-1a8dddb0d2c2": {
+      "name": "Justin Jefferson",
+      "tag": "VALUE_PLAY",
+      "note": "Coming off a down 2025 (career-low 8.9 half-PPR PPG), which has pushed his ADP into range some analysts call a value/buy-low given his talent and target share history.",
+      "sources": ["https://www.si.com/onsi/fantasy/rankings/2026-fantasy-football-ppr-mock-draft-jonathan-taylor"]
+    },
+    "6b4a0c53-1836-58b5-8940-b6bb55666044": {
+      "name": "Lamar Jackson",
+      "tag": "BUST_WATCH",
+      "note": "Flagged as too expensive at his typical 3rd-round ADP given he's adjusting to a new offense; cited as a fade in favor of cheaper QB value.",
+      "sources": ["https://sports.yahoo.com/articles/10-fantasy-football-busts-2026-235358449.html"]
+    },
+    "75ab41dc-5f6d-5120-956e-02fe5565664a": {
+      "name": "Jameson Williams",
+      "tag": "BUST_WATCH",
+      "note": "Finished as WR12 last season but scored 6.6 or fewer fantasy points in 41.2% of games — described as hard to trust week-to-week at his 6th-round-area ADP.",
+      "sources": ["https://sports.yahoo.com/articles/10-fantasy-football-busts-2026-235358449.html"]
+    },
+    "ebe3e081-26b0-51df-8182-20052fd571fc": {
+      "name": "Chase Brown",
+      "tag": "SLEEPER",
+      "note": "Named among RB sleeper/breakout headliners for 2026 alongside Kenneth Walker and Kyren Williams.",
+      "sources": ["https://www.rotoballer.com/fantasy-football-breakout-candidates-sleepers-for-middle-to-late-rounds-2026/1902867"]
+    },
+    "dfc5683e-7add-53cb-9293-f2b7c25351b5": {
+      "name": "Malik Nabers",
+      "tag": "INJURY_WATCH",
+      "note": "Recovering from a knee injury; described as \"a reasonable Round 1 pick if healthy for training camp\" — confirm current camp participation status before drafting.",
+      "sources": ["https://www.si.com/onsi/fantasy/rankings/2026-fantasy-football-ppr-mock-draft-jonathan-taylor"]
+    },
+    "58a9b580-2e7a-55c9-8ac0-a7af3014ec16": {
+      "name": "Tucker Kraft",
+      "tag": "INJURY_WATCH",
+      "note": "Off the PUP list in late July recovering from a torn ACL; has a shot at Week 1 but Packers may manage his snap count through roughly midseason.",
+      "sources": ["https://www.fantasypoints.com/nfl/articles/2026/nfl-preseason-injury-news-fantasy-football-impact"]
+    },
+    "b4b206f6-fd8b-5c04-b121-dc430daeefb5": {
+      "name": "George Kittle",
+      "tag": "INJURY_WATCH",
+      "note": "Activated off PUP recovering from an Achilles injury; reported ahead of schedule with a legitimate chance to play Week 1 — trending positive but still a recovery case.",
+      "sources": ["https://www.fantasypoints.com/nfl/articles/2026/nfl-preseason-injury-news-fantasy-football-impact"]
+    },
+    "0eca4778-970b-5e70-9c6e-5f23af454066": {
+      "name": "Chuba Hubbard",
+      "tag": "INJURY_WATCH",
+      "note": "Right hamstring injury during an August 12, 2026 practice; Carolina called him week-to-week but he's expected ready for Week 1.",
+      "sources": ["https://sports.yahoo.com/fantasy/article/nfl-training-camp-injury-report-tracking-the-latest-news-updates-for-2026-fantasy-football-163938278.html"]
+    },
+    "030c44f7-4263-54af-bf04-4a2efd187533": {
+      "name": "Garrett Wilson",
+      "tag": "INJURY_CLEARED",
+      "note": "Entering 2026 healthy; his previous knee injury no longer viewed as a significant fantasy concern by camp reporting.",
+      "sources": ["https://sports.yahoo.com/articles/latest-injury-updates-impacting-fantasy-002707491.html"]
+    },
+    "d6a36e0a-9f46-54b7-a7ce-896d815c4c37": {
+      "name": "David Montgomery",
+      "tag": "RISER",
+      "note": "ADP climbed to roughly PPR RB24 range after joining Houston's backfield mix, well ahead of camp-mate Woody Marks per current ADP tracking.",
+      "sources": ["https://sports.yahoo.com/articles/2026-fantasy-football-adp-risers-034744315.html"]
+    },
+    "d9045ff5-27a0-502b-a2e9-31060f4c7e36": {
+      "name": "J.K. Dobbins",
+      "tag": "RISER",
+      "note": "Returned from Lisfranc surgery as Denver's RB1 on the depth chart, strengthening his case as a potential RB2-production play.",
+      "sources": ["https://sports.yahoo.com/articles/2026-fantasy-football-adp-risers-034744315.html"]
+    },
+    "38b2f299-5971-554c-923e-59b084dd2a5d": {
+      "name": "Cam Skattebo",
+      "tag": "RISER",
+      "note": "Progressed from a serious leg/ankle injury to sharing the top spot on the Giants' backfield depth chart with Tyrone Tracy Jr.; ADP has moved up accordingly (reported ~RB18 vs. Tracy ~RB44).",
+      "sources": ["https://sports.yahoo.com/articles/2026-fantasy-football-adp-risers-034744315.html"]
+    },
+    "3f960924-aaab-5478-a580-4791e67e602b": {
+      "name": "Tyrone Tracy Jr.",
+      "tag": "FALLER",
+      "note": "Losing the early down-role battle in the Giants backfield to Cam Skattebo per current camp reporting and ADP movement.",
+      "sources": ["https://sports.yahoo.com/articles/2026-fantasy-football-adp-risers-034744315.html"]
+    }
+  }
+}
