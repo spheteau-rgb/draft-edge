@@ -1,0 +1,72 @@
+{
+  "season": 2026,
+  "week": 1,
+  "captured_at": "2026-08-30T20:28:00-05:00",
+  "source": "CBS mobile app screenshots (Roster, Matchup, Add Player>Free Agents)",
+  "my_team": {
+    "team_name": "Mama There Goes That Man",
+    "owner": "Stan Pheteau",
+    "record": "0-0",
+    "faab_remaining": 100,
+    "cbs_proj_week_total": 105.0,
+    "players": [
+      { "name": "M. Stafford", "position": "QB", "nfl_team": "LAR", "slot": "QB", "section": "ACTIVE", "opponent": "vs SF", "kickoff": "Thu 7:35 PM", "cbs_proj_week": 23.1, "cbs_proj_season": 391.0 },
+      { "name": "J. Love", "position": "RB", "nfl_team": "ARI", "slot": "RB", "section": "ACTIVE", "injury": "Q", "opponent": "@LAC", "kickoff": "Sun 3:25 PM", "cbs_proj_week": 7.3, "cbs_proj_season": 182.0 },
+      { "name": "J. Taylor", "position": "RB", "nfl_team": "IND", "slot": "RB", "section": "ACTIVE", "opponent": "vs BAL", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 13.7, "cbs_proj_season": 282.0 },
+      { "name": "A. Brown", "position": "WR", "nfl_team": "NE", "slot": "WR", "section": "ACTIVE", "opponent": "@SEA", "kickoff": "Wed 7:20 PM", "cbs_proj_week": 9.4, "cbs_proj_season": 182.0 },
+      { "name": "G. Wilson", "position": "WR", "nfl_team": "NYJ", "slot": "WR", "section": "ACTIVE", "opponent": "@TEN", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 11.1, "cbs_proj_season": 145.0 },
+      { "name": "H. Fannin Jr.", "position": "TE", "nfl_team": "CLE", "slot": "TE", "section": "ACTIVE", "opponent": "@JAC", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 8.5, "cbs_proj_season": 144.0 },
+      { "name": "J. Jacobs", "position": "RB", "nfl_team": "GB", "slot": "RWT", "section": "ACTIVE", "injury": "O", "opponent": "@MIN", "kickoff": "Sun 3:25 PM", "cbs_proj_week": 8.9, "cbs_proj_season": 184.0 },
+      { "name": "H. Mevis", "position": "K", "nfl_team": "LAR", "slot": "K", "section": "ACTIVE", "opponent": "vs SF", "kickoff": "Thu 7:35 PM", "cbs_proj_week": 8.6, "cbs_proj_season": 142.0 },
+      { "name": "Jaguars", "position": "DST", "nfl_team": "JAC", "slot": "DST", "section": "ACTIVE", "opponent": "vs CLE", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 14.4, "cbs_proj_season": 189.1 },
+
+      { "name": "T. Henderson", "position": "RB", "nfl_team": "NE", "section": "RESERVE", "injury": "Q", "opponent": "@SEA", "kickoff": "Wed 7:20 PM", "cbs_proj_week": 6.7, "cbs_proj_season": 146.0 },
+      { "name": "C. Hubbard", "position": "RB", "nfl_team": "CAR", "section": "RESERVE", "injury": "Q", "opponent": "vs CHI", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 4.7, "cbs_proj_season": 128.0 },
+      { "name": "M. Pittman", "position": "WR", "nfl_team": "PIT", "section": "RESERVE", "injury": "Q", "opponent": "vs ATL", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 7.4, "cbs_proj_season": 99.0 },
+      { "name": "J. Reed", "position": "WR", "nfl_team": "GB", "section": "RESERVE", "opponent": "@MIN", "kickoff": "Sun 3:25 PM", "cbs_proj_week": 4.2, "cbs_proj_season": 102.0 },
+      { "name": "C. Sutton", "position": "WR", "nfl_team": "DEN", "section": "RESERVE", "opponent": "@KC", "kickoff": "Mon 7:15 PM", "cbs_proj_week": 6.8, "cbs_proj_season": 130.0 }
+    ]
+  },
+  "opponent": {
+    "team_name": "Mac Diesel",
+    "record": "0-0",
+    "cbs_proj_week_total": 114.6,
+    "players": [
+      { "name": "J. Hurts", "position": "QB", "nfl_team": "PHI", "slot": "QB", "section": "ACTIVE", "opponent": "vs WAS", "kickoff": "Sun 3:25 PM", "cbs_proj_week": 26.3 },
+      { "name": "T. Etienne", "position": "RB", "nfl_team": "NO", "slot": "RB", "section": "ACTIVE", "opponent": "@DET", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 11.5 },
+      { "name": "K. Williams", "position": "RB", "nfl_team": "LAR", "slot": "RB", "section": "ACTIVE", "opponent": "vs SF", "kickoff": "Thu 7:35 PM", "cbs_proj_week": 11.7 },
+      { "name": "J. Chase", "position": "WR", "nfl_team": "CIN", "slot": "WR", "section": "ACTIVE", "injury": "Q", "opponent": "vs TB", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 15.6 },
+      { "name": "Z. Flowers", "position": "WR", "nfl_team": "BAL", "slot": "WR", "section": "ACTIVE", "injury": "Q", "opponent": "@IND", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 10.3 },
+      { "name": "S. LaPorta", "position": "TE", "nfl_team": "DET", "slot": "TE", "section": "ACTIVE", "injury": "Q", "opponent": "vs NO", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 8.4 },
+      { "name": "M. Harrison Jr.", "position": "WR", "nfl_team": "ARI", "slot": "RWT", "section": "ACTIVE", "opponent": "@LAC", "kickoff": "Sun 3:25 PM", "cbs_proj_week": 7.4 },
+      { "name": "B. Aubrey", "position": "K", "nfl_team": "DAL", "slot": "K", "section": "ACTIVE", "opponent": "@NYG", "kickoff": "Sun 7:20 PM", "cbs_proj_week": 9.7 },
+      { "name": "Steelers", "position": "DST", "nfl_team": "PIT", "slot": "DST", "section": "ACTIVE", "opponent": "vs ATL", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 13.7 },
+
+      { "name": "C. Stroud", "position": "QB", "nfl_team": "HOU", "section": "RESERVE", "opponent": "vs BUF", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 20.2 },
+      { "name": "T. Spears", "position": "RB", "nfl_team": "TEN", "section": "RESERVE", "opponent": "vs NYJ", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 4.8 },
+      { "name": "S. Diggs", "position": "WR", "nfl_team": "WAS", "section": "RESERVE", "opponent": "@PHI", "kickoff": "Sun 3:25 PM", "cbs_proj_week": 4.2 },
+      { "name": "B. Thomas Jr.", "position": "WR", "nfl_team": "JAC", "section": "RESERVE", "injury": "Q", "opponent": "vs CLE", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 8.0 },
+      { "name": "D. Kincaid", "position": "TE", "nfl_team": "BUF", "section": "RESERVE", "opponent": "@HOU", "kickoff": "Sun 12:00 PM", "cbs_proj_week": 5.8 }
+    ]
+  },
+  "free_agents": [
+    { "name": "S. Darnold", "position": "QB", "nfl_team": "SEA", "opponent": "vs NE", "kickoff": "Wed 7:20 PM", "cbs_proj_season": 384.0 },
+    { "name": "D. Jones", "position": "QB", "nfl_team": "IND", "opponent": "vs BAL", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 376.0 },
+    { "name": "K. Murray", "position": "QB", "nfl_team": "MIN", "opponent": "vs GB", "kickoff": "Sun 3:25 PM", "cbs_proj_season": 374.0 },
+    { "name": "T. Shough", "position": "QB", "nfl_team": "NO", "opponent": "@DET", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 366.0 },
+    { "name": "B. Young", "position": "QB", "nfl_team": "CAR", "opponent": "vs CHI", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 343.0 },
+    { "name": "J. Brissett", "position": "QB", "nfl_team": "ARI", "opponent": "@LAC", "kickoff": "Sun 3:25 PM", "cbs_proj_season": 338.0 },
+    { "name": "C. Ward", "position": "QB", "nfl_team": "TEN", "opponent": "vs NYJ", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 308.0 },
+    { "name": "G. Smith", "position": "QB", "nfl_team": "NYJ", "opponent": "@TEN", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 295.0 },
+    { "name": "A. Rodgers", "position": "QB", "nfl_team": "PIT", "opponent": "vs ATL", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 271.0 },
+    { "name": "D. Watson", "position": "QB", "nfl_team": "CLE", "opponent": "@JAC", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 238.0 },
+    { "name": "F. Mendoza", "position": "QB", "nfl_team": "LV", "opponent": "vs MIA", "kickoff": "Sun 3:25 PM", "cbs_proj_season": 235.0 },
+    { "name": "M. Penix Jr.", "position": "QB", "nfl_team": "ATL", "injury": "Q", "opponent": "@PIT", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 190.0 },
+    { "name": "T. Tagovailoa", "position": "QB", "nfl_team": "ATL", "opponent": "@PIT", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 121.0 },
+    { "name": "J. Johnson", "position": "TE", "nfl_team": "NO", "opponent": "@DET", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 107.0 },
+    { "name": "C. Ridley", "position": "WR", "nfl_team": "TEN", "opponent": "vs NYJ", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 105.0 },
+    { "name": "H. Henry", "position": "TE", "nfl_team": "NE", "opponent": "@SEA", "kickoff": "Wed 7:20 PM", "cbs_proj_season": 104.0 },
+    { "name": "R. Bateman", "position": "WR", "nfl_team": "BAL", "opponent": "@IND", "kickoff": "Sun 12:00 PM", "cbs_proj_season": 103.0 }
+  ],
+  "transactions": []
+}

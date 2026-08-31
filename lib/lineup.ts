@@ -41,10 +41,19 @@ export const STARTER_SLOTS: Record<LineupSlotType, number> = {
   BENCH: 0,
 };
 
-function byPositionDesc(roster: PlayerRecord[], position: PlayerRecord["position"]): PlayerRecord[] {
-  return roster
-    .filter((p) => p.position === position)
-    .sort((a, b) => playerValue(b) - playerValue(a));
+/**
+ * How much a player is worth in the lineup being solved. Defaults to season
+ * risk-adjusted points (the draft-day meaning). In-season passes a per-week
+ * valuer instead (docs/10 §3.5) — same assignment solver, different units.
+ */
+export type PlayerValuer = (player: PlayerRecord) => number;
+
+function byPositionDesc(
+  roster: PlayerRecord[],
+  position: PlayerRecord["position"],
+  scoreOf: PlayerValuer
+): PlayerRecord[] {
+  return roster.filter((p) => p.position === position).sort((a, b) => scoreOf(b) - scoreOf(a));
 }
 
 /**
@@ -52,19 +61,34 @@ function byPositionDesc(roster: PlayerRecord[], position: PlayerRecord["position
  * slots (RWT flex fillable from RB/WR/TE). Returns total lineup value and the
  * slot assignment.
  */
+export interface LineupOptions {
+  /** Per-player value. Defaults to season risk-adjusted points (draft-day meaning). */
+  scoreOf?: PlayerValuer;
+  /**
+   * In-season only. Treat an empty slot as filled from the free-agent pool, so a
+   * rostered player earns his slot only if he beats what you'd stream for free
+   * (docs/10 §1a). Off for the draft, where every slot must be filled from the
+   * roster you are building.
+   */
+  streamableEmptySlots?: boolean;
+}
+
 export function bestLineup(
   roster: PlayerRecord[],
-  emptySlotValue: SlotFallbackValues = {}
+  emptySlotValue: SlotFallbackValues = {},
+  options: LineupOptions = {}
 ): { totalValue: number; assignment: RosterSlot[] } {
+  const scoreOf = options.scoreOf ?? playerValue;
+  const streamable = options.streamableEmptySlots ?? false;
   const assignment: RosterSlot[] = [];
   let totalValue = 0;
   const used = new Set<string>();
 
   const takeBest = (slot: LineupSlotType, candidates: PlayerRecord[], fallback: number) => {
     const pick = candidates.find((p) => !used.has(p.player_id));
-    if (pick) {
+    if (pick && (!streamable || scoreOf(pick) >= fallback)) {
       used.add(pick.player_id);
-      totalValue += playerValue(pick);
+      totalValue += scoreOf(pick);
       assignment.push({ slot, player_id: pick.player_id });
     } else {
       totalValue += fallback;
@@ -73,14 +97,14 @@ export function bestLineup(
   };
 
   // Position-exclusive slots.
-  takeBest("QB", byPositionDesc(roster, "QB"), emptySlotValue.QB ?? 0);
-  takeBest("K", byPositionDesc(roster, "K"), emptySlotValue.K ?? 0);
-  takeBest("DST", byPositionDesc(roster, "DST"), emptySlotValue.DST ?? 0);
+  takeBest("QB", byPositionDesc(roster, "QB", scoreOf), emptySlotValue.QB ?? 0);
+  takeBest("K", byPositionDesc(roster, "K", scoreOf), emptySlotValue.K ?? 0);
+  takeBest("DST", byPositionDesc(roster, "DST", scoreOf), emptySlotValue.DST ?? 0);
 
   // Dedicated RB/WR/TE minimums first (best-of-group is optimal for dedicated slots).
-  const rbs = byPositionDesc(roster, "RB");
-  const wrs = byPositionDesc(roster, "WR");
-  const tes = byPositionDesc(roster, "TE");
+  const rbs = byPositionDesc(roster, "RB", scoreOf);
+  const wrs = byPositionDesc(roster, "WR", scoreOf);
+  const tes = byPositionDesc(roster, "TE", scoreOf);
 
   for (let i = 0; i < STARTER_SLOTS.RB; i++) takeBest("RB", rbs, emptySlotValue.RB ?? 0);
   for (let i = 0; i < STARTER_SLOTS.WR; i++) takeBest("WR", wrs, emptySlotValue.WR ?? 0);
@@ -91,7 +115,7 @@ export function bestLineup(
   // replacement-level body available.
   const flexPool = [...rbs, ...wrs, ...tes]
     .filter((p) => !used.has(p.player_id))
-    .sort((a, b) => playerValue(b) - playerValue(a));
+    .sort((a, b) => scoreOf(b) - scoreOf(a));
   const flexFallback = Math.max(
     emptySlotValue.RB ?? 0,
     emptySlotValue.WR ?? 0,
@@ -111,9 +135,10 @@ export function bestLineup(
 export function currentRosterGain(
   candidate: PlayerRecord,
   roster: PlayerRecord[],
-  emptySlotValue: SlotFallbackValues = {}
+  emptySlotValue: SlotFallbackValues = {},
+  options: LineupOptions = {}
 ): number {
-  const withCandidate = bestLineup([...roster, candidate], emptySlotValue).totalValue;
-  const without = bestLineup(roster, emptySlotValue).totalValue;
+  const withCandidate = bestLineup([...roster, candidate], emptySlotValue, options).totalValue;
+  const without = bestLineup(roster, emptySlotValue, options).totalValue;
   return withCandidate - without;
 }

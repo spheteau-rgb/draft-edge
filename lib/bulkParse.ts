@@ -221,7 +221,7 @@ function dstKey(normLine: string): string {
   return normLine.replace(DST_MARKER_RE, "");
 }
 
-interface IndexedPlayer {
+export interface IndexedPlayer {
   player: PlayerRecord;
   /** Normalized full name plus the suffix-stripped form, for substring matching. */
   variants: string[];
@@ -236,7 +236,7 @@ interface IndexedPlayer {
  * player) pair. A round-14 catch-up paste is ~1,200 lines against ~600
  * players, so the naive form burns ~700k string allocations on the pick clock.
  */
-function indexPlayers(players: PlayerRecord[]): IndexedPlayer[] {
+export function indexPlayers(players: PlayerRecord[]): IndexedPlayer[] {
   return [...players]
     .sort((a, b) => b.name.length - a.name.length)
     .map((player) => {

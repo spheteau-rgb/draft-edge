@@ -4,6 +4,7 @@
  * through here so error handling / JSON parsing lives in one place.
  */
 import type { DraftState, PlayerRecord, Position, Recommendation } from "@/types";
+import type { Brief } from "@/lib/season/brief";
 
 async function getJson<T>(url: string): Promise<T> {
   const res = await fetch(url, { cache: "no-store" });
@@ -21,6 +22,10 @@ export function fetchDraftState(): Promise<DraftState> {
 
 export function fetchPlayers(): Promise<{ players: PlayerRecord[]; source: string }> {
   return getJson("/api/players");
+}
+
+export function fetchBrief(season: number, week: number, window: "free" | "faab"): Promise<Brief> {
+  return getJson<Brief>(`/api/brief?season=${season}&week=${week}&window=${window}`);
 }
 
 export interface ManualPickInput {

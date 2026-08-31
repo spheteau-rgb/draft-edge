@@ -114,6 +114,19 @@ export interface ModelConfig {
   };
   do_not_reach: { pick_gap_threshold: number; required_reason_codes: string[] };
   data_freshness: { cbs_poll_healthy_seconds: number; cbs_poll_warning_seconds: number };
+  /** docs/10 — in-season mode. Not read by any draft-path module. */
+  in_season: {
+    final_week: number;
+    min_ros_gain: { free_window: number; faab_window: number };
+    guards: {
+      injured_stud_rank: number;
+      upside_p90_ratio: number;
+      streamer_max_weeks: number;
+      streamer_override_ros: number;
+      surplus_over_demand: number;
+    };
+    injury_status: Record<string, { play_prob: number; weeks_out: number }>;
+  };
 }
 
 let cachedConfig: ModelConfig | null = null;

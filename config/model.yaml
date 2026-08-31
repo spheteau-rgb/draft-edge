@@ -255,3 +255,48 @@ do_not_reach:
 data_freshness:
   cbs_poll_healthy_seconds: 8
   cbs_poll_warning_seconds: 20   # above this = degraded
+
+# ---------------------------------------------------------------------------
+# In-season mode (docs/10). The draft blocks above are frozen; nothing here
+# feeds the draft path.
+# ---------------------------------------------------------------------------
+in_season:
+  final_week: 18
+
+  # Δ thresholds for recommending a move (docs/10 §3.6). Window-dependent on
+  # purpose: a Wednesday add costs only the dropped player's tail, while a FAAB
+  # claim also costs dollars and the hard-lockout option value, so it must clear
+  # a materially higher bar.
+  min_ros_gain:
+    free_window: 3.0    # unrestricted Wed->kickoff window
+    faab_window: 12.0   # contested Tuesday claim
+
+  guards:
+    # INJURED_STUD: hold a hurt player whose ROS value still ranks this highly
+    # on the roster. Benches exist to absorb injuries; dumping a stud for a
+    # streamer with one good week is the most expensive routine waiver error.
+    injured_stud_rank: 9
+    # UPSIDE_STASH: p90/mean at or above this is a ceiling asset the mean-based
+    # Δ systematically undervalues.
+    upside_p90_ratio: 1.9
+    # STREAMER_NOT_ASSET: Δ concentrated in this many weeks or fewer is a
+    # week-of grab, not a roster-spot commitment.
+    streamer_max_weeks: 2
+    # A short-duration add is a streamer only while its value is small enough
+    # that you could wait and grab an equivalent body later. Above this ROS
+    # gain the weeks are irreplaceable and the guard must not block.
+    streamer_override_ros: 10.0
+    # TRADE_CURRENCY: startable bodies at a position beyond this count are
+    # surplus to sell, not to drop.
+    surplus_over_demand: 2
+
+  # CBS designations. play_prob discounts THIS week's value; weeks_out is how
+  # many weeks from now the player is unavailable entirely. Designations expire
+  # after that, so an unknown timeline never manufactures a drop case.
+  injury_status:
+    Q:    { play_prob: 0.85, weeks_out: 0 }
+    D:    { play_prob: 0.35, weeks_out: 0 }
+    O:    { play_prob: 0.0,  weeks_out: 1 }
+    SUSP: { play_prob: 0.0,  weeks_out: 1 }
+    IR:   { play_prob: 0.0,  weeks_out: 4 }
+    PUP:  { play_prob: 0.0,  weeks_out: 4 }
