@@ -12,12 +12,8 @@
 import type { Position } from "@/types";
 import { loadPlayerPool } from "@/lib/players";
 import { loadModelConfig } from "@/lib/config";
-import {
-  loadWeekSnapshot,
-  resolveRows,
-  type UnresolvedRow,
-  type WeekSnapshot,
-} from "@/lib/season/snapshot";
+import { resolveRows, type UnresolvedRow, type WeekSnapshot } from "@/lib/season/snapshot";
+import { loadWeekSnapshot } from "@/lib/season/store";
 import {
   streamableReplacement,
   toEntries,
@@ -83,8 +79,12 @@ function byeAlerts(
   return out;
 }
 
-export function buildBrief(season: number, week: number, window: Window = "free"): Brief {
-  const snapshot = loadWeekSnapshot(season, week);
+export async function buildBrief(
+  season: number,
+  week: number,
+  window: Window = "free"
+): Promise<Brief> {
+  const snapshot = await loadWeekSnapshot(season, week);
   if (!snapshot) throw new Error(`No snapshot for ${season} week ${week}`);
 
   const mine = resolveTeam(snapshot.my_team.players);

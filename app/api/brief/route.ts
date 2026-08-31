@@ -1,7 +1,7 @@
 /**
  * GET /api/brief?season=2026&week=1&window=free -> the weekly brief (docs/10 §5).
  *
- * Reads a transcribed snapshot from disk and runs the deterministic engine. No
+ * Reads a transcribed snapshot from the store and runs the deterministic engine. No
  * model call sits on this path, same rule as the draft recommendation route.
  */
 import { NextResponse } from "next/server";
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    return NextResponse.json(buildBrief(season, week, window));
+    return NextResponse.json(await buildBrief(season, week, window));
   } catch (err) {
     const message = err instanceof Error ? err.message : "failed to build brief";
     console.error("GET /api/brief failed", err);

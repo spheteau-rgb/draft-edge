@@ -9,6 +9,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Brief } from "@/lib/season/brief";
 import { fetchBrief } from "@/lib/apiClient";
+import SnapshotDrop from "@/components/SnapshotDrop";
 
 const SEASON = 2026;
 
@@ -26,6 +27,7 @@ export default function WeekBrief() {
   const [brief, setBrief] = useState<Brief | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showDrop, setShowDrop] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -65,11 +67,20 @@ export default function WeekBrief() {
             <option value="free">Free window</option>
             <option value="faab">FAAB claim</option>
           </select>
+          <button type="button" onClick={() => setShowDrop((v) => !v)}>
+            {showDrop ? "Hide upload" : "Add screenshots"}
+          </button>
         </div>
       </header>
 
       {loading && <p>Building brief…</p>}
       {error && <p className="conn-banner">{error}</p>}
+
+      {/* Opened on demand, and forced open when there is nothing to show — an
+          empty week is exactly when the upload is the only useful control. */}
+      {(showDrop || (!loading && !brief)) && (
+        <SnapshotDrop season={SEASON} week={week} onSaved={load} />
+      )}
 
       {brief && !loading && (
         <>

@@ -294,7 +294,8 @@ class InMemoryDraftStateStore implements DraftStateStore {
 const REDIS_LOG_KEY = "draft:log";
 
 let redisSingleton: Redis | null = null;
-function getRedis(): Redis {
+/** Shared by the in-season snapshot store so both use one connection per instance. */
+export function getRedis(): Redis {
   if (!redisSingleton) {
     redisSingleton = new Redis(process.env.REDIS_URL!, {
       maxRetriesPerRequest: 3,

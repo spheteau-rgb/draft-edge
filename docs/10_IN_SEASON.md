@@ -444,6 +444,35 @@ inaction is visible as a decision rather than an omission.
 ✅ **DONE.** `GET /api/brief?season&week&window` + `/week`, verified rendering
 the Week 1 brief end to end at mobile width.
 
+**Slice 2c — Screenshot ingest.** The user's job is dragging images in; the app
+does the rest. Three pieces:
+
+- `lib/season/store.ts` — snapshots move to Redis (`season:<year>:week:<NN>`),
+  because Vercel's filesystem is read-only and nothing transcribed at runtime
+  could otherwise survive. The committed `data/season/*.json` stays readable as
+  a fallback, so weeks captured before this keep working and a local run with no
+  `REDIS_URL` still has somewhere to write. `buildBrief` is async as a result.
+- `POST /api/season/ingest` — one image per request (progress instead of a long
+  hang, and each call stays far inside the function timeout). Transcription is
+  the ONLY model call in the system and it runs at ingest, never on the
+  recommendation path. It transcribes and nothing else: names come back exactly
+  as CBS printed them and are matched by `resolveRows`, which sends anything
+  ambiguous to `unresolved` rather than guessing.
+- `POST /api/season/snapshot` + `components/SnapshotDrop.tsx` — the client
+  accumulates rows across images, lets the user correct the model's guess at
+  which screen each image is (a misfiled opponent roster would silently corrupt
+  the brief), and commits once. Snapshot-replace, so re-uploading a week after
+  fixing a bad screenshot is idempotent.
+
+*Done when:* dropping a week's screenshots on `/week` produces the brief with no
+other manual step.
+⚠️ **Code complete, blocked on a secret.** Endpoints, storage and UI are shipped
+and verified: `POST /api/season/snapshot` → `GET` round-trips through Redis, the
+CLI and the brief route read the same data, and the drop zone renders. Live
+transcription needs `ANTHROPIC_API_KEY` in the Vercel project — until it is set,
+`/api/season/ingest` returns a 503 saying exactly that, and the rest of the page
+still works off the stored snapshot.
+
 **Slice 1 — Weekly value engine.** `precompute/build_week.py`: FantasyPros
 weekly projections for weeks W…18 → `core/scoring.py` → Monte Carlo (N=2000,
 seeded) → `data/weeks/2026-wNN.json` carrying per-player weekly distribution +

@@ -5,10 +5,25 @@
  */
 import type { DraftState, PlayerRecord, Position, Recommendation } from "@/types";
 import type { Brief } from "@/lib/season/brief";
+import type { WeekSnapshot } from "@/lib/season/snapshot";
+import type { TranscriptionResult } from "@/lib/season/transcribe";
 
 async function getJson<T>(url: string): Promise<T> {
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error(`GET ${url} failed: ${res.status}`);
+  return res.json() as Promise<T>;
+}
+
+async function postJson<T>(url: string, body: unknown, fallback: string): Promise<T> {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const parsed = await res.json().catch(() => ({ error: fallback }));
+    throw new Error(parsed.error ?? fallback);
+  }
   return res.json() as Promise<T>;
 }
 
@@ -26,6 +41,23 @@ export function fetchPlayers(): Promise<{ players: PlayerRecord[]; source: strin
 
 export function fetchBrief(season: number, week: number, window: "free" | "faab"): Promise<Brief> {
   return getJson<Brief>(`/api/brief?season=${season}&week=${week}&window=${window}`);
+}
+
+/** One screenshot in, rows out. Nothing is stored until saveSnapshot is called. */
+export function transcribeImage(imageBase64: string, mediaType: string): Promise<TranscriptionResult> {
+  return postJson<TranscriptionResult>(
+    "/api/season/ingest",
+    { image: imageBase64, mediaType },
+    "failed to read that screenshot"
+  );
+}
+
+export function saveSnapshot(snapshot: WeekSnapshot): Promise<{ ok: true; season: number; week: number }> {
+  return postJson("/api/season/snapshot", snapshot, "failed to save the week");
+}
+
+export function fetchSnapshot(season: number, week: number): Promise<{ snapshot: WeekSnapshot | null }> {
+  return getJson(`/api/season/snapshot?season=${season}&week=${week}`);
 }
 
 export interface ManualPickInput {

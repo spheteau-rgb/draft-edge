@@ -148,14 +148,14 @@ function snapshotPath(season: number, week: number): string {
   return path.join(process.cwd(), "data", "season", String(season), `week${String(week).padStart(2, "0")}.json`);
 }
 
-export function loadWeekSnapshot(season: number, week: number): WeekSnapshot | null {
+export function loadWeekSnapshotFromDisk(season: number, week: number): WeekSnapshot | null {
   const file = snapshotPath(season, week);
   if (!fs.existsSync(file)) return null;
   return JSON.parse(fs.readFileSync(file, "utf8")) as WeekSnapshot;
 }
 
 /** Snapshot-replace: writing week N discards whatever week N held before. */
-export function writeWeekSnapshot(snapshot: WeekSnapshot): void {
+export function writeWeekSnapshotToDisk(snapshot: WeekSnapshot): void {
   const file = snapshotPath(snapshot.season, snapshot.week);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, `${JSON.stringify(snapshot, null, 2)}\n`);
