@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ModeNav from "@/components/ModeNav";
 
 export const metadata: Metadata = {
   title: "Draft Edge",
@@ -9,7 +10,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ModeNav />
+        {children}
+      </body>
     </html>
   );
 }
