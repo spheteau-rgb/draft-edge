@@ -149,7 +149,8 @@ export function evaluateConstruction(
   } else {
     const depthTarget = rc.depth_targets[position];
     if (depthTarget !== undefined && counts[position] < depthTarget) {
-      needBoost = rc.depth_boost * (depthTarget - counts[position]);
+      const gap = Math.min(depthTarget - counts[position], rc.depth_boost_max_gap);
+      needBoost = rc.depth_boost * gap;
     }
   }
 

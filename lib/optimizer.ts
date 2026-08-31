@@ -569,6 +569,34 @@ function fallbackRecommendation(state: DraftState, allPlayers: PlayerRecord[]): 
  * ladder: full pipeline -> bare fundamental-rank fallback.
  */
 export async function getRecommendation(state: DraftState, allPlayers: PlayerRecord[]): Promise<Recommendation> {
+  // Draft-complete guard: once the log has no valid future user pick,
+  // state.user_next_pick holds store.ts's "draft over" sentinel
+  // (teams*rounds + 1), a pick number that never actually exists. Without
+  // this check the pipeline below happily computes a recommendation against
+  // that phantom pick (there are still real, undrafted players in the global
+  // pool even after all 168 draft slots are filled), showing a bogus "N picks
+  // away" preview for a pick that will never happen.
+  if (state.status === "complete") {
+    return {
+      pick_number: state.current_pick,
+      is_user_on_the_clock: false,
+      picks_until_your_turn: 0,
+      recommended_player_id: "",
+      recommended_player_name: "Draft complete",
+      position: "RB",
+      decision_confidence: "LOW",
+      score: 0,
+      survival_to_next_pick: 0,
+      reasons: [],
+      fundamental_rank: 0,
+      league_market_rank: 0,
+      do_not_reach_flag: false,
+      data_freshness: "RED",
+      alternatives: [],
+      expected_alternative_if_wait: null,
+      edge_vs_runner_up: null,
+    };
+  }
   try {
     return await computeRecommendation(state, allPlayers);
   } catch (err) {

@@ -157,6 +157,15 @@ roster_construction:
   # and the user's own recent trend (RB 5,4,5,4,3 while WR ran 5,6,5,6,7).
   depth_targets: { RB: 4, WR: 6 }
   depth_boost: 0.4
+  # needBoost is added directly to the candidate's raw score, bypassing the
+  # stage's roster_gain weight (docs/07 §fit adjustment). Early in the depth
+  # gap (target 6 - counts 0..2 = gap 4-6) that boost (0.4 * gap = 1.6-2.4)
+  # dwarfed real VORP separation and kept steering picks toward WR long after
+  # cheaper true-value alternatives (RB, TE) were on the board — the 2026
+  # draft's WR4/WR5 picks (Pittman #117, Reed #141) scored far below same-round
+  # RB alternatives as a result. Cap the effective gap so the boost saturates
+  # instead of scaling unbounded with distance from the target.
+  depth_boost_max_gap: 2
 
 # Alg 4 — market model
 market:

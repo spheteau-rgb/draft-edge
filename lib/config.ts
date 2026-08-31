@@ -64,6 +64,7 @@ export interface ModelConfig {
     flex_only_boost: number;
     depth_targets: Partial<Record<string, number>>;
     depth_boost: number;
+    depth_boost_max_gap: number;
   };
   market: {
     adp_weights: Record<string, number>;
